@@ -1,0 +1,48 @@
+---
+description: MCP Services Configuration for CursorRIPER.sigma
+globs: 
+alwaysApply: true
+---
+
+# CursorRIPER♦Σ MCP Services Configuration
+
+## 🛠️ MCP Services Selection
+# Uncomment the services you want to use and ensure the corresponding MCP server is installed
+# All services will follow the CursorRIPER♦Σ permission model and symbolic notation
+
+## 🎯 Active MCPs (enable in Cursor as needed)
+- lsmcp: `.cursor/rules/mcp-lsmcp.mdc` (TypeScript LSP workflow and discipline)
+- Atlassian (read-first): Confluence/Jira investigation; escalate to full only when writes are explicitly needed
+- GCP: on‑demand environments and logs
+
+## 🧭 Usage Guidance (proxy governs tool/read/write exposure)
+- lsmcp workflow: verify reality → check impact → minimal coherent edit → diagnostics clean → finish. No undefined symbols/imports; fix diagnostics before final edits.
+- Atlassian: prefer the read‑only proxy entry by default; use full only per task requirement.
+- GCP: keep queries scoped to target projects/environments
+- GitHub: use `gh` CLI for repo/PR/issues; `GITHUB_TOKEN` is present in the environment.
+
+## 🔗 Available MCP Services
+
+# This file serves as a central configuration point for all MCP services in CursorRIPER♦Σ.
+# To enable a service, uncomment its @file line above.
+# To disable a service, comment out its @file line above.
+# Each service follows the CursorRIPER♦Σ permission model and respects RIPER modes.
+
+## ⚙️ Setup Instructions
+
+# 1. Ensure you have the desired MCP servers installed
+# 2. Configure .cursor/mcp.json with appropriate server settings
+# 3. Enable only lsmcp, Atlassian‑read, and GCP by default in Cursor
+# 4. Restart Cursor to apply changes
+
+## 📋 MCP Server Requirements
+
+# Filesystem: npm install -g @modelcontextprotocol/server-filesystem
+# Web Search: npm install -g @modelcontextprotocol/server-websearch
+# GitHub: npm install -g @modelcontextprotocol/server-github
+# Database: npm install -g @modelcontextprotocol/server-database
+# AI Model: npm install -g @modelcontextprotocol/server-aimodel
+# Data Viz: npm install -g @modelcontextprotocol/server-dataviz
+# API Tools: npm install -g @modelcontextprotocol/server-apitools
+
+# See full MCP documentation at: https://modelcontextprotocol.github.io/
