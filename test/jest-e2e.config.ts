@@ -24,7 +24,8 @@ const config: Config = {
     __dirname,
     'test-results',
     'gs-mcp-proxy-pii-redactor',
-    'e2e-coverage',
+    'coverage',
+    'e2e',
   ),
   coverageReporters: ['json', 'text', 'lcov', 'clover', 'json-summary', 'html'],
   moduleFileExtensions: ['ts', 'js', 'json'],
@@ -44,7 +45,7 @@ const config: Config = {
         reportTitle: 'gs-mcp-proxy-pii-redactor E2E Test Results',
         reportHeadline: 'gs-mcp-proxy-pii-redactor E2E Test Results',
         additionalResultsProcessors: [],
-        coverageLink: './e2e-coverage/index.html',
+        coverageLink: '../coverage/e2e/index.html',
       },
     ],
     [
