@@ -68,6 +68,7 @@ npm run start:prod -- --config /path/to/config.json
 
 ## Environment Variables
 
+- `MCP_PROXY_GCS_BUCKET`: GCS bucket name containing PII dictionary files (`names.txt` and `emails.txt`)
 - `MCP_PROXY_SERVICE_ACCOUNT`: GCS service account JSON (for PII redaction)
 - `MCP_PROXY_SERVICE_ACCOUNT_B64`: Base64-encoded service account JSON
 
