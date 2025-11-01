@@ -1,7 +1,11 @@
 {
-  "name": "gs-mcp-pii-redactor",
+  "name": "gs-mcp-proxy-pii-redactor",
   "version": "1.0.0",
   "description": "MCP Proxy with PII Redaction - TypeScript/NestJS implementation",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor.git"
+  },
   "main": "dist/main.js",
   "scripts": {
     "build": "nest build",
