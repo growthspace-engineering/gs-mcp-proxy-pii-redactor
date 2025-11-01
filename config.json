@@ -1,0 +1,65 @@
+{
+  "mcpProxy": {
+    "baseURL": "http://localhost:8083",
+    "addr": ":8083",
+    "name": "MCP Proxy with PII Redaction",
+    "version": "1.0.0",
+    "type": "streamable-http",
+    "options": {
+      "panicIfInvalid": false,
+      "logEnabled": true
+    }
+  },
+  "mcpServers": {
+    "github": {
+      "transportType": "streamable-http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_TOKEN}"
+      },
+      "options": {
+        "toolFilter": {
+          "mode": "block",
+          "list": [
+            "create_gist",
+            "update_gist",
+            "delete_gist"
+          ]
+        }
+      }
+    },
+    "atlassian": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote@0.1.17",
+        "https://mcp.atlassian.com/v1/sse",
+        "51328",
+        "--debug"
+      ],
+      "options": {
+        "toolFilter": {
+          "mode": "block",
+          "list": [
+            "transitionJiraIssue"
+          ]
+        },
+        "redaction": {
+          "enabled": true,
+          "keys": ["description", "text", "href"]
+        }
+      }
+    },
+    "gcp": {
+      "command": "sh",
+      "args": ["-c", "npx -y gcp-mcp"],
+      "options": {
+        "redaction": {
+          "enabled": true,
+          "keys": ["message", "url", "textPayload", "stackTrace"]
+        }
+      }
+    }
+  }
+}
+
