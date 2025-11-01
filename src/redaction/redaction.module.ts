@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { RedactionService } from './redaction.service';
-import { AuditLogger } from './audit-logger';
 
 @Module({
-  providers: [RedactionService, AuditLogger],
-  exports: [RedactionService, AuditLogger],
+  providers: [RedactionService],
+  exports: [RedactionService],
 })
 export class RedactionModule {}
 

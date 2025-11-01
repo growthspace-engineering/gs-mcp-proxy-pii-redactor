@@ -1,10 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 import { RedactionOptions } from '../config/types';
 
-@Injectable()
 export class AuditLogger {
   private readonly logger = new Logger(AuditLogger.name);
   private baseDir: string;
