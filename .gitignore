@@ -44,3 +44,9 @@ lerna-debug.log*
 # Build
 *.tsbuildinfo
 
+.server.pid
+ 
+# E2E temp configs
+/test/config.e2e.json
+/test/config.search.e2e.json
+/test/config.*.e2e.json
