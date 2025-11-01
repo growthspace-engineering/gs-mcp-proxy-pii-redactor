@@ -22,8 +22,7 @@ export class RedactionService {
     this.initialized = true;
 
     try {
-      const [names, emails] = await this.readPIIListsFromGCS();
-      const dictionary = [...names, ...emails];
+      const dictionary = await this.readPIIListsFromGCS();
       
       if (dictionary.length === 0) {
         this.initError = new Error('Empty dictionary for matcher');
@@ -109,13 +108,21 @@ export class RedactionService {
     return walk(data);
   }
 
-  private async readPIIListsFromGCS(): Promise<[string[], string[]]> {
+  private async readPIIListsFromGCS(): Promise<string[]> {
     const bucketName = process.env.MCP_PROXY_GCS_BUCKET?.trim();
     if (!bucketName) {
       throw new Error('MCP_PROXY_GCS_BUCKET environment variable is not set');
     }
-    const namesObject = 'names.txt';
-    const emailsObject = 'emails.txt';
+
+    // Get file names from environment variable, default to names.txt,emails.txt
+    const filesEnv = process.env.MCP_PROXY_GCS_FILES?.trim();
+    const fileNames = filesEnv
+      ? filesEnv.split(',').map((f) => f.trim()).filter((f) => f.length > 0)
+      : ['names.txt', 'emails.txt'];
+
+    if (fileNames.length === 0) {
+      throw new Error('MCP_PROXY_GCS_FILES must contain at least one file name');
+    }
 
     const serviceAccountJSON = this.getServiceAccountJSON();
     if (!serviceAccountJSON) {
@@ -144,10 +151,14 @@ export class RedactionService {
       return lines;
     };
 
-    const names = await readObject(namesObject);
-    const emails = await readObject(emailsObject);
+    // Read all files and combine into a single dictionary
+    const allTerms: string[] = [];
+    for (const fileName of fileNames) {
+      const terms = await readObject(fileName);
+      allTerms.push(...terms);
+    }
 
-    return [names, emails];
+    return allTerms;
   }
 
   private getServiceAccountJSON(): string | null {
