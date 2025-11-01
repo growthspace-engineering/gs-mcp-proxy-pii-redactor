@@ -23,6 +23,7 @@ const config: Config = {
     '!src/**/*.d.ts',
     '!src/**/*.spec.ts',
     '!src/**/*.test.ts',
+    '!src/**/*.module.ts',
     '!src/main.ts',
   ],
   coverageDirectory: path.join(
