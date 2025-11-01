@@ -1,21 +1,7 @@
 {
-  "workbench.colorCustomizations": {
-    "activityBar.activeBackground": "#3e138a",
-    "activityBar.background": "#3e138a",
-    "activityBar.foreground": "#e7e7e7",
-    "activityBar.inactiveForeground": "#e7e7e799",
-    "activityBarBadge.background": "#a84c17",
-    "activityBarBadge.foreground": "#e7e7e7",
-    "commandCenter.border": "#e7e7e799",
-    "sash.hoverBorder": "#3e138a",
-    "statusBar.background": "#2a0d5d",
-    "statusBar.foreground": "#e7e7e7",
-    "statusBarItem.hoverBackground": "#3e138a",
-    "statusBarItem.remoteBackground": "#2a0d5d",
-    "statusBarItem.remoteForeground": "#e7e7e7",
-    "titleBar.activeBackground": "#2a0d5d",
-    "titleBar.activeForeground": "#e7e7e7",
-    "titleBar.inactiveBackground": "#2a0d5d99",
-    "titleBar.inactiveForeground": "#e7e7e799"
-  }
+  "files.associations": {
+    "commit-message-instructions.md": "markdown"
+  },
+  "markdown.preview.breaks": true,
+  "markdown.preview.typographer": true
 }
