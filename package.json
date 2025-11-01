@@ -32,7 +32,7 @@
     "posttest": "npm run inject",
     "test:watch": "jest --watch",
     "pretest:cov": "rimraf test-results",
-    "test:cov": "jest --coverage --cache",
+    "test:cov": "jest --coverage --cache --passWithNoTests",
     "posttest:cov": "npm run inject",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "pretest:e2e": "rimraf test-results",
