@@ -118,5 +118,5 @@ Per-MCP redaction configuration in `config.json`:
 
 ## License
 
-ISC
+MIT
 
