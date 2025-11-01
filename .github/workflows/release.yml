@@ -1,0 +1,72 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+      - beta
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      packages: write
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@growthspace-engineering'
+          always-auth: true
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Run tests with coverage
+        run: npm run test:cov
+
+      - name: Deploy test reports to GitHub Pages
+        id: deploy-reports
+        uses: ./.github/actions/deploy-github-pages
+        with:
+          test-results-path: test-results/gs-mcp-proxy-pii-redactor
+          project-name: gs-mcp-proxy-pii-redactor-${{ github.ref_name }}
+          coverage-path: test-results/gs-mcp-proxy-pii-redactor/coverage/coverage-summary.json
+          jest-results-path: test-results/gs-mcp-proxy-pii-redactor/jest-results.json
+          deployment-type: branch
+          branch-name: ${{ github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload coverage reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-${{ github.ref_name }}
+          path: test-results/gs-mcp-proxy-pii-redactor/coverage/
+          retention-days: 30
+
+      - name: Configure npm for GitHub Packages
+        run: |
+          echo "@growthspace-engineering:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npx semantic-release
