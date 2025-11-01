@@ -23,6 +23,9 @@ inputs:
   branch-name:
     description: 'Branch name (required if deployment-type is branch)'
     required: false
+  subdir:
+    description: 'Optional subdirectory under the base path (e.g., unit, e2e, combined-coverage)'
+    required: false
   token:
     description: 'GitHub token for deployment'
     required: false
@@ -56,29 +59,26 @@ runs:
             echo "❌ PR number is required for pr deployment type"
             exit 1
           fi
-          OUTPUT_PATH="unit-tests/pr/${{ inputs.pr-number }}"
-          BASE_PATH="unit-tests/pr/${{ inputs.pr-number }}"
+          OUTPUT_PATH="tests/pr/${{ inputs.pr-number }}"
         elif [ "${{ inputs.deployment-type }}" = "branch" ]; then
           if [ -z "${{ inputs.branch-name }}" ]; then
             echo "❌ Branch name is required for branch deployment type"
             exit 1
           fi
-          OUTPUT_PATH="unit-tests/branch/${{ inputs.branch-name }}"
-          BASE_PATH="unit-tests/branch/${{ inputs.branch-name }}"
+          OUTPUT_PATH="tests/branch/${{ inputs.branch-name }}"
         else
           echo "❌ Invalid deployment-type: ${{ inputs.deployment-type }}. Must be 'pr' or 'branch'"
           exit 1
         fi
-        
-        echo "output_path=$OUTPUT_PATH" >> $GITHUB_OUTPUT
-        echo "base_path=$BASE_PATH" >> $GITHUB_OUTPUT
+        if [ -n "${{ inputs.subdir }}" ]; then
+          OUTPUT_PATH="$OUTPUT_PATH/${{ inputs.subdir }}"
+        fi
         echo "output-path=$OUTPUT_PATH" >> $GITHUB_OUTPUT
-        echo "base-path=$BASE_PATH" >> $GITHUB_OUTPUT
+        echo "base-path=$OUTPUT_PATH" >> $GITHUB_OUTPUT
 
     - name: Prepare test reports directory
       shell: bash
       run: |
-        mkdir -p deploy-root/unit-tests
         mkdir -p "deploy-root/${{ steps.path.outputs.output-path }}"
         cp -r "${{ inputs.test-results-path }}"/* "deploy-root/${{ steps.path.outputs.output-path }}"/
 
@@ -100,7 +100,6 @@ runs:
           FAILURES=$(cat "${{ inputs.jest-results-path }}" | grep -o '"numFailedTests": [0-9]*' | head -1 | grep -o '[0-9]*')
           SKIPPED=$(cat "${{ inputs.jest-results-path }}" | grep -o '"numPendingTests": [0-9]*' | head -1 | grep -o '[0-9]*')
           TOTAL=$(cat "${{ inputs.jest-results-path }}" | grep -o '"numTotalTests": [0-9]*' | head -1 | grep -o '[0-9]*')
-          
           echo "test_passed=$PASSED" >> $GITHUB_OUTPUT
           echo "test_failed=$FAILURES" >> $GITHUB_OUTPUT
           echo "test_skipped=$SKIPPED" >> $GITHUB_OUTPUT
@@ -130,7 +129,6 @@ runs:
         PASSED="${{ steps.test-results.outputs.test_passed }}"
         FAILED="${{ steps.test-results.outputs.test_failed }}"
         SKIPPED="${{ steps.test-results.outputs.test_skipped }}"
-        
         if [ "$FAILED" -gt "0" ]; then
           COLOR="red"
           LABEL="$PASSED passed, $FAILED failed, $SKIPPED skipped"
@@ -138,11 +136,8 @@ runs:
           COLOR="brightgreen"
           LABEL="$PASSED passed, $SKIPPED skipped"
         fi
-        
         ENCODED_LABEL=$(echo "$LABEL" | sed 's/ /%20/g')
-        echo "test_badge=https://img.shields.io/badge/tests-$ENCODED_LABEL-$COLOR" >> $GITHUB_OUTPUT
         echo "test-badge=https://img.shields.io/badge/tests-$ENCODED_LABEL-$COLOR" >> $GITHUB_OUTPUT
-        
         PERCENTAGE="${{ steps.coverage.outputs.coverage_percentage }}"
         if (( $(echo "$PERCENTAGE >= 80" | bc -l) )); then
           COLOR="brightgreen"
@@ -151,8 +146,6 @@ runs:
         else
           COLOR="red"
         fi
-        
-        echo "coverage_badge=https://img.shields.io/badge/coverage-${{ steps.coverage.outputs.coverage_percentage }}%25-$COLOR" >> $GITHUB_OUTPUT
         echo "coverage-badge=https://img.shields.io/badge/coverage-${{ steps.coverage.outputs.coverage_percentage }}%25-$COLOR" >> $GITHUB_OUTPUT
 
     - name: Generate GitHub Pages URLs
@@ -161,16 +154,9 @@ runs:
       run: |
         REPO_OWNER="${{ github.repository_owner }}"
         REPO_NAME="${{ github.event.repository.name }}"
-        
-        if [ "${{ inputs.deployment-type }}" = "pr" ]; then
-          BASE_PATH="unit-tests/pr/${{ inputs.pr-number }}"
-        elif [ "${{ inputs.deployment-type }}" = "branch" ]; then
-          BASE_PATH="unit-tests/branch/${{ inputs.branch-name }}"
-        fi
-        
+        BASE_PATH="${{ steps.path.outputs.base-path }}"
         REPORT_URL="https://$REPO_OWNER.github.io/$REPO_NAME/$BASE_PATH/"
         COVERAGE_URL="https://$REPO_OWNER.github.io/$REPO_NAME/$BASE_PATH/coverage/"
-        
         echo "report-url=$REPORT_URL" >> $GITHUB_OUTPUT
         echo "coverage-url=$COVERAGE_URL" >> $GITHUB_OUTPUT
         echo "base-path=$BASE_PATH" >> $GITHUB_OUTPUT

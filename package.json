@@ -40,6 +40,7 @@
     "test:e2e:cov": "jest --config ./test/jest-e2e.config.ts --coverage",
     "posttest:e2e": "npm run inject",
     "posttest:e2e:cov": "npm run inject",
+    "coverage:merge": "node scripts/build-combined-coverage.cjs",
     "lsmcp:init": "npx @mizchi/lsmcp init -p typescript",
     "lsmcp:index": "npx @mizchi/lsmcp index -p typescript"
   },

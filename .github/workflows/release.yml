@@ -7,16 +7,13 @@ on:
       - beta
 
 jobs:
-  release:
+  tests:
+    name: Run ${{ matrix.suite }} tests
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-      packages: write
-      pages: write
-      id-token: write
-
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [unit, e2e]
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -38,26 +35,103 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Run tests with coverage
+      - name: Run unit tests with coverage
+        if: matrix.suite == 'unit'
         run: npm run test:cov
 
-      - name: Deploy test reports to GitHub Pages
-        id: deploy-reports
-        uses: ./.github/actions/deploy-github-pages
-        with:
-          test-results-path: test-results/gs-mcp-proxy-pii-redactor
-          project-name: gs-mcp-proxy-pii-redactor-${{ github.ref_name }}
-          coverage-path: test-results/gs-mcp-proxy-pii-redactor/coverage/coverage-summary.json
-          jest-results-path: test-results/gs-mcp-proxy-pii-redactor/jest-results.json
-          deployment-type: branch
-          branch-name: ${{ github.ref_name }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run e2e tests with coverage
+        if: matrix.suite == 'e2e'
+        run: npm run test:e2e:cov
 
-      - name: Upload coverage reports
+      - name: Upload ${{ matrix.suite }} test results
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report-${{ github.ref_name }}
-          path: test-results/gs-mcp-proxy-pii-redactor/coverage/
+          name: test-results-${{ matrix.suite }}
+          path: test-results/gs-mcp-proxy-pii-redactor
+          retention-days: 14
+
+  coverage_merge_and_release:
+    name: Merge coverage, deploy reports, and release
+    runs-on: ubuntu-latest
+    needs: tests
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      packages: write
+      pages: write
+      id-token: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Download unit results
+        uses: actions/download-artifact@v4
+        with:
+          name: test-results-unit
+          path: unit
+
+      - name: Download e2e results
+        uses: actions/download-artifact@v4
+        with:
+          name: test-results-e2e
+          path: e2e
+
+      - name: Build combined coverage (unit + e2e)
+        run: node scripts/build-combined-coverage.cjs unit e2e
+
+      - name: Deploy unit test reports to GitHub Pages
+        id: deploy-unit
+        uses: ./.github/actions/deploy-github-pages
+        with:
+          test-results-path: unit/test-results/gs-mcp-proxy-pii-redactor
+          project-name: gs-mcp-proxy-pii-redactor-${{ github.ref_name }}
+          coverage-path: unit/test-results/gs-mcp-proxy-pii-redactor/coverage/coverage-summary.json
+          jest-results-path: unit/test-results/gs-mcp-proxy-pii-redactor/jest-results.json
+          deployment-type: branch
+          branch-name: ${{ github.ref_name }}
+          subdir: unit
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy e2e test reports to GitHub Pages
+        id: deploy-e2e
+        uses: ./.github/actions/deploy-github-pages
+        with:
+          test-results-path: e2e/test-results/gs-mcp-proxy-pii-redactor/e2e
+          project-name: gs-mcp-proxy-pii-redactor-${{ github.ref_name }}
+          coverage-path: e2e/test-results/gs-mcp-proxy-pii-redactor/e2e/coverage/coverage-summary.json
+          jest-results-path: e2e/test-results/gs-mcp-proxy-pii-redactor/e2e/jest-results.json
+          deployment-type: branch
+          branch-name: ${{ github.ref_name }}
+          subdir: e2e
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deploy combined coverage to GitHub Pages
+        id: deploy-combined
+        uses: ./.github/actions/deploy-github-pages
+        with:
+          test-results-path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage
+          project-name: gs-mcp-proxy-pii-redactor-${{ github.ref_name }}
+          coverage-path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage/coverage-summary.json
+          jest-results-path: unit/test-results/gs-mcp-proxy-pii-redactor/jest-results.json
+          deployment-type: branch
+          branch-name: ${{ github.ref_name }}
+          subdir: combined-coverage
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload combined coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-combined-${{ github.ref_name }}
+          path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage
           retention-days: 30
 
       - name: Configure npm for GitHub Packages
