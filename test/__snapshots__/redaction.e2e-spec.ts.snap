@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PII Redaction (e2e-like service tests) redacts by configured keys (and recursively traversed strings) using keys [description, text, href] 1`] = `
+{
+  "description": "Email: [REDACTED], Phone: +1 (650) 555-1234. Hello [REDACTED] and [REDACTED]. abc123456123 should not be redacted.",
+  "href": "mailto:[REDACTED]",
+  "list": [
+    "[REDACTED] appears here",
+    {
+      "inner": "Call me at [REDACTED]",
+    },
+    "no pii",
+  ],
+  "nested": {
+    "note": "[REDACTED] is in nested note with email [REDACTED]",
+  },
+  "other": "This other field has [REDACTED] and +1-212-555-0987 but may be affected by traversal.",
+  "summary": "Case for [REDACTED]",
+  "text": "Contact at [REDACTED] and +972 52-353-1234 and [REDACTED]",
+}
+`;
+
+exports[`PII Redaction (e2e-like service tests) redacts emails and phone numbers generically in plain strings 1`] = `"Email me at [REDACTED] or at [REDACTED], call +1 (650) 555-1234 or [REDACTED]"`;
+
+exports[`PII Redaction (e2e-like service tests) when no keys are configured, redacts all strings 1`] = `
+{
+  "body": "Email: x@y.z, phone: [REDACTED], and [REDACTED] mentioned.",
+  "meta": {
+    "href": "mailto:[REDACTED]",
+    "text": "[REDACTED] present",
+  },
+  "title": "Hello [REDACTED]",
+}
+`;
