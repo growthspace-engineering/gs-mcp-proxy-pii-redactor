@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from './config/config.service';
 import * as commander from 'commander';
+import * as packageJson from '../package.json';
 
 const logger = new Logger('Bootstrap');
 
@@ -23,7 +24,7 @@ async function bootstrap() {
   }
 
   if (options.version) {
-    console.log('1.0.0');
+    console.log(packageJson.version);
     return;
   }
 
