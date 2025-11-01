@@ -1,7 +1,7 @@
 {
   "mcpProxy": {
-    "baseURL": "http://localhost:8083",
-    "addr": ":8083",
+    "baseURL": "http://localhost:8084",
+    "addr": ":8084",
     "name": "MCP Proxy with PII Redaction",
     "version": "1.0.0",
     "type": "streamable-http",
@@ -21,9 +21,24 @@
         "toolFilter": {
           "mode": "block",
           "list": [
-            "create_gist",
-            "update_gist",
-            "delete_gist"
+            "create_repository",
+            "create_or_update_file"
+          ]
+        }
+      }
+    },
+    "github-allow": {
+      "transportType": "streamable-http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_TOKEN}"
+      },
+      "options": {
+        "toolFilter": {
+          "mode": "allow",
+          "list": [
+            "list_issues",
+            "search_repositories"
           ]
         }
       }
@@ -34,8 +49,7 @@
         "-y",
         "mcp-remote@0.1.17",
         "https://mcp.atlassian.com/v1/sse",
-        "51328",
-        "--debug"
+        "51328"
       ],
       "options": {
         "toolFilter": {
