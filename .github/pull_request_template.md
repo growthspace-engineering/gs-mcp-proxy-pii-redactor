@@ -4,9 +4,6 @@
 ## Related Issues
 <!-- Link related issues: Closes #123, Fixes #456 -->
 Closes #
-
-## Changes Made
-<!-- List key changes -->
 - 
 
 ## Checklist
