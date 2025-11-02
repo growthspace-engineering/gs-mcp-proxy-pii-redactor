@@ -167,7 +167,87 @@ jobs:
 
       - name: 📝 Add report links to workflow summary
         run: |
-          echo "### 📊 Reports" >> $GITHUB_STEP_SUMMARY
-          echo "- Unit: ${{ steps.deploy-unit.outputs.report-url }} (Coverage: ${{ steps.deploy-unit.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
-          echo "- E2E: ${{ steps.deploy-e2e.outputs.report-url }} (Coverage: ${{ steps.deploy-e2e.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
-          echo "- Combined Coverage: ${{ steps.deploy-combined.outputs.coverage-url }}" >> $GITHUB_STEP_SUMMARY
+          echo "## 📊 Test Reports" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Unit Tests" >> $GITHUB_STEP_SUMMARY
+          echo "- 📄 [Test Report](${{ steps.deploy-unit.outputs.report-url }})" >> $GITHUB_STEP_SUMMARY
+          echo "- 📊 [Coverage Report](${{ steps.deploy-unit.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
+          echo "- ![Tests](${{ steps.deploy-unit.outputs.test-badge }})" >> $GITHUB_STEP_SUMMARY
+          echo "- ![Coverage](${{ steps.deploy-unit.outputs.coverage-badge }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### E2E Tests" >> $GITHUB_STEP_SUMMARY
+          echo "- 📄 [Test Report](${{ steps.deploy-e2e.outputs.report-url }})" >> $GITHUB_STEP_SUMMARY
+          echo "- 📊 [Coverage Report](${{ steps.deploy-e2e.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
+          echo "- ![Tests](${{ steps.deploy-e2e.outputs.test-badge }})" >> $GITHUB_STEP_SUMMARY
+          echo "- ![Coverage](${{ steps.deploy-e2e.outputs.coverage-badge }})" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Combined Coverage" >> $GITHUB_STEP_SUMMARY
+          echo "- 📊 [Coverage Report](${{ steps.deploy-combined.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
+          echo "- ![Coverage](${{ steps.deploy-combined.outputs.coverage-badge }})" >> $GITHUB_STEP_SUMMARY
+
+      - name: 💬 Comment on PR with report links
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const unitReportUrl = '${{ steps.deploy-unit.outputs.report-url }}';
+            const unitCoverageUrl = '${{ steps.deploy-unit.outputs.coverage-url }}';
+            const unitTestBadge = '${{ steps.deploy-unit.outputs.test-badge }}';
+            const unitCoverageBadge = '${{ steps.deploy-unit.outputs.coverage-badge }}';
+            const e2eReportUrl = '${{ steps.deploy-e2e.outputs.report-url }}';
+            const e2eCoverageUrl = '${{ steps.deploy-e2e.outputs.coverage-url }}';
+            const e2eTestBadge = '${{ steps.deploy-e2e.outputs.test-badge }}';
+            const e2eCoverageBadge = '${{ steps.deploy-e2e.outputs.coverage-badge }}';
+            const combinedCoverageUrl = '${{ steps.deploy-combined.outputs.coverage-url }}';
+            const combinedCoverageBadge = '${{ steps.deploy-combined.outputs.coverage-badge }}';
+            
+            const body = `## 📊 Test Reports
+            
+            ### Unit Tests
+            - 📄 [Test Report](${unitReportUrl})
+            - 📊 [Coverage Report](${unitCoverageUrl})
+            - ![Tests](${unitTestBadge})
+            - ![Coverage](${unitCoverageBadge})
+            
+            ### E2E Tests
+            - 📄 [Test Report](${e2eReportUrl})
+            - 📊 [Coverage Report](${e2eCoverageUrl})
+            - ![Tests](${e2eTestBadge})
+            - ![Coverage](${e2eCoverageBadge})
+            
+            ### Combined Coverage
+            - 📊 [Coverage Report](${combinedCoverageUrl})
+            - ![Coverage](${combinedCoverageBadge})
+            
+            ---
+            *Reports generated for commit ${context.sha.substring(0, 7)}*`;
+            
+            // Find existing comment
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+            
+            const botComment = comments.data.find(comment => 
+              comment.user.type === 'Bot' && comment.body.includes('📊 Test Reports')
+            );
+            
+            if (botComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: body
+              });
+            }
