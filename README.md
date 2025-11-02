@@ -30,31 +30,59 @@ MCP Proxy with PII Redaction
 </p>
 <hr>
 
+An MCP proxy that aggregates multiple MCP servers behind a single HTTP entrypoint, with built-in PII redaction capabilities.
 
+## Features
 
-> TypeScript/NestJS implementation of the MCP Proxy with PII Redaction. Configuration is provided via `config.json`.
+- **Proxy multiple MCP servers**: Aggregate tools, prompts, and resources from many servers through a single HTTP endpoint
+- **Multiple transport types**: Support for `stdio`, `sse`, and `streamable-http` client transports
+- **Server transport options**: Serve via Server-Sent Events (SSE) or streamable HTTP
+- **PII redaction**: Automatic redaction of PII using GCS-backed dictionaries and generic pattern matching
+- **Tool filtering**: Allow or block specific tools per server configuration
+- **Authentication**: Bearer token authentication with per-server or global configuration
+- **Audit logging**: Optional verbose audit logging for redaction operations
+- **Flexible configuration**: JSON configuration with environment variable interpolation
 
-## Overview
+## Documentation
 
-This is a TypeScript/NestJS reimplementation of the `redact-mcp-proxy` project. It provides the same functionality:
+- [Configuration](docs/configuration.md) - Configuration reference and examples
+- [Usage](docs/usage.md) - CLI options, endpoints, authentication, and tool filtering
+- [PII Redaction](docs/redaction.md) - Redaction setup and configuration
+- [Deployment](docs/deployment.md) - Docker and production deployment
 
-- ✅ Proxy multiple MCP servers through a single HTTP endpoint
-- ✅ Support for stdio, SSE, and streamable-http transports
-- ✅ PII redaction with GCS-backed dictionary
-- ✅ Tool filtering (allow/block lists)
-- ✅ Authentication middleware
-- ✅ Audit logging
-- ✅ Compatible `config.json` format
+## Quick Start
 
-## Installation
+### Prerequisites
+
+- Node.js >= 22.14.0
+- npm
+
+### Installation
 
 ```bash
+git clone https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor.git
+cd gs-mcp-pii-redactor
 npm install
 ```
 
-## Configuration
+### Running
 
-The project uses a `config.json` file with the following structure:
+```bash
+# Development mode with watch
+npm run start:dev
+
+# Production build
+npm run build
+npm run start:prod
+
+# With custom config file
+npm run start:prod -- --config /path/to/config.json
+
+# With remote config URL
+npm run start:prod -- --config https://example.com/config.json
+```
+
+### Minimal Configuration
 
 ```json
 {
@@ -63,92 +91,44 @@ The project uses a `config.json` file with the following structure:
     "addr": ":8083",
     "name": "MCP Proxy with PII Redaction",
     "version": "1.0.0",
-    "type": "streamable-http",
-    "options": {
-      "panicIfInvalid": false,
-      "logEnabled": true
-    }
+    "type": "streamable-http"
   },
   "mcpServers": {
-    "atlassian": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote@0.1.17", "https://mcp.atlassian.com/v1/sse"],
-      "options": {
-        "redaction": {
-          "enabled": true,
-          "keys": ["description", "text", "href"]
-        }
+    "github": {
+      "transportType": "streamable-http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_TOKEN}"
       }
     }
   }
 }
 ```
 
-## Running
+See [Configuration](docs/configuration.md) for full configuration reference and examples.
+
+## Testing
 
 ```bash
-# Development
-npm run start:dev
+# Unit tests
+npm test
 
-# Production
-npm run build
-npm run start:prod
-
-# With custom config
-npm run start:prod -- --config /path/to/config.json
+# E2E tests (requires GITHUB_TOKEN for some tests)
+npm run test:e2e
 ```
 
-## Environment Variables
+## Contributing
 
-- `MCP_PROXY_GCS_BUCKET`: GCS bucket name containing PII dictionary files (required)
-- `MCP_PROXY_GCS_FILES`: Comma-separated list of file names in the bucket (default: `names.txt,emails.txt`)
-- `MCP_PROXY_SERVICE_ACCOUNT`: GCS service account JSON (for PII redaction)
-- `MCP_PROXY_SERVICE_ACCOUNT_B64`: Base64-encoded service account JSON
+Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-## Features
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
 
-### PII Redaction
+## Code of Conduct
 
-Per-MCP redaction configuration in `config.json`:
-
-```json
-{
-  "mcpServers": {
-    "example": {
-      "options": {
-        "redaction": {
-          "enabled": true,
-          "keys": ["description", "text"],
-          "verboseAudit": false
-        }
-      }
-    }
-  }
-}
-```
-
-### Tool Filtering
-
-```json
-{
-  "mcpServers": {
-    "example": {
-      "options": {
-        "toolFilter": {
-          "mode": "block",
-          "list": ["dangerous_tool", "another_tool"]
-        }
-      }
-    }
-  }
-}
-```
-
-## Development Status
-
-
+This project adheres to a Code of Conduct. Please read [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) before contributing.
 
 ## Contributors
+
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
@@ -168,8 +148,6 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
-
 ### How It Works
 
 When you merge a pull request, our GitHub Actions workflow automatically:
@@ -184,7 +162,10 @@ npm run contributors:add -- <username> <contribution-type>
 
 Contribution types include: `code`, `doc`, `test`, `bug`, `ideas`, `review`, and [more](https://allcontributors.org/docs/en/emoji-key).
 
+## Acknowledgments
+
+- This project was inspired by the [TBXark/mcp-proxy](https://github.com/TBXark/mcp-proxy) project, a Go-based MCP proxy server that aggregates multiple MCP servers through a single HTTP endpoint.
+
 ## License
 
 MIT
-
