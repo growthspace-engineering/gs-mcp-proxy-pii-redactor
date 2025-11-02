@@ -37,6 +37,8 @@ jobs:
 
       - name: 🧪 Run e2e tests with coverage
         if: matrix.suite == 'e2e'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PUBLIC_E2E_GITHUB_TOKEN }}
         run: npm run test:e2e:cov
 
       - name: 📤 Upload ${{ matrix.suite }} test results
@@ -89,12 +91,12 @@ jobs:
         with:
           test-results-path: unit/test-results/gs-mcp-proxy-pii-redactor
           project-name: gs-mcp-proxy-pii-redactor-pr-${{ github.event.pull_request.number }}-unit
-          coverage-path: unit/test-results/gs-mcp-proxy-pii-redactor/coverage/coverage-summary.json
-          jest-results-path: unit/test-results/gs-mcp-proxy-pii-redactor/jest-results.json
+          coverage-path: unit/test-results/gs-mcp-proxy-pii-redactor/unit/coverage/coverage-summary.json
+          jest-results-path: unit/test-results/gs-mcp-proxy-pii-redactor/unit/jest-results.json
           deployment-type: pr
           pr-number: ${{ github.event.pull_request.number }}
           subdir: unit
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
 
       - name: 🚀 Deploy e2e reports to GitHub Pages
         id: deploy-e2e
@@ -107,7 +109,7 @@ jobs:
           deployment-type: pr
           pr-number: ${{ github.event.pull_request.number }}
           subdir: e2e
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
 
       - name: 🚀 Deploy combined coverage to GitHub Pages
         id: deploy-combined
@@ -116,11 +118,11 @@ jobs:
           test-results-path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage
           project-name: gs-mcp-proxy-pii-redactor-pr-${{ github.event.pull_request.number }}-combined
           coverage-path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage/coverage-summary.json
-          jest-results-path: unit/test-results/gs-mcp-proxy-pii-redactor/jest-results.json
+          jest-results-path: unit/test-results/gs-mcp-proxy-pii-redactor/unit/jest-results.json
           deployment-type: pr
           pr-number: ${{ github.event.pull_request.number }}
           subdir: combined-coverage
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
 
       - name: 📝 Add report links to workflow summary
         run: |

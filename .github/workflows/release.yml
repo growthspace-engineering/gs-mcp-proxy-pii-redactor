@@ -41,6 +41,8 @@ jobs:
 
       - name: Run e2e tests with coverage
         if: matrix.suite == 'e2e'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PUBLIC_E2E_GITHUB_TOKEN }}
         run: npm run test:e2e:cov
 
       - name: Upload ${{ matrix.suite }} test results
@@ -94,12 +96,12 @@ jobs:
         with:
           test-results-path: unit/test-results/gs-mcp-proxy-pii-redactor
           project-name: gs-mcp-proxy-pii-redactor-${{ github.ref_name }}
-          coverage-path: unit/test-results/gs-mcp-proxy-pii-redactor/coverage/coverage-summary.json
-          jest-results-path: unit/test-results/gs-mcp-proxy-pii-redactor/jest-results.json
+          coverage-path: unit/test-results/gs-mcp-proxy-pii-redactor/unit/coverage/coverage-summary.json
+          jest-results-path: unit/test-results/gs-mcp-proxy-pii-redactor/unit/jest-results.json
           deployment-type: branch
           branch-name: ${{ github.ref_name }}
           subdir: unit
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
 
       - name: Deploy e2e test reports to GitHub Pages
         id: deploy-e2e
@@ -112,7 +114,7 @@ jobs:
           deployment-type: branch
           branch-name: ${{ github.ref_name }}
           subdir: e2e
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
 
       - name: Deploy combined coverage to GitHub Pages
         id: deploy-combined
@@ -121,11 +123,11 @@ jobs:
           test-results-path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage
           project-name: gs-mcp-proxy-pii-redactor-${{ github.ref_name }}
           coverage-path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage/coverage-summary.json
-          jest-results-path: unit/test-results/gs-mcp-proxy-pii-redactor/jest-results.json
+          jest-results-path: unit/test-results/gs-mcp-proxy-pii-redactor/unit/jest-results.json
           deployment-type: branch
           branch-name: ${{ github.ref_name }}
           subdir: combined-coverage
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
 
       - name: Upload combined coverage artifact
         uses: actions/upload-artifact@v4
@@ -135,12 +137,14 @@ jobs:
           retention-days: 30
 
       - name: Configure npm for GitHub Packages
+        env:
+          PUBLIC_RELEASE_BOT_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
         run: |
           echo "@growthspace-engineering:registry=https://npm.pkg.github.com" >> .npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${PUBLIC_RELEASE_BOT_TOKEN}" >> .npmrc
 
       - name: Release
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
+          NPM_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
         run: npx semantic-release
