@@ -1,3 +1,10 @@
+# [1.0.0-beta.9](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.8...v1.0.0-beta.9) (2025-11-02)
+
+
+### Features
+
+* **docker:** add Dockerfile and .dockerignore for containerization ([e14449b](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/e14449b007e7ca2abd32edfe68684ebed964a648))
+
 # [1.0.0-beta.8](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.7...v1.0.0-beta.8) (2025-11-02)
 
 
