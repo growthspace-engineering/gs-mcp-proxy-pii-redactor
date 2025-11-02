@@ -1,0 +1,20 @@
+# Gitleaks Ignore File
+# Add patterns here to exclude false positives from gitleaks scans
+# See: https://github.com/gitleaks/gitleaks#ignoring-findings
+
+# Build outputs and dependencies
+dist/**
+node_modules/**
+*.log
+
+# Test results and coverage reports
+test-results/**
+coverage/**
+
+# Lock files (may contain package hashes that look like secrets)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Add your project-specific patterns below:
+
