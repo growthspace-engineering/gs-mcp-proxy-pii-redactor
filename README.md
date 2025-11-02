@@ -1,9 +1,38 @@
-# MCP Proxy with PII Redaction - TypeScript/NestJS Implementation
+<p align="center">
+  <a href="https://github.com/growthspace-engineering" target="blank"><img src="GS-logo.svg" width="250" alt="GrowthSpace Logo" />
+  </a>
+  <h2 align="center">
+    @growthspace-engineering/gs-mcp-proxy-pii-redactor
+  </h2>
+</p>
+<p align="center">
+  <a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/releases">
+  <img src="https://img.shields.io/github/v/release/growthspace-engineering/gs-mcp-proxy-pii-redactor?display_name=tag&label=latest&logo=npm&color=CB3837&style=for-the-badge">
+</a>
+</p>
+<p align="center">
+<a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/tags">
+  <img src="https://img.shields.io/github/v/tag/growthspace-engineering/gs-mcp-proxy-pii-redactor?filter=*-beta*&label=beta&logo=npm&color=CB3837&style=flat-square">
+</a>
+<!-- <a href="https://growthspace-engineering.github.io/gs-mcp-proxy-pii-redactor/tests/branch/main/combined-coverage/">
+  <img src="https://img.shields.io/endpoint?url=https://growthspace-engineering.github.io/gs-mcp-proxy-pii-redactor/tests/branch/main/combined-coverage/badge.json&label=main%20coverage&style=flat-square">
+</a> -->
+<a href="https://growthspace-engineering.github.io/gs-mcp-proxy-pii-redactor/tests/branch/beta/combined-coverage/">
+  <img src="https://img.shields.io/endpoint?url=https://growthspace-engineering.github.io/gs-mcp-proxy-pii-redactor/tests/branch/beta/combined-coverage/badge.json&label=coverage&style=flat-square">
+</a>
+<a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg"></a>
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+<a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square" alt="All Contributors"></a>
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+</p>
+<p align="center">
+MCP Proxy with PII Redaction
+</p>
+<hr>
 
-[![Beta Combined Coverage](https://img.shields.io/endpoint?url=https://growthspace-engineering.github.io/gs-mcp-proxy-pii-redactor/tests/branch/beta/combined-coverage/badge.json&label=beta%20coverage)](https://growthspace-engineering.github.io/gs-mcp-proxy-pii-redactor/tests/branch/beta/combined-coverage/)
-[![Main Combined Coverage](https://img.shields.io/endpoint?url=https://growthspace-engineering.github.io/gs-mcp-proxy-pii-redactor/tests/branch/main/combined-coverage/badge.json&label=main%20coverage)](https://growthspace-engineering.github.io/gs-mcp-proxy-pii-redactor/tests/branch/main/combined-coverage/)
 
-> TypeScript/NestJS implementation of the MCP Proxy with PII Redaction, compatible with the Go implementation's `config.json` format.
+
+> TypeScript/NestJS implementation of the MCP Proxy with PII Redaction. Configuration is provided via `config.json`.
 
 ## Overview
 
@@ -25,7 +54,7 @@ npm install
 
 ## Configuration
 
-The project uses the same `config.json` format as the Go implementation:
+The project uses a `config.json` file with the following structure:
 
 ```json
 {
@@ -117,14 +146,9 @@ Per-MCP redaction configuration in `config.json`:
 
 ## Development Status
 
-⚠️ **Note**: This is a work in progress. The MCP SDK integration needs to be completed based on the actual `@modelcontextprotocol/sdk` API.
+
 
 ## Contributors
-
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
-
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
@@ -133,7 +157,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="http://thatkookooguy.kibibit.io/"><img src="https://avatars.githubusercontent.com/u/10427304?v=4?s=100" width="100px;" alt="Neil Kalman"/><br /><sub><b>Neil Kalman</b></sub></a><br /><a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commits?author=thatkookooguy" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://thatkookooguy.kibibit.io/"><img src="https://avatars.githubusercontent.com/u/10427304?v=4?s=100" width="100px;" alt="Neil Kalman"/><br /><sub><b>Neil Kalman</b></sub></a><br /><a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commits?author=thatkookooguy" title="Code">💻</a> <a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commits?author=thatkookooguy" title="Documentation">📖</a> <a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commits?author=thatkookooguy" title="Tests">⚠️</a> <a href="#infra-thatkookooguy" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#tool-thatkookooguy" title="Tools">🔧</a> <a href="#maintenance-thatkookooguy" title="Maintenance">🚧</a> <a href="#projectManagement-thatkookooguy" title="Project Management">📆</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Romarionijim"><img src="https://github.com/Romarionijim.png?s=100" width="100px;" alt="Romario Nijim"/><br /><sub><b>Romario Nijim</b></sub></a><br /><a href="#ideas-Romarionijim" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-Romarionijim" title="Maintenance">🚧</a> <a href="#research-Romarionijim" title="Research">🔬</a></td>
     </tr>
   </tbody>
 </table>
