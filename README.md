@@ -119,6 +119,37 @@ Per-MCP redaction configuration in `config.json`:
 
 ⚠️ **Note**: This is a work in progress. The MCP SDK integration needs to be completed based on the actual `@modelcontextprotocol/sdk` API.
 
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square)](#contributors)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+### How It Works
+
+When you merge a pull request, our GitHub Actions workflow automatically:
+- Adds the contributor to the `.all-contributorsrc` configuration
+- Updates the Contributors section in this README
+- Creates a commit with the changes
+
+You can also manually add contributors using:
+```bash
+npm run contributors:add -- <username> <contribution-type>
+```
+
+Contribution types include: `code`, `doc`, `test`, `bug`, `ideas`, `review`, and [more](https://allcontributors.org/docs/en/emoji-key).
+
 ## License
 
 MIT
