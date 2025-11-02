@@ -1,3 +1,10 @@
+# [1.0.0-beta.10](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2025-11-02)
+
+
+### Features
+
+* **github:** add templates and contributor welcome automation ([d69821d](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/d69821d369a653e70aebe0b6f46df73b9f2d4045))
+
 # [1.0.0-beta.9](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.8...v1.0.0-beta.9) (2025-11-02)
 
 
