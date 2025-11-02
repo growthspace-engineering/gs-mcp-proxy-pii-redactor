@@ -1,13 +1,16 @@
-import { Test } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import request from 'supertest';
 import * as fs from 'fs';
 import * as path from 'path';
+
+import request from 'supertest';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
+
+import { INestApplication } from '@nestjs/common';
+import { Test } from '@nestjs/testing';
+
 import { AppModule } from '../src/app.module';
 import { ConfigService } from '../src/config/config.service';
 import { MCPServerService } from '../src/mcp/mcp-server.service';
-import { Client } from '@modelcontextprotocol/sdk/client/index.js';
-import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 
 describe('MCP Proxy (e2e)', () => {
   let app: INestApplication;
@@ -18,12 +21,12 @@ describe('MCP Proxy (e2e)', () => {
     // Enforce presence of GITHUB_TOKEN for this test to run
     if (!process.env.GITHUB_TOKEN) {
       throw new Error(
-        'GITHUB_TOKEN is required for this test. Export a valid PAT and re-run.',
+        'GITHUB_TOKEN is required for this test. Export a valid PAT and re-run.'
       );
     }
 
     const moduleRef = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [ AppModule ]
     }).compile();
 
     app = moduleRef.createNestApplication();
@@ -44,7 +47,7 @@ describe('MCP Proxy (e2e)', () => {
       allowGithub.options = allowGithub.options || {};
       allowGithub.options.toolFilter = {
         mode: 'allow',
-        list: ['list_issues', 'search_repositories'],
+        list: [ 'list_issues', 'search_repositories' ]
       };
       mcpServers['github-allow'] = allowGithub;
     }
@@ -91,12 +94,11 @@ describe('MCP Proxy (e2e)', () => {
   });
 
   const connectAndListTools = async (clientName: string) => {
-    const target = `${baseUrl}/${clientName}`;
+    const target = `${ baseUrl }/${ clientName }`;
     const headers: Record<string, string> = {};
-    if (process.env.GITHUB_TOKEN)
-      headers['Authorization'] = `Bearer ${process.env.GITHUB_TOKEN}`;
+    if (process.env.GITHUB_TOKEN) { headers.Authorization = `Bearer ${ process.env.GITHUB_TOKEN }`; }
     const transport = new StreamableHTTPClientTransport(new URL(target), {
-      requestInit: { headers },
+      requestInit: { headers }
     });
     const mcpClient = new Client({ name: 'e2e', version: '0.0.1' });
     await mcpClient.connect(transport);
@@ -114,7 +116,7 @@ describe('MCP Proxy (e2e)', () => {
 
   it('github-allow client only exposes allow-listed tools', async () => {
     const names = await connectAndListTools('github-allow');
-    expect(names).toEqual(['list_issues', 'search_repositories']);
+    expect(names).toEqual([ 'list_issues', 'search_repositories' ]);
   }, 60000);
 
   it('unknown client returns 404', async () => {
@@ -126,9 +128,9 @@ describe('MCP Proxy (e2e)', () => {
   });
 
   it('reuses streamable-http session across sequential calls', async () => {
-    const target = `${baseUrl}/github-allow`;
+    const target = `${ baseUrl }/github-allow`;
     const headers: Record<string, string> = {};
-    headers['Authorization'] = `Bearer ${process.env.GITHUB_TOKEN}`;
+    headers.Authorization = `Bearer ${ process.env.GITHUB_TOKEN }`;
     const transport = new StreamableHTTPClientTransport(new URL(target), { requestInit: { headers } });
     const client = new Client({ name: 'e2e-http', version: '0.0.1' });
     await client.connect(transport);

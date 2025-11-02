@@ -1,7 +1,10 @@
-import { Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
+
 import { v4 as uuidv4 } from 'uuid';
+
+import { Logger } from '@nestjs/common';
+
 import { RedactionOptions } from '../config/types';
 
 export class AuditLogger {
@@ -17,7 +20,7 @@ export class AuditLogger {
     try {
       fs.mkdirSync(this.baseDir, { recursive: true, mode: 0o755 });
     } catch (error) {
-      this.logger.error(`Failed to create audit directory: ${error}`);
+      this.logger.error(`Failed to create audit directory: ${ error }`);
       throw error;
     }
   }
@@ -26,7 +29,7 @@ export class AuditLogger {
     config: RedactionOptions | null | undefined,
     operation: string,
     preData: any,
-    postData: any,
+    postData: any
   ): string {
     if (!config || !config.verboseAudit) {
       return '';
@@ -38,14 +41,14 @@ export class AuditLogger {
     // Write pre-redaction data
     const preFile = path.join(
       this.baseDir,
-      `${timestamp}-${opID}-${operation}-pre.json`,
+      `${ timestamp }-${ opID }-${ operation }-pre.json`
     );
     this.writeJSONFile(preFile, preData);
 
     // Write post-redaction data
     const postFile = path.join(
       this.baseDir,
-      `${timestamp}-${opID}-${operation}-post.json`,
+      `${ timestamp }-${ opID }-${ operation }-post.json`
     );
     this.writeJSONFile(postFile, postData);
 
@@ -59,7 +62,7 @@ export class AuditLogger {
 
       fs.writeFileSync(filepath, jsonData, { mode: 0o644 });
     } catch (error) {
-      this.logger.error(`Failed to write audit file ${filepath}: ${error}`);
+      this.logger.error(`Failed to write audit file ${ filepath }: ${ error }`);
     }
   }
 
@@ -78,7 +81,7 @@ export class AuditLogger {
 
     if (data && typeof data === 'object') {
       const result: Record<string, any> = {};
-      for (const [key, value] of Object.entries(data)) {
+      for (const [ key, value ] of Object.entries(data)) {
         result[key] = this.enhanceDataForReadability(value);
       }
       return result;

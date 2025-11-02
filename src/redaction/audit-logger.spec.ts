@@ -1,7 +1,9 @@
-import { AuditLogger } from './audit-logger';
 import * as fs from 'fs';
 import * as path from 'path';
+
 import { v4 as uuidv4 } from 'uuid';
+
+import { AuditLogger } from './audit-logger';
 
 jest.mock('fs');
 jest.mock('uuid');
@@ -43,7 +45,7 @@ describe('AuditLogger', () => {
     const mockConfig = {
       enabled: true,
       verboseAudit: true,
-      keys: ['test'],
+      keys: [ 'test' ]
     };
     const mockPreData = { content: 'pre-data' };
     const mockPostData = { content: 'post-data' };
@@ -71,7 +73,7 @@ describe('AuditLogger', () => {
     it('should return empty string if verboseAudit is false', () => {
       const configWithoutAudit = {
         ...mockConfig,
-        verboseAudit: false,
+        verboseAudit: false
       };
       const result = auditLogger.logOperation(configWithoutAudit, 'test-op', mockPreData, mockPostData);
       expect(result).toBe('');
@@ -168,7 +170,7 @@ describe('AuditLogger', () => {
 
     it('should recursively enhance arrays', () => {
       const config = { enabled: true, verboseAudit: true };
-      const preData = ['{"nested": "json"}', 'plain string'];
+      const preData = [ '{"nested": "json"}', 'plain string' ];
       const postData = {};
 
       auditLogger.logOperation(config, 'test-op', preData, postData);
@@ -176,7 +178,7 @@ describe('AuditLogger', () => {
       const calls = (fs.writeFileSync as jest.Mock).mock.calls;
       const preContent = calls[0][1];
       const parsed = JSON.parse(preContent);
-      expect(parsed).toEqual([{ nested: 'json' }, 'plain string']);
+      expect(parsed).toEqual([ { nested: 'json' }, 'plain string' ]);
     });
 
     it('should recursively enhance objects', () => {
@@ -184,9 +186,9 @@ describe('AuditLogger', () => {
       const preData = {
         nested: {
           jsonString: '{"inner": "value"}',
-          plain: 'text',
+          plain: 'text'
         },
-        array: ['{"item": "data"}'],
+        array: [ '{"item": "data"}' ]
       };
       const postData = {};
 

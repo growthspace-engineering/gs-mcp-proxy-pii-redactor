@@ -1,8 +1,11 @@
-import { ConfigService } from './config.service';
-import { Test, TestingModule } from '@nestjs/testing';
 import * as fs from 'fs';
 import * as path from 'path';
+
 import axios from 'axios';
+
+import { Test, TestingModule } from '@nestjs/testing';
+
+import { ConfigService } from './config.service';
 
 jest.mock('fs');
 jest.mock('axios');
@@ -12,7 +15,7 @@ describe('ConfigService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [ConfigService],
+      providers: [ ConfigService ]
     }).compile();
 
     service = module.get<ConfigService>(ConfigService);
@@ -24,9 +27,9 @@ describe('ConfigService', () => {
       const mockConfig = {
         mcpProxy: {
           type: 'sse' as const,
-          options: {},
+          options: {}
         },
-        mcpServers: {},
+        mcpServers: {}
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
@@ -41,9 +44,9 @@ describe('ConfigService', () => {
       const mockConfig = {
         mcpProxy: {
           type: 'sse' as const,
-          options: {},
+          options: {}
         },
-        mcpServers: {},
+        mcpServers: {}
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
@@ -58,9 +61,9 @@ describe('ConfigService', () => {
     it('should set default type to sse if not provided', async () => {
       const mockConfig = {
         mcpProxy: {
-          options: {},
+          options: {}
         },
-        mcpServers: {},
+        mcpServers: {}
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
@@ -72,7 +75,7 @@ describe('ConfigService', () => {
 
     it('should throw error if mcpProxy is missing', async () => {
       const mockConfig = {
-        mcpServers: {},
+        mcpServers: {}
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
@@ -86,9 +89,9 @@ describe('ConfigService', () => {
       const mockConfig = {
         mcpProxy: {
           type: 'sse' as const,
-          options: {},
+          options: {}
         },
-        mcpServers: {},
+        mcpServers: {}
       };
 
       (axios.get as jest.Mock).mockResolvedValue({ data: mockConfig });
@@ -103,9 +106,9 @@ describe('ConfigService', () => {
       const mockConfig = {
         mcpProxy: {
           type: 'sse' as const,
-          options: {},
+          options: {}
         },
-        mcpServers: {},
+        mcpServers: {}
       };
 
       (axios.get as jest.Mock).mockResolvedValue({ data: mockConfig });
@@ -120,9 +123,9 @@ describe('ConfigService', () => {
       const mockConfig = {
         mcpProxy: {
           type: 'sse' as const,
-          options: {},
+          options: {}
         },
-        mcpServers: {},
+        mcpServers: {}
       };
 
       (axios.get as jest.Mock).mockResolvedValue({ data: mockConfig });
@@ -155,18 +158,18 @@ describe('ConfigService', () => {
       const mockConfig = {
         mcpProxy: {
           type: 'sse' as const,
-          options: {},
+          options: {}
         },
         mcpServers: {
           testServer: {
             url: 'http://example.com',
             headers: {
               'X-API-Key': '${API_KEY}',
-              'Authorization': 'Bearer ${TOKEN}',
+              'Authorization': 'Bearer ${TOKEN}'
             },
-            options: {},
-          },
-        },
+            options: {}
+          }
+        }
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
@@ -174,24 +177,24 @@ describe('ConfigService', () => {
       const result = await service.load('config.json');
 
       expect(result.mcpServers.testServer.headers['X-API-Key']).toBe('test-api-key-123');
-      expect(result.mcpServers.testServer.headers['Authorization']).toBe('Bearer test-token-456');
+      expect(result.mcpServers.testServer.headers.Authorization).toBe('Bearer test-token-456');
     });
 
     it('should throw error if referenced environment variable is not set', async () => {
       const mockConfig = {
         mcpProxy: {
           type: 'sse' as const,
-          options: {},
+          options: {}
         },
         mcpServers: {
           testServer: {
             url: 'http://example.com',
             headers: {
-              'X-API-Key': '${MISSING_VAR}',
+              'X-API-Key': '${MISSING_VAR}'
             },
-            options: {},
-          },
-        },
+            options: {}
+          }
+        }
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
@@ -208,41 +211,41 @@ describe('ConfigService', () => {
       const mockConfig = {
         mcpProxy: {
           type: 'sse' as const,
-          options: {},
+          options: {}
         },
         mcpServers: {
           testServer: {
             url: 'http://example.com',
             headers: {
-              'Authorization': '${PREFIX} ${TOKEN}',
+              'Authorization': '${PREFIX} ${TOKEN}'
             },
-            options: {},
-          },
-        },
+            options: {}
+          }
+        }
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
 
       const result = await service.load('config.json');
 
-      expect(result.mcpServers.testServer.headers['Authorization']).toBe('Bearer token123');
+      expect(result.mcpServers.testServer.headers.Authorization).toBe('Bearer token123');
     });
 
     it('should not expand if no environment variables referenced', async () => {
       const mockConfig = {
         mcpProxy: {
           type: 'sse' as const,
-          options: {},
+          options: {}
         },
         mcpServers: {
           testServer: {
             url: 'http://example.com',
             headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json'
             },
-            options: {},
-          },
-        },
+            options: {}
+          }
+        }
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
@@ -259,22 +262,22 @@ describe('ConfigService', () => {
         mcpProxy: {
           type: 'sse' as const,
           options: {
-            authTokens: ['token1', 'token2'],
-          },
+            authTokens: [ 'token1', 'token2' ]
+          }
         },
         mcpServers: {
           testServer: {
             url: 'http://example.com',
-            options: {},
-          },
-        },
+            options: {}
+          }
+        }
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
 
       const result = await service.load('config.json');
 
-      expect(result.mcpServers.testServer.options.authTokens).toEqual(['token1', 'token2']);
+      expect(result.mcpServers.testServer.options.authTokens).toEqual([ 'token1', 'token2' ]);
     });
 
     it('should inherit panicIfInvalid from mcpProxy to mcpServers', async () => {
@@ -282,15 +285,15 @@ describe('ConfigService', () => {
         mcpProxy: {
           type: 'sse' as const,
           options: {
-            panicIfInvalid: true,
-          },
+            panicIfInvalid: true
+          }
         },
         mcpServers: {
           testServer: {
             url: 'http://example.com',
-            options: {},
-          },
-        },
+            options: {}
+          }
+        }
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
@@ -305,15 +308,15 @@ describe('ConfigService', () => {
         mcpProxy: {
           type: 'sse' as const,
           options: {
-            logEnabled: false,
-          },
+            logEnabled: false
+          }
         },
         mcpServers: {
           testServer: {
             url: 'http://example.com',
-            options: {},
-          },
-        },
+            options: {}
+          }
+        }
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
@@ -328,27 +331,27 @@ describe('ConfigService', () => {
         mcpProxy: {
           type: 'sse' as const,
           options: {
-            authTokens: ['parent-token'],
+            authTokens: [ 'parent-token' ],
             panicIfInvalid: true,
-            logEnabled: false,
-          },
+            logEnabled: false
+          }
         },
         mcpServers: {
           testServer: {
             url: 'http://example.com',
             options: {
-              authTokens: ['child-token'],
-              panicIfInvalid: false,
-            },
-          },
-        },
+              authTokens: [ 'child-token' ],
+              panicIfInvalid: false
+            }
+          }
+        }
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
 
       const result = await service.load('config.json');
 
-      expect(result.mcpServers.testServer.options.authTokens).toEqual(['child-token']);
+      expect(result.mcpServers.testServer.options.authTokens).toEqual([ 'child-token' ]);
       expect(result.mcpServers.testServer.options.panicIfInvalid).toBe(false);
       // logEnabled should still be inherited as it wasn't overridden
       expect(result.mcpServers.testServer.options.logEnabled).toBe(false);
@@ -361,16 +364,16 @@ describe('ConfigService', () => {
           options: {
             redaction: {
               enabled: true,
-              keys: ['key1'],
-            },
-          },
+              keys: [ 'key1' ]
+            }
+          }
         },
         mcpServers: {
           testServer: {
             url: 'http://example.com',
-            options: {},
-          },
-        },
+            options: {}
+          }
+        }
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
@@ -386,22 +389,22 @@ describe('ConfigService', () => {
         mcpProxy: {
           type: 'sse' as const,
           options: {
-            authTokens: ['token1'],
-            logEnabled: true,
-          },
+            authTokens: [ 'token1' ],
+            logEnabled: true
+          }
         },
         mcpServers: {
           server1: {
             url: 'http://example1.com',
-            options: {},
+            options: {}
           },
           server2: {
             url: 'http://example2.com',
             options: {
-              logEnabled: false,
-            },
-          },
-        },
+              logEnabled: false
+            }
+          }
+        }
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
@@ -409,11 +412,11 @@ describe('ConfigService', () => {
       const result = await service.load('config.json');
 
       // server1 should inherit all
-      expect(result.mcpServers.server1.options.authTokens).toEqual(['token1']);
+      expect(result.mcpServers.server1.options.authTokens).toEqual([ 'token1' ]);
       expect(result.mcpServers.server1.options.logEnabled).toBe(true);
 
       // server2 should inherit authTokens but keep its own logEnabled
-      expect(result.mcpServers.server2.options.authTokens).toEqual(['token1']);
+      expect(result.mcpServers.server2.options.authTokens).toEqual([ 'token1' ]);
       expect(result.mcpServers.server2.options.logEnabled).toBe(false);
     });
   });
@@ -423,9 +426,9 @@ describe('ConfigService', () => {
       const mockConfig = {
         mcpProxy: {
           type: 'sse' as const,
-          options: {},
+          options: {}
         },
-        mcpServers: {},
+        mcpServers: {}
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
@@ -446,8 +449,8 @@ describe('ConfigService', () => {
       const mockConfig = {
         mcpProxy: {
           type: 'sse' as const,
-          options: {},
-        },
+          options: {}
+        }
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
@@ -460,9 +463,9 @@ describe('ConfigService', () => {
     it('should initialize options if not provided in mcpProxy', async () => {
       const mockConfig = {
         mcpProxy: {
-          type: 'sse' as const,
+          type: 'sse' as const
         },
-        mcpServers: {},
+        mcpServers: {}
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
@@ -476,13 +479,13 @@ describe('ConfigService', () => {
       const mockConfig = {
         mcpProxy: {
           type: 'sse' as const,
-          options: {},
+          options: {}
         },
         mcpServers: {
           testServer: {
-            url: 'http://example.com',
-          },
-        },
+            url: 'http://example.com'
+          }
+        }
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));

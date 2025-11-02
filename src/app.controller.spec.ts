@@ -1,8 +1,10 @@
+import { Request, Response } from 'express';
+
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppController } from './app.controller';
+
 import { ConfigService } from './config/config.service';
 import { MCPServerService } from './mcp/mcp-server.service';
-import { Request, Response } from 'express';
+import { AppController } from './app.controller';
 
 describe('AppController', () => {
   let controller: AppController;
@@ -15,43 +17,43 @@ describe('AppController', () => {
       addr: ':8083',
       name: 'Test Proxy',
       version: '1.0.0',
-      type: 'sse' as const,
+      type: 'sse' as const
     },
     mcpServers: {
       testClient: {
         url: 'http://example.com',
         transportType: 'sse' as const,
-        options: {},
+        options: {}
       },
       authClient: {
         url: 'http://example.com',
         transportType: 'sse' as const,
         options: {
-          authTokens: ['valid-token-123'],
-        },
-      },
-    },
+          authTokens: [ 'valid-token-123' ]
+        }
+      }
+    }
   };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [AppController],
+      controllers: [ AppController ],
       providers: [
         {
           provide: ConfigService,
           useValue: {
-            getConfig: jest.fn().mockReturnValue(mockConfig),
-          },
+            getConfig: jest.fn().mockReturnValue(mockConfig)
+          }
         },
         {
           provide: MCPServerService,
           useValue: {
             handleSSERequest: jest.fn().mockResolvedValue(undefined),
             handlePostMessage: jest.fn().mockResolvedValue(undefined),
-            handleStreamableHTTPRequest: jest.fn().mockResolvedValue(undefined),
-          },
-        },
-      ],
+            handleStreamableHTTPRequest: jest.fn().mockResolvedValue(undefined)
+          }
+        }
+      ]
     }).compile();
 
     controller = module.get<AppController>(AppController);
@@ -73,12 +75,12 @@ describe('AppController', () => {
     beforeEach(() => {
       mockReq = {
         headers: {},
-        on: jest.fn(),
+        on: jest.fn()
       };
       mockRes = {
         status: jest.fn().mockReturnThis(),
         json: jest.fn().mockReturnThis(),
-        headersSent: false,
+        headersSent: false
       };
     });
 
@@ -89,7 +91,7 @@ describe('AppController', () => {
       expect(mcpServerService.handleSSERequest).toHaveBeenCalledWith(
         'testClient',
         mockReq,
-        mockRes,
+        mockRes
       );
     });
 
@@ -172,10 +174,10 @@ describe('AppController', () => {
             url: 'http://example.com',
             transportType: 'sse' as const,
             options: {
-              authTokens: [],
-            },
-          },
-        },
+              authTokens: []
+            }
+          }
+        }
       };
       jest.spyOn(configService, 'getConfig').mockReturnValue(configWithEmptyAuth);
 
@@ -192,12 +194,12 @@ describe('AppController', () => {
     beforeEach(() => {
       mockReq = {
         headers: {},
-        query: {},
+        query: {}
       };
       mockRes = {
         status: jest.fn().mockReturnThis(),
         json: jest.fn().mockReturnThis(),
-        headersSent: false,
+        headersSent: false
       };
     });
 
@@ -208,7 +210,7 @@ describe('AppController', () => {
       expect(mcpServerService.handlePostMessage).toHaveBeenCalledWith(
         'testClient',
         mockReq,
-        mockRes,
+        mockRes
       );
     });
 
@@ -275,12 +277,12 @@ describe('AppController', () => {
     beforeEach(() => {
       mockReq = {
         headers: {},
-        method: 'GET',
+        method: 'GET'
       };
       mockRes = {
         status: jest.fn().mockReturnThis(),
         json: jest.fn().mockReturnThis(),
-        headersSent: false,
+        headersSent: false
       };
     });
 
@@ -341,8 +343,8 @@ describe('AppController', () => {
         ...mockConfig,
         mcpProxy: {
           ...mockConfig.mcpProxy,
-          type: 'streamable-http' as const,
-        },
+          type: 'streamable-http' as const
+        }
       };
       jest.spyOn(configService, 'getConfig').mockReturnValue(streamableConfig);
 
@@ -351,7 +353,7 @@ describe('AppController', () => {
       expect(mcpServerService.handleStreamableHTTPRequest).toHaveBeenCalledWith(
         'testClient',
         mockReq,
-        mockRes,
+        mockRes
       );
     });
 
@@ -360,8 +362,8 @@ describe('AppController', () => {
         ...mockConfig,
         mcpProxy: {
           ...mockConfig.mcpProxy,
-          type: undefined,
-        },
+          type: undefined
+        }
       };
       jest.spyOn(configService, 'getConfig').mockReturnValue(configWithoutType as any);
       mockReq.method = 'GET';
@@ -377,8 +379,8 @@ describe('AppController', () => {
         ...mockConfig,
         mcpProxy: {
           ...mockConfig.mcpProxy,
-          type: 'streamable-http' as const,
-        },
+          type: 'streamable-http' as const
+        }
       };
       jest.spyOn(configService, 'getConfig').mockReturnValue(streamableConfig);
       const error = new Error('Test error');
@@ -395,8 +397,8 @@ describe('AppController', () => {
         ...mockConfig,
         mcpProxy: {
           ...mockConfig.mcpProxy,
-          type: 'streamable-http' as const,
-        },
+          type: 'streamable-http' as const
+        }
       };
       jest.spyOn(configService, 'getConfig').mockReturnValue(streamableConfig);
       mockRes.headersSent = true;
@@ -414,8 +416,8 @@ describe('AppController', () => {
         ...mockConfig,
         mcpProxy: {
           ...mockConfig.mcpProxy,
-          type: 'streamable-http' as const,
-        },
+          type: 'streamable-http' as const
+        }
       };
       jest.spyOn(configService, 'getConfig').mockReturnValue(streamableConfig);
       mockReq.headers = { authorization: 'Bearer valid-token-123' };
