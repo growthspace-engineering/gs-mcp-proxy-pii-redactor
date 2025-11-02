@@ -16,7 +16,9 @@ export class ConfigService {
     if (configPath.startsWith('http://') || configPath.startsWith('https://')) {
       this.logger.log(`Loading config from URL: ${configPath}`);
       const response = await axios.get<FullConfig>(configPath, {
-        httpsAgent: insecure ? new (require('https').Agent)({ rejectUnauthorized: false }) : undefined,
+        httpsAgent: insecure
+          ? new (require('https').Agent)({ rejectUnauthorized: false })
+          : undefined,
       });
       fullConfig = response.data;
     } else {
@@ -43,7 +45,9 @@ export class ConfigService {
 
     // Expand environment variables in headers
     if (fullConfig.mcpServers) {
-      for (const [clientName, clientConfig] of Object.entries(fullConfig.mcpServers)) {
+      for (const [clientName, clientConfig] of Object.entries(
+        fullConfig.mcpServers,
+      )) {
         if (clientConfig.headers) {
           this.expandEnvVarsInHeaders(clientConfig.headers);
         }
@@ -103,7 +107,10 @@ export class ConfigService {
     if (child.authTokens === undefined && parent.authTokens) {
       child.authTokens = parent.authTokens;
     }
-    if (child.panicIfInvalid === undefined && parent.panicIfInvalid !== undefined) {
+    if (
+      child.panicIfInvalid === undefined &&
+      parent.panicIfInvalid !== undefined
+    ) {
       child.panicIfInvalid = parent.panicIfInvalid;
     }
     if (child.logEnabled === undefined && parent.logEnabled !== undefined) {
@@ -112,4 +119,3 @@ export class ConfigService {
     // NOTE: Redaction is intentionally NOT inherited from mcpProxy options
   }
 }
-
