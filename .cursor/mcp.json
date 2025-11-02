@@ -1,10 +1,30 @@
 {
   "mcpServers": {
+    "redactor-lsmcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mizchi/lsmcp",
+        "-p",
+        "typescript"
+      ],
+      "workingDirectory": ".",
+      "env": {
+        "NODE_OPTIONS": "--max-old-space-size=4096"
+      }
+    },
     "proxied-github": {
       "command": "npx",
       "args": [
         "mcp-remote",
         "http://localhost:8084/github/"
+      ]
+    },
+    "proxied-atlassian": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "http://localhost:8084/atlassian/"
       ]
     }
   }
