@@ -1,3 +1,10 @@
+# [1.0.0-beta.4](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.3...v1.0.0-beta.4) (2025-11-02)
+
+
+### Bug Fixes
+
+* **ci:** use PAT token to allow workflows to run on release PRs ([c5e12b6](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/c5e12b6b986f1d67ce94d3044ef0c3d753961d07))
+
 # [1.0.0-beta.3](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2025-11-02)
 
 
