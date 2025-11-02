@@ -44,6 +44,9 @@ jobs:
           # Add the PR author as a code contributor
           npm run contributors:add -- ${{ github.event.pull_request.user.login }} code
           
+          # Generate the updated README
+          npm run contributors:generate
+          
           # Check if files were modified
           if git diff --quiet .all-contributorsrc README.md; then
             echo "No changes to commit - contributor already exists"

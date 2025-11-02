@@ -133,7 +133,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%">[object Object]</td>
+      <td align="center" valign="top" width="14.28%"><a href="http://thatkookooguy.kibibit.io/"><img src="https://avatars.githubusercontent.com/u/10427304?v=4?s=100" width="100px;" alt="Neil Kalman"/><br /><sub><b>Neil Kalman</b></sub></a><br /><a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commits?author=thatkookooguy" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
