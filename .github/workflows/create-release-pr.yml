@@ -1,0 +1,109 @@
+name: 🚀 Create Release PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      custom_branch_name:
+        description: 'Custom branch name (leave empty to use release/YYYY-MM-DD format)'
+        required: false
+        type: string
+
+jobs:
+  create-release-pr:
+    name: Create release PR from beta to main
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: 📥 Checkout beta branch
+        uses: actions/checkout@v4
+        with:
+          ref: beta
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🔧 Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: 📅 Generate release branch name
+        id: branch-name
+        run: |
+          if [ -n "${{ inputs.custom_branch_name }}" ]; then
+            BRANCH_NAME="${{ inputs.custom_branch_name }}"
+          else
+            BRANCH_NAME="release/$(date +'%Y-%m-%d')"
+          fi
+          echo "name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+          echo "Creating release branch: $BRANCH_NAME"
+
+      - name: 🌿 Create release branch
+        run: |
+          git checkout -b ${{ steps.branch-name.outputs.name }}
+          git push origin ${{ steps.branch-name.outputs.name }}
+
+      - name: 📝 Get commit summary for PR body
+        id: commits
+        run: |
+          # Get commits from beta that are not in main
+          COMMITS=$(git log origin/main..origin/beta --oneline --no-merges --pretty=format:"- %s" | head -20)
+          
+          # Escape for GitHub Actions output
+          COMMITS="${COMMITS//'%'/'%25'}"
+          COMMITS="${COMMITS//$'\n'/'%0A'}"
+          COMMITS="${COMMITS//$'\r'/'%0D'}"
+          
+          echo "commits=$COMMITS" >> $GITHUB_OUTPUT
+
+      - name: 📊 Get version from package.json
+        id: version
+        run: |
+          VERSION=$(node -e "console.log(require('./package.json').version)")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: 🎯 Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_TITLE="chore(release): release v${{ steps.version.outputs.version }}"
+          
+          PR_BODY="## 🚀 Release PR
+          
+          This PR merges changes from \`beta\` to \`main\` to create a new release.
+          
+          ### 📦 Version
+          \`v${{ steps.version.outputs.version }}\`
+          
+          ### 📝 Changes
+          ${{ steps.commits.outputs.commits }}
+          
+          ### ✅ Checklist
+          - [ ] All tests pass
+          - [ ] Coverage meets requirements
+          - [ ] CHANGELOG updated (if applicable)
+          - [ ] Version bumped appropriately
+          
+          ---
+          
+          **Note:** Tests will run automatically when this PR is opened. Review the test results before merging.
+          
+          Once merged, this will trigger a release to production."
+          
+          gh pr create \
+            --base main \
+            --head ${{ steps.branch-name.outputs.name }} \
+            --title "$PR_TITLE" \
+            --body "$PR_BODY" \
+            --label "release" \
+            --label "🚀 auto-release"
+
+      - name: ✅ Success
+        run: |
+          echo "✅ Release PR created successfully!"
+          echo "Branch: ${{ steps.branch-name.outputs.name }}"
+          echo "Version: v${{ steps.version.outputs.version }}"
+          echo ""
+          echo "View the PR: https://github.com/${{ github.repository }}/pulls"
+

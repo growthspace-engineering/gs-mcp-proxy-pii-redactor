@@ -1,7 +1,7 @@
 # MCP Proxy with PII Redaction - TypeScript/NestJS Implementation
 
-[![Beta Coverage](https://img.shields.io/endpoint?url=https://growthspace-engineering.github.io/gs-mcp-proxy-pii-redactor/tests/branch/beta/combined-coverage/badge.json)](https://growthspace-engineering.github.io/gs-mcp-proxy-pii-redactor/tests/branch/beta/combined-coverage/)
-[![Main Coverage](https://img.shields.io/endpoint?url=https://growthspace-engineering.github.io/gs-mcp-proxy-pii-redactor/tests/branch/main/combined-coverage/badge.json)](https://growthspace-engineering.github.io/gs-mcp-proxy-pii-redactor/tests/branch/main/combined-coverage/)
+[![Beta Combined Coverage](https://img.shields.io/endpoint?url=https://growthspace-engineering.github.io/gs-mcp-proxy-pii-redactor/tests/branch/beta/combined-coverage/badge.json&label=beta%20coverage)](https://growthspace-engineering.github.io/gs-mcp-proxy-pii-redactor/tests/branch/beta/combined-coverage/)
+[![Main Combined Coverage](https://img.shields.io/endpoint?url=https://growthspace-engineering.github.io/gs-mcp-proxy-pii-redactor/tests/branch/main/combined-coverage/badge.json&label=main%20coverage)](https://growthspace-engineering.github.io/gs-mcp-proxy-pii-redactor/tests/branch/main/combined-coverage/)
 
 > TypeScript/NestJS implementation of the MCP Proxy with PII Redaction, compatible with the Go implementation's `config.json` format.
 
