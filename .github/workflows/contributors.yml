@@ -33,22 +33,28 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Add contributor
-        uses: all-contributors/action@v1.7.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          # Add the PR author as a contributor
-          # Default contribution type is 'code'
-          contributor: ${{ github.event.pull_request.user.login }}
-          contribution: 'code'
-          branch: ${{ github.event.pull_request.base.ref }}
-      
-      - name: Commit and push changes
-        if: steps.add-contributor.outputs.changed == 'true'
+      - name: Configure git
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
+      
+      - name: Add contributor
+        run: |
+          # Add the PR author as a code contributor
+          npm run contributors:add -- ${{ github.event.pull_request.user.login }} code
+          
+          # Check if files were modified
+          if git diff --quiet .all-contributorsrc README.md; then
+            echo "No changes to commit - contributor already exists"
+            echo "contributor_added=false" >> $GITHUB_OUTPUT
+          else
+            echo "contributor_added=true" >> $GITHUB_OUTPUT
+          fi
+        id: add_contributor
+      
+      - name: Commit and push changes
+        if: steps.add_contributor.outputs.contributor_added == 'true'
+        run: |
           git add .all-contributorsrc README.md
           git commit -m "docs: add @${{ github.event.pull_request.user.login }} as a contributor"
           git push
