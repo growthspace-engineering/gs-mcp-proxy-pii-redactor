@@ -1,4 +1,4 @@
-name: 🧪📊 PR Unit Tests
+name: 🧪📊 PR Unit & E2E Tests
 
 on:
   pull_request:
@@ -8,16 +8,13 @@ on:
       - beta
 
 jobs:
-  test:
-    name: 🧪 Run Unit Tests & 📈 Coverage
+  tests:
+    name: Run ${{ matrix.suite }} tests
     runs-on: ubuntu-latest
-    permissions:
-      checks: write
-      contents: write
-      pages: write
-      id-token: write
-      pull-requests: write
-
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: [unit, e2e]
     steps:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
@@ -35,125 +32,296 @@ jobs:
         run: npm ci
 
       - name: 🧪 Run unit tests with coverage
-        id: test-run
-        continue-on-error: true
+        if: matrix.suite == 'unit'
         run: npm run test:cov
 
-      - name: 📥 Download base branch coverage
-        id: base-coverage
-        uses: dawidd6/action-download-artifact@v3
+      - name: 🧪 Run e2e tests with coverage
+        if: matrix.suite == 'e2e'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PUBLIC_E2E_GITHUB_TOKEN }}
+        run: npm run test:e2e:cov
+
+      - name: 📤 Upload ${{ matrix.suite }} test results
+        uses: actions/upload-artifact@v4
         with:
-          name: coverage-report-${{ github.base_ref }}
-          path: base-coverage/
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          workflow: release.yml
-          branch: ${{ github.base_ref }}
-          if_no_artifact_found: ignore
+          name: test-results-${{ matrix.suite }}
+          path: test-results/gs-mcp-proxy-pii-redactor
+          retention-days: 5
+
+  merge_coverage:
+    name: Merge coverage
+    runs-on: ubuntu-latest
+    needs: tests
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 📥 Download unit results to base
+        uses: actions/download-artifact@v4
+        with:
+          name: test-results-unit
+          path: test-results/gs-mcp-proxy-pii-redactor
+
+      - name: 📥 Download e2e results to base
+        uses: actions/download-artifact@v4
+        with:
+          name: test-results-e2e
+          path: test-results/gs-mcp-proxy-pii-redactor
+
+      - name: 🔗 Build combined coverage (unit + e2e)
+        run: node scripts/build-combined-coverage.cjs
+
+      - name: 📤 Upload combined coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report-combined-pr-${{ github.event.pull_request.number }}
+          path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage
+          retention-days: 5
+
+  deploy_reports:
+    name: Deploy reports
+    runs-on: ubuntu-latest
+    needs: merge_coverage
+    permissions:
+      checks: write
+      contents: write
+      pages: write
+      id-token: write
+      pull-requests: write
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: 📥 Download unit results
+        uses: actions/download-artifact@v4
+        with:
+          name: test-results-unit
+          path: test-results/gs-mcp-proxy-pii-redactor
+
+      - name: 📥 Download e2e results
+        uses: actions/download-artifact@v4
+        with:
+          name: test-results-e2e
+          path: test-results/gs-mcp-proxy-pii-redactor
+
+      - name: 📥 Download combined coverage
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-report-combined-pr-${{ github.event.pull_request.number }}
+          path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage
+
+      - name: 📊 Fetch base branch coverage for comparison
+        id: base-coverage
         continue-on-error: true
-
-      - name: 📏 Extract base coverage values
-        id: base-values
         run: |
-          if [ -f base-coverage/test-results/gs-mcp-proxy-pii-redactor/coverage/coverage-summary.json ]; then
-            BASE_STATEMENTS=$(node -e "const s=require('./base-coverage/test-results/gs-mcp-proxy-pii-redactor/coverage/coverage-summary.json'); console.log(s.total.statements.pct || 0)")
-            BASE_BRANCHES=$(node -e "const s=require('./base-coverage/test-results/gs-mcp-proxy-pii-redactor/coverage/coverage-summary.json'); console.log(s.total.branches.pct || 0)")
-            BASE_FUNCTIONS=$(node -e "const s=require('./base-coverage/test-results/gs-mcp-proxy-pii-redactor/coverage/coverage-summary.json'); console.log(s.total.functions.pct || 0)")
-            BASE_LINES=$(node -e "const s=require('./base-coverage/test-results/gs-mcp-proxy-pii-redactor/coverage/coverage-summary.json'); console.log(s.total.lines.pct || 0)")
-            
-            echo "base_statements=$BASE_STATEMENTS" >> $GITHUB_OUTPUT
-            echo "base_branches=$BASE_BRANCHES" >> $GITHUB_OUTPUT
-            echo "base_functions=$BASE_FUNCTIONS" >> $GITHUB_OUTPUT
-            echo "base_lines=$BASE_LINES" >> $GITHUB_OUTPUT
-            echo "has_base=true" >> $GITHUB_OUTPUT
-          else
-            echo "base_statements=0" >> $GITHUB_OUTPUT
-            echo "base_branches=0" >> $GITHUB_OUTPUT
-            echo "base_functions=0" >> $GITHUB_OUTPUT
-            echo "base_lines=0" >> $GITHUB_OUTPUT
-            echo "has_base=false" >> $GITHUB_OUTPUT
-          fi
+          BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
+          REPO_OWNER="${{ github.repository_owner }}"
+          REPO_NAME="${{ github.event.repository.name }}"
+          
+          # Try to fetch base branch coverage from GitHub Pages
+          BASE_UNIT_URL="https://$REPO_OWNER.github.io/$REPO_NAME/tests/branch/$BASE_BRANCH/unit/coverage/coverage-summary.json"
+          BASE_E2E_URL="https://$REPO_OWNER.github.io/$REPO_NAME/tests/branch/$BASE_BRANCH/e2e/coverage/coverage-summary.json"
+          BASE_COMBINED_URL="https://$REPO_OWNER.github.io/$REPO_NAME/tests/branch/$BASE_BRANCH/combined-coverage/coverage-summary.json"
+          
+          # Fetch base coverage (ignore errors if not found)
+          curl -sf "$BASE_UNIT_URL" -o base-unit-coverage.json || echo "{}" > base-unit-coverage.json
+          curl -sf "$BASE_E2E_URL" -o base-e2e-coverage.json || echo "{}" > base-e2e-coverage.json
+          curl -sf "$BASE_COMBINED_URL" -o base-combined-coverage.json || echo "{}" > base-combined-coverage.json
+          
+          # Extract percentages
+          BASE_UNIT=$(node -e "try { const s=require('./base-unit-coverage.json'); console.log(s.total?.statements?.pct || 0); } catch { console.log(0); }")
+          BASE_E2E=$(node -e "try { const s=require('./base-e2e-coverage.json'); console.log(s.total?.statements?.pct || 0); } catch { console.log(0); }")
+          BASE_COMBINED=$(node -e "try { const s=require('./base-combined-coverage.json'); console.log(s.total?.statements?.pct || 0); } catch { console.log(0); }")
+          
+          echo "unit=$BASE_UNIT" >> $GITHUB_OUTPUT
+          echo "e2e=$BASE_E2E" >> $GITHUB_OUTPUT
+          echo "combined=$BASE_COMBINED" >> $GITHUB_OUTPUT
 
-      - name: 🚀 Deploy test reports to GitHub Pages
-        if: github.event_name == 'pull_request' && always()
-        id: deploy-reports
+      - name: 🚀 Deploy unit reports to GitHub Pages
+        id: deploy-unit
         uses: ./.github/actions/deploy-github-pages
         with:
-          test-results-path: test-results/gs-mcp-proxy-pii-redactor
-          project-name: gs-mcp-proxy-pii-redactor-pr-${{ github.event.pull_request.number }}
-          coverage-path: test-results/gs-mcp-proxy-pii-redactor/coverage/coverage-summary.json
-          jest-results-path: test-results/gs-mcp-proxy-pii-redactor/jest-results.json
+          test-results-path: test-results/gs-mcp-proxy-pii-redactor/unit
+          project-name: gs-mcp-proxy-pii-redactor-pr-${{ github.event.pull_request.number }}-unit
+          coverage-path: test-results/gs-mcp-proxy-pii-redactor/unit/coverage/coverage-summary.json
+          jest-results-path: test-results/gs-mcp-proxy-pii-redactor/unit/jest-results.json
           deployment-type: pr
           pr-number: ${{ github.event.pull_request.number }}
+          subdir: unit
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 📝 Add coverage report to workflow summary
-        if: github.event_name == 'pull_request' && always()
-        run: |
-          echo "### 📊 Test & Coverage Results" >> $GITHUB_STEP_SUMMARY
-          echo "[![Tests Status](${{ steps.deploy-reports.outputs.test-badge }})](${{ steps.deploy-reports.outputs.report-url }}) [![Code Coverage](${{ steps.deploy-reports.outputs.coverage-badge }})](${{ steps.deploy-reports.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
-          echo "---" >> $GITHUB_STEP_SUMMARY
-          echo "Results for PR #${{ github.event.pull_request.number }}" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 🔍 Test Results" >> $GITHUB_STEP_SUMMARY
-          echo "- [View Test Report](${{ steps.deploy-reports.outputs.report-url }})" >> $GITHUB_STEP_SUMMARY
-          echo "- [View Coverage Report](${{ steps.deploy-reports.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
-          echo "- [View Workflow Run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          
-          # Generate coverage summary with diff
-          if [ -f test-results/gs-mcp-proxy-pii-redactor/coverage/coverage-summary.json ]; then
-            HAS_BASE="${{ steps.base-values.outputs.has_base }}"
-            
-            echo "### 📈 Coverage Summary" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            
-            if [ "$HAS_BASE" = "true" ]; then
-              echo "| Metric | Base (${{ github.base_ref }}) | PR | Change |" >> $GITHUB_STEP_SUMMARY
-              echo "|--------|------------------------|----|----|" >> $GITHUB_STEP_SUMMARY
-              
-              # Calculate diffs and format table
-              node -e "
-                const pr = require('./test-results/gs-mcp-proxy-pii-redactor/coverage/coverage-summary.json').total;
-                const base = {
-                  statements: parseFloat('${{ steps.base-values.outputs.base_statements }}'),
-                  branches: parseFloat('${{ steps.base-values.outputs.base_branches }}'),
-                  functions: parseFloat('${{ steps.base-values.outputs.base_functions }}'),
-                  lines: parseFloat('${{ steps.base-values.outputs.base_lines }}')
-                };
-                
-                const formatChange = (prVal, baseVal) => {
-                  const diff = prVal - baseVal;
-                  const sign = diff >= 0 ? '+' : '';
-                  const emoji = diff > 0 ? '🟢' : diff < 0 ? '🔴' : '⚪';
-                  return `${emoji} ${sign}${diff.toFixed(2)}%`;
-                };
-                
-                console.log(`| **Statements** | ${base.statements.toFixed(2)}% | ${pr.statements.pct.toFixed(2)}% | ${formatChange(pr.statements.pct, base.statements)} |`);
-                console.log(`| **Branches** | ${base.branches.toFixed(2)}% | ${pr.branches.pct.toFixed(2)}% | ${formatChange(pr.branches.pct, base.branches)} |`);
-                console.log(`| **Functions** | ${base.functions.toFixed(2)}% | ${pr.functions.pct.toFixed(2)}% | ${formatChange(pr.functions.pct, base.functions)} |`);
-                console.log(`| **Lines** | ${base.lines.toFixed(2)}% | ${pr.lines.pct.toFixed(2)}% | ${formatChange(pr.lines.pct, base.lines)} |`);
-              " >> $GITHUB_STEP_SUMMARY
-            else
-              echo "| Metric | Coverage |" >> $GITHUB_STEP_SUMMARY
-              echo "|--------|----------|" >> $GITHUB_STEP_SUMMARY
-              node -e "const s=require('./test-results/gs-mcp-proxy-pii-redactor/coverage/coverage-summary.json'); const t=s.total; console.log(`| **Statements** | ${t.statements.pct}% |`); console.log(`| **Branches** | ${t.branches.pct}% |`); console.log(`| **Functions** | ${t.functions.pct}% |`); console.log(`| **Lines** | ${t.lines.pct}% |`);" >> $GITHUB_STEP_SUMMARY
-              echo "" >> $GITHUB_STEP_SUMMARY
-              echo "ℹ️ Base branch coverage not available yet (first PR or base branch hasn't run coverage). Showing PR coverage only." >> $GITHUB_STEP_SUMMARY
-            fi
-          fi
-          
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "> These reports are automatically generated and deployed to GitHub Pages for this PR." >> $GITHUB_STEP_SUMMARY
-
-      - name: 📋 Report test and coverage results
-        uses: dorny/test-reporter@v2
-        if: always()
+      - name: 🚀 Deploy e2e reports to GitHub Pages
+        id: deploy-e2e
+        uses: ./.github/actions/deploy-github-pages
         with:
-          name: Test & Coverage Results (gs-mcp-proxy-pii-redactor)
-          path: test-results/gs-mcp-proxy-pii-redactor/junit.xml
-          reporter: jest-junit
-          fail-on-error: 'true'
+          test-results-path: test-results/gs-mcp-proxy-pii-redactor/e2e
+          project-name: gs-mcp-proxy-pii-redactor-pr-${{ github.event.pull_request.number }}-e2e
+          coverage-path: test-results/gs-mcp-proxy-pii-redactor/e2e/coverage/coverage-summary.json
+          jest-results-path: test-results/gs-mcp-proxy-pii-redactor/e2e/jest-results.json
+          deployment-type: pr
+          pr-number: ${{ github.event.pull_request.number }}
+          subdir: e2e
           token: ${{ secrets.GITHUB_TOKEN }}
-          list-suites: 'all'
-          list-tests: 'failed'
-          max-annotations: 10
+
+      - name: 🚀 Deploy combined coverage to GitHub Pages
+        id: deploy-combined
+        uses: ./.github/actions/deploy-github-pages
+        with:
+          test-results-path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage
+          project-name: gs-mcp-proxy-pii-redactor-pr-${{ github.event.pull_request.number }}-combined
+          coverage-path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage/coverage-summary.json
+          jest-results-path: test-results/gs-mcp-proxy-pii-redactor/unit/jest-results.json
+          deployment-type: pr
+          pr-number: ${{ github.event.pull_request.number }}
+          subdir: combined-coverage
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📝 Add report links to workflow summary
+        env:
+          BASE_UNIT: ${{ steps.base-coverage.outputs.unit }}
+          BASE_E2E: ${{ steps.base-coverage.outputs.e2e }}
+          BASE_COMBINED: ${{ steps.base-coverage.outputs.combined }}
+        run: |
+          # Extract current coverage percentages
+          UNIT_COV=$(node -e "const s=require('./test-results/gs-mcp-proxy-pii-redactor/unit/coverage/coverage-summary.json'); console.log(s.total.statements.pct)")
+          E2E_COV=$(node -e "const s=require('./test-results/gs-mcp-proxy-pii-redactor/e2e/coverage/coverage-summary.json'); console.log(s.total.statements.pct)")
+          COMBINED_COV=$(node -e "const s=require('./test-results/gs-mcp-proxy-pii-redactor/combined-coverage/coverage-summary.json'); console.log(s.total.statements.pct)")
+          
+          # Calculate diffs
+          UNIT_DIFF=$(node -e "console.log(($UNIT_COV - $BASE_UNIT).toFixed(2))")
+          E2E_DIFF=$(node -e "console.log(($E2E_COV - $BASE_E2E).toFixed(2))")
+          COMBINED_DIFF=$(node -e "console.log(($COMBINED_COV - $BASE_COMBINED).toFixed(2))")
+          
+          # Format diff strings
+          if (( $(echo "$UNIT_DIFF > 0" | bc -l) )); then UNIT_CHANGE="📈 +${UNIT_DIFF}%"; elif (( $(echo "$UNIT_DIFF < 0" | bc -l) )); then UNIT_CHANGE="📉 ${UNIT_DIFF}%"; else UNIT_CHANGE="➡️ ${UNIT_DIFF}%"; fi
+          if (( $(echo "$E2E_DIFF > 0" | bc -l) )); then E2E_CHANGE="📈 +${E2E_DIFF}%"; elif (( $(echo "$E2E_DIFF < 0" | bc -l) )); then E2E_CHANGE="📉 ${E2E_DIFF}%"; else E2E_CHANGE="➡️ ${E2E_DIFF}%"; fi
+          if (( $(echo "$COMBINED_DIFF > 0" | bc -l) )); then COMBINED_CHANGE="📈 +${COMBINED_DIFF}%"; elif (( $(echo "$COMBINED_DIFF < 0" | bc -l) )); then COMBINED_CHANGE="📉 ${COMBINED_DIFF}%"; else COMBINED_CHANGE="➡️ ${COMBINED_DIFF}%"; fi
+          
+          echo "## 📊 Test Reports" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "_Click badges to view detailed reports_" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Unit Tests" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "[![Tests](${{ steps.deploy-unit.outputs.test-badge }}?style=flat-square)](${{ steps.deploy-unit.outputs.report-url }}) [![Coverage](${{ steps.deploy-unit.outputs.coverage-badge }}?style=flat-square)](${{ steps.deploy-unit.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
+          if [ "$BASE_UNIT" != "0" ]; then echo "" >> $GITHUB_STEP_SUMMARY && echo "Coverage change: $UNIT_CHANGE" >> $GITHUB_STEP_SUMMARY; fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### E2E Tests" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "[![Tests](${{ steps.deploy-e2e.outputs.test-badge }}?style=flat-square)](${{ steps.deploy-e2e.outputs.report-url }}) [![Coverage](${{ steps.deploy-e2e.outputs.coverage-badge }}?style=flat-square)](${{ steps.deploy-e2e.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
+          if [ "$BASE_E2E" != "0" ]; then echo "" >> $GITHUB_STEP_SUMMARY && echo "Coverage change: $E2E_CHANGE" >> $GITHUB_STEP_SUMMARY; fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Combined Coverage" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "[![Coverage](${{ steps.deploy-combined.outputs.coverage-badge }}?style=flat-square)](${{ steps.deploy-combined.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
+          if [ "$BASE_COMBINED" != "0" ]; then echo "" >> $GITHUB_STEP_SUMMARY && echo "Coverage change: $COMBINED_CHANGE" >> $GITHUB_STEP_SUMMARY; fi
+
+      - name: 💬 Comment on PR with report links
+        uses: actions/github-script@v7
+        env:
+          BASE_UNIT: ${{ steps.base-coverage.outputs.unit }}
+          BASE_E2E: ${{ steps.base-coverage.outputs.e2e }}
+          BASE_COMBINED: ${{ steps.base-coverage.outputs.combined }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const prNumber = context.payload.pull_request.number;
+            const unitReportUrl = '${{ steps.deploy-unit.outputs.report-url }}';
+            const unitCoverageUrl = '${{ steps.deploy-unit.outputs.coverage-url }}';
+            const unitTestBadge = '${{ steps.deploy-unit.outputs.test-badge }}';
+            const unitCoverageBadge = '${{ steps.deploy-unit.outputs.coverage-badge }}';
+            const e2eReportUrl = '${{ steps.deploy-e2e.outputs.report-url }}';
+            const e2eCoverageUrl = '${{ steps.deploy-e2e.outputs.coverage-url }}';
+            const e2eTestBadge = '${{ steps.deploy-e2e.outputs.test-badge }}';
+            const e2eCoverageBadge = '${{ steps.deploy-e2e.outputs.coverage-badge }}';
+            const combinedCoverageUrl = '${{ steps.deploy-combined.outputs.coverage-url }}';
+            const combinedCoverageBadge = '${{ steps.deploy-combined.outputs.coverage-badge }}';
+            
+            // Read current coverage
+            const unitCov = JSON.parse(fs.readFileSync('./test-results/gs-mcp-proxy-pii-redactor/unit/coverage/coverage-summary.json', 'utf8')).total.statements.pct;
+            const e2eCov = JSON.parse(fs.readFileSync('./test-results/gs-mcp-proxy-pii-redactor/e2e/coverage/coverage-summary.json', 'utf8')).total.statements.pct;
+            const combinedCov = JSON.parse(fs.readFileSync('./test-results/gs-mcp-proxy-pii-redactor/combined-coverage/coverage-summary.json', 'utf8')).total.statements.pct;
+            
+            // Read base coverage
+            const baseUnit = parseFloat(process.env.BASE_UNIT || '0');
+            const baseE2E = parseFloat(process.env.BASE_E2E || '0');
+            const baseCombined = parseFloat(process.env.BASE_COMBINED || '0');
+            
+            // Calculate diffs
+            const unitDiff = (unitCov - baseUnit).toFixed(2);
+            const e2eDiff = (e2eCov - baseE2E).toFixed(2);
+            const combinedDiff = (combinedCov - baseCombined).toFixed(2);
+            
+            // Format change strings
+            const formatChange = (diff, base) => {
+              if (base === 0) return '';
+              const num = parseFloat(diff);
+              if (num > 0) return `\n- Coverage change: 📈 +${diff}%`;
+              if (num < 0) return `\n- Coverage change: 📉 ${diff}%`;
+              return `\n- Coverage change: ➡️ ${diff}%`;
+            };
+            
+            const body = `## 📊 Test Reports
+            
+            _Click badges to view detailed reports_
+            
+            ### Unit Tests
+            
+            [![Tests](${unitTestBadge}?style=flat-square)](${unitReportUrl}) [![Coverage](${unitCoverageBadge}?style=flat-square)](${unitCoverageUrl})${formatChange(unitDiff, baseUnit)}
+            
+            ### E2E Tests
+            
+            [![Tests](${e2eTestBadge}?style=flat-square)](${e2eReportUrl}) [![Coverage](${e2eCoverageBadge}?style=flat-square)](${e2eCoverageUrl})${formatChange(e2eDiff, baseE2E)}
+            
+            ### Combined Coverage
+            
+            [![Coverage](${combinedCoverageBadge}?style=flat-square)](${combinedCoverageUrl})${formatChange(combinedDiff, baseCombined)}
+            
+            ---
+            *Reports generated for commit ${context.sha.substring(0, 7)}*`;
+            
+            // Find existing comment
+            const comments = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+            
+            const botComment = comments.data.find(comment => 
+              comment.user.type === 'Bot' && comment.body.includes('📊 Test Reports')
+            );
+            
+            if (botComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: body
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: body
+              });
+            }
