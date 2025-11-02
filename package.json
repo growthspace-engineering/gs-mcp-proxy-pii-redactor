@@ -42,7 +42,10 @@
     "posttest:e2e:cov": "npm run inject",
     "coverage:merge": "node scripts/build-combined-coverage.cjs",
     "lsmcp:init": "npx @mizchi/lsmcp init -p typescript",
-    "lsmcp:index": "npx @mizchi/lsmcp index -p typescript"
+    "lsmcp:index": "npx @mizchi/lsmcp index -p typescript",
+    "contributors:add": "all-contributors add",
+    "contributors:generate": "all-contributors generate",
+    "contributors:check": "all-contributors check"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.0.0",
@@ -62,6 +65,9 @@
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
+    "@nestjs/cli": "^10.0.0",
+    "@nestjs/schematics": "^10.0.0",
+    "@nestjs/testing": "^10.0.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^13.0.1",
     "@semantic-release/git": "^10.0.1",
@@ -73,11 +79,9 @@
     "@types/node": "^20.11.24",
     "@types/supertest": "^2.0.16",
     "@types/uuid": "^9.0.0",
-    "@nestjs/cli": "^10.0.0",
-    "@nestjs/schematics": "^10.0.0",
-    "@nestjs/testing": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "all-contributors-cli": "^6.26.1",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.42.0",
