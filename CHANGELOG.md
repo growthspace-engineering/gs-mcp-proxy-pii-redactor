@@ -1,3 +1,15 @@
+# [1.0.0-beta.11](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.10...v1.0.0-beta.11) (2025-11-02)
+
+
+### Bug Fixes
+
+* **gitleaks:** update Gitleaks workflow and simplify report generation ([c9b0393](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/c9b0393055397d0002df7a8a2af34e21c28b47d9))
+
+
+### Features
+
+* **gitleaks:** add Gitleaks configuration and ignore file for secret scanning ([228f9c9](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/228f9c9801e7eb2d110d41f0098e6e7a2423f10c))
+
 # [1.0.0-beta.10](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.9...v1.0.0-beta.10) (2025-11-02)
 
 
