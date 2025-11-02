@@ -21,7 +21,7 @@ jobs:
         with:
           ref: beta
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
 
       - name: 🔧 Configure Git
         run: |
@@ -65,7 +65,7 @@ jobs:
 
       - name: 🎯 Create Pull Request
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
         run: |
           PR_TITLE="chore(release): release v${{ steps.version.outputs.version }}"
           
