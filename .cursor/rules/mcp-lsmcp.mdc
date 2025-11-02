@@ -1,0 +1,118 @@
+---
+alwaysApply: true
+---
+
+# 🧠 lsmcp (TypeScript LSP) Rules for CursorRIPER Σ
+# Symbol: Λs (LSP)
+# Version: 1.1.0
+
+## 📋 Service Definition
+```
+service = "TypeScript Language Server via MCP"
+symbol  = "Λs"
+requires = "lsmcp"
+```
+
+## 🎯 Goal
+```
+Produce edits that COMPILE and MATCH the repo's real symbols.
+```
+
+## 🔧 Mandatory Tooling (must be used in-flow)
+**Core validators (always available, must be used as instructed):**
+- lsmcp.lsp_get_definitions
+- lsmcp.lsp_find_references
+- lsmcp.get_symbol_details
+- lsmcp.lsp_get_diagnostics
+
+**Optional helpers (use only if helpful; never instead of the core):**
+- lsmcp.search_symbols
+- lsmcp.lsp_get_all_diagnostics
+- lsmcp.document_symbols / workspace symbols (if exposed)
+
+## 🛣️ Golden Workflow (with REQUIRED tool calls)
+**A. PLAN (before any edit)**
+1) For every symbol/module/interface you intend to use or modify, **MUST**:
+   - Call **`lsp_get_definitions`** to prove existence & file path.  
+   - If you need details to implement correctly, call **`get_symbol_details`**.
+   - If the name is ambiguous, you may call **`search_symbols`** first, then verify with **`lsp_get_definitions`**.
+   - If a needed symbol does not exist, explicitly plan to add it (no guessing).
+
+**B. IMPACT CHECK (before editing an existing symbol)**
+2) If you will change a function/type that already exists, **MUST**:
+   - Call **`lsp_find_references`** and review call sites you may need to update.
+
+**C. EDIT (small, coherent steps)**
+3) Apply the smallest coherent change (one function/feature slice). Keep imports real.
+
+**D. VERIFY THE CHANGE (immediately after each edit slice)**
+4) **MUST** call **`lsp_get_diagnostics`** on **every file you changed** in this slice.  
+   - If there are errors, fix them and re-run **`lsp_get_diagnostics`** until clean.
+   - Only after the slice is clean, proceed to the next slice or finish.
+
+**E. FINISH (optional repo-wide sanity)**
+5) If you made cross-file updates, you **may** run **`lsp_get_all_diagnostics`** once before returning the final diff.
+
+## 🗂️ Monorepo Discipline
+```
+- Treat each file within its tsconfig project/package.
+- When searching, prefer results whose paths match the intended package.
+- Do not introduce cross-package references unless requested.
+```
+
+## 🚫 Non-negotiables
+```
+- Never reference a symbol until `lsp_get_definitions` returns a concrete location.
+- Never return edits with blocking diagnostics in the edited files.
+- Never invent imports or paths; validate them first.
+- If a new API/type is required, declare it minimally in the correct package and validate.
+```
+
+## ✅ Output Contract (per edit slice)
+Provide a short **Validation Log** showing:
+- Verified definitions: symbol → file path (from `lsp_get_definitions`)
+- References inspected: count & sample files (from `lsp_find_references`) when applicable
+- Post-edit diagnostics: file → 0 errors (from `lsp_get_diagnostics`)
+
+---
+
+### Tiny "how to behave" examples (few-shot)
+
+**Example 1 — Using an existing util**
+```
+PLAN:
+- lsp_get_definitions("formatUser"): found at packages/api/src/utils/formatUser.ts
+- get_symbol_details("formatUser"): returns signature + types
+
+EDIT:
+- Call formatUser in new controller
+
+VERIFY:
+- lsp_get_diagnostics(["packages/api/src/controllers/user.ts"]) → 0 errors
+Validation Log: <…>
+```
+
+**Example 2 — Changing a function signature**
+```
+PLAN:
+- lsp_get_definitions("createUser"): packages/api/src/service/user.ts:120
+- lsp_find_references("createUser"): 3 call sites in packages/web
+
+EDIT:
+- Update signature + 3 call sites
+
+VERIFY:
+- lsp_get_diagnostics([...all 4 edited files...]) → fix until 0 errors
+Validation Log: <…>
+```
+
+**Example 3 — Symbol not found**
+```
+PLAN:
+- lsp_get_definitions("getTenantPlan"): not found
+ACTION:
+- Propose minimal implementation in packages/billing/src/plan.ts
+VERIFY:
+- lsp_get_diagnostics([new file + caller]) → 0 errors
+Validation Log: <…>
+```

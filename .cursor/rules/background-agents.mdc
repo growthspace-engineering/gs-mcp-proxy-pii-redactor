@@ -1,0 +1,148 @@
+---
+description: This rule should apply ONLY when running as a background agent.
+alwaysApply: false
+---
+
+# CursorRIPER♦βG 1.0.0 — Background Agents Autonomy
+
+## 🎯 Scope & Activation
+
+activate_if(agent.role == "background" ∧ agent.autonomous == true)
+
+When active, the background agent must iterate the full RIPER loop without waiting for human interaction, while enforcing commit hygiene and pre-commit quality gates.
+
+## 🛣️ Autonomous RIPER Loop
+
+Ω_bg = [Ω₁ → Ω₂ → Ω₃ → Ω₄ → Ω₅]∞  // Repeat until task set is complete
+
+Ω₁ = 🔍RESEARCH ⟶ gather_context ∧ map_surfaces ∧ record_findings
+Ω₂ = 💡INNOVATE ⟶ propose_options ∧ evaluate_tradeoffs ∧ select_approach
+Ω₃ = 📝PLAN ⟶ create_checklist ∧ define_slices ∧ acceptance_criteria
+Ω₄ = ⚙️EXECUTE ⟶ implement_slice ∧ verify_slice ∧ stage_changes
+Ω₅ = 🔎REVIEW ⟶ validate_against_plan ∧ summarize ∧ decide_next
+
+transition_rules = {
+  Ω₁→Ω₂: found_viable_problem_space,
+  Ω₂→Ω₃: approach_selected,
+  Ω₃→Ω₄: checklist_ready,
+  Ω₄→Ω₅: slice_complete ∧ gates_passed,
+  Ω₅→Ω₁: new_findings_required,
+  Ω₅→Ω₄: more_slices_remaining,
+  Ω₅→END: all_acceptance_criteria_met
+}
+
+## 🔐 Pre-Commit Quality Gates (hard requirement)
+
+G_commit = {
+  1: run_build() == 0,            // npm run build
+  2: run_tests() == 0,            // npm test
+  3: lsmcp_workspace_clean() == true, // Λs: lsp_get_all_diagnostics → 0 blocking
+  4: optional_lint() ∈ {0, skipped}
+}
+
+allow_commit = all(G_commit) // All gates must pass
+
+run_build() = exec("npm run build")
+run_tests() = exec("npm test")
+optional_lint() = has_script("lint") ? exec("npm run lint") : "skipped"
+lsmcp_workspace_clean() = Λs.lsp_get_all_diagnostics().errors == 0
+
+## ✍️ Semantic Commits Policy (Angular preset)
+
+commit_format = "<type>(<scope>): <subject>"  // subject ≤ 72 chars, imperative mood
+
+types_allowed = [
+  feat, fix, docs, style, refactor, perf, test,
+  build, ci, chore, revert
+]
+
+rules = {
+  subject_case: sentence_case,
+  scope: recommended_but_optional,
+  body: allowed_multiline_for_context,
+  footer_BREAKING_CHANGE: supported
+}
+
+granularity_constraints = {
+  max_files_per_commit: 10,
+  max_changed_lines_per_commit: 400,
+  atomic_scope: "one coherent slice per commit"
+}
+
+split_commits(strategy = sequential_atomic) = {
+  partition_changes(atomic_scope),
+  order_by_dependencies(),
+  commit_each_after(G_commit)
+}
+
+examples = [
+  "feat(img): add base64 conversion command with data URI output",
+  "fix(db): close Mongo connection on error paths",
+  "test(env): add coverage for from-json edge cases",
+  "refactor(utils): extract piping logic into reusable service",
+  "chore: run barrels generation and update exports"
+]
+
+## ⚙️ Background Execution Protocol
+
+Σ_bg = {
+  plan_unit_of_work() ⟶ define_slice(),
+  implement_slice() ⟶ apply_minimal_edit(),
+  verify_slice() ⟶ run_local_checks(),
+  stage_and_commit() ⟶ if allow_commit then semantic_commit() else remediate(),
+  iterate() ⟶ next_slice_or_finish()
+}
+
+run_local_checks() = {
+  build: run_build(),
+  test: run_tests(),
+  lsmcp: Λs.lsp_get_all_diagnostics(),
+  pass: allow_commit
+}
+
+semantic_commit() = git.commit({
+  message: commit_format,
+  constraints: granularity_constraints
+})
+
+## 🔧 Git & CI Integration
+
+Φ_git = {
+  pre_push: assert(working_tree_clean ∧ allow_commit),
+  pr_title: use_first_commit_subject(),
+  pr_body: include_summary_of_changes ∧ checklist_status,
+  labeling: derive_from_types_allowed
+}
+
+## 🧭 Commands (Background Agent)
+
+βG_commands = {
+  "/bg-start": start_autonomous_loop(Ω_bg),
+  "/bg-stop": stop_autonomous_loop(),
+  "/bg-status": report_current_mode ∧ gates_state ∧ next_actions,
+  "/bg-commit": run(G_commit) ∧ semantic_commit_if_pass(),
+  "/bg-config": set({granularity_constraints, timeouts, max_iterations})
+}
+
+## 🚦 Safety & Boundaries
+
+constraints = {
+  respect_protection_markers: true,           // Ψ behaviors
+  no_large_refactors_without_plan: true,      // must pass via Ω₃
+  stop_on_repeated_gate_failures: 3,          // prevent loops
+  seek_human_on_blockers: true                // escalate when stuck
+}
+
+on_gate_failure(kind) = {
+  capture_logs(kind),
+  attempt_auto_fix ≤ 2,
+  if still_failing ⇒ stop_autonomous_loop() ∧ request_human_input
+}
+
+## 🔗 References
+
+links = {
+  RIPER_core: "ripersigma105.mdc",
+  LSMCP_rules: "mcp-lsmcp.mdc",
+  Protection_rules: "codeprotection.mdc"
+}

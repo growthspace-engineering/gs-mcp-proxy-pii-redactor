@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`PII Redaction (e2e-like service tests) redacts by configured keys (and recursively traversed strings) using keys [description, text, href] 1`] = `
 {

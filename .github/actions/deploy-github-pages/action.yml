@@ -1,0 +1,198 @@
+name: 'Deploy Test Reports to GitHub Pages'
+description: 'Deploy test and coverage reports to GitHub Pages with automatic path handling'
+
+inputs:
+  test-results-path:
+    description: 'Path to test results directory'
+    required: true
+  project-name:
+    description: 'Project name for theme injection'
+    required: true
+  coverage-path:
+    description: 'Path to coverage-summary.json file'
+    required: true
+  jest-results-path:
+    description: 'Path to jest-results.json file'
+    required: true
+  deployment-type:
+    description: 'Type of deployment: pr or branch'
+    required: true
+  pr-number:
+    description: 'PR number (required if deployment-type is pr)'
+    required: false
+  branch-name:
+    description: 'Branch name (required if deployment-type is branch)'
+    required: false
+  subdir:
+    description: 'Optional subdirectory under the base path (e.g., unit, e2e, combined-coverage)'
+    required: false
+  token:
+    description: 'GitHub token for deployment'
+    required: false
+
+outputs:
+  report-url:
+    description: 'URL to the deployed test report'
+    value: ${{ steps.urls.outputs.report-url }}
+  coverage-url:
+    description: 'URL to the deployed coverage report'
+    value: ${{ steps.urls.outputs.coverage-url }}
+  base-path:
+    description: 'Base path where reports were deployed'
+    value: ${{ steps.urls.outputs.base-path }}
+  test-badge:
+    description: 'Test badge URL'
+    value: ${{ steps.badges.outputs.test-badge }}
+  coverage-badge:
+    description: 'Coverage badge URL'
+    value: ${{ steps.badges.outputs.coverage-badge }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Determine deployment path
+      id: path
+      shell: bash
+      run: |
+        if [ "${{ inputs.deployment-type }}" = "pr" ]; then
+          if [ -z "${{ inputs.pr-number }}" ]; then
+            echo "❌ PR number is required for pr deployment type"
+            exit 1
+          fi
+          OUTPUT_PATH="tests/pr/${{ inputs.pr-number }}"
+        elif [ "${{ inputs.deployment-type }}" = "branch" ]; then
+          if [ -z "${{ inputs.branch-name }}" ]; then
+            echo "❌ Branch name is required for branch deployment type"
+            exit 1
+          fi
+          OUTPUT_PATH="tests/branch/${{ inputs.branch-name }}"
+        else
+          echo "❌ Invalid deployment-type: ${{ inputs.deployment-type }}. Must be 'pr' or 'branch'"
+          exit 1
+        fi
+        if [ -n "${{ inputs.subdir }}" ]; then
+          OUTPUT_PATH="$OUTPUT_PATH/${{ inputs.subdir }}"
+        fi
+        echo "output-path=$OUTPUT_PATH" >> $GITHUB_OUTPUT
+        echo "base-path=$OUTPUT_PATH" >> $GITHUB_OUTPUT
+
+    - name: Prepare test reports directory
+      shell: bash
+      run: |
+        mkdir -p "deploy-root/${{ steps.path.outputs.output-path }}"
+        cp -r "${{ inputs.test-results-path }}"/* "deploy-root/${{ steps.path.outputs.output-path }}"/
+
+    - name: Apply custom theme to test reports
+      shell: bash
+      run: |
+        node scripts/inject-themes.cjs ./deploy-root/${{ steps.path.outputs.output-path }} ${{ inputs.project-name }}
+        HTML_FILE="deploy-root/${{ steps.path.outputs.output-path }}/index.html"
+        if [ -f "$HTML_FILE" ]; then
+          sed "s|/test-results/gs-mcp-proxy-pii-redactor/coverage/index.html|coverage/index.html|g" "$HTML_FILE" > "$HTML_FILE.tmp" && mv "$HTML_FILE.tmp" "$HTML_FILE"
+        fi
+        
+        # Generate badge.json for shields.io endpoint if this is combined-coverage
+        if [[ "${{ inputs.subdir }}" == "combined-coverage" ]] && [ -f "${{ inputs.coverage-path }}" ]; then
+          COVERAGE=$(node -e "const s=require('./${{ inputs.coverage-path }}'); console.log(s.total.statements.pct || 0)")
+          if (( $(echo "$COVERAGE >= 80" | bc -l) )); then
+            COLOR="brightgreen"
+          elif (( $(echo "$COVERAGE >= 70" | bc -l) )); then
+            COLOR="yellow"
+          else
+            COLOR="red"
+          fi
+          cat > "deploy-root/${{ steps.path.outputs.output-path }}/badge.json" <<EOF
+        {
+          "schemaVersion": 1,
+          "label": "coverage",
+          "message": "${COVERAGE}%",
+          "color": "$COLOR"
+        }
+        EOF
+        fi
+
+    - name: Extract test results
+      id: test-results
+      shell: bash
+      run: |
+        if [ -f "${{ inputs.jest-results-path }}" ]; then
+          PASSED=$(cat "${{ inputs.jest-results-path }}" | grep -o '"numPassedTests": [0-9]*' | head -1 | grep -o '[0-9]*')
+          FAILURES=$(cat "${{ inputs.jest-results-path }}" | grep -o '"numFailedTests": [0-9]*' | head -1 | grep -o '[0-9]*')
+          SKIPPED=$(cat "${{ inputs.jest-results-path }}" | grep -o '"numPendingTests": [0-9]*' | head -1 | grep -o '[0-9]*')
+          TOTAL=$(cat "${{ inputs.jest-results-path }}" | grep -o '"numTotalTests": [0-9]*' | head -1 | grep -o '[0-9]*')
+          echo "test_passed=$PASSED" >> $GITHUB_OUTPUT
+          echo "test_failed=$FAILURES" >> $GITHUB_OUTPUT
+          echo "test_skipped=$SKIPPED" >> $GITHUB_OUTPUT
+          echo "test_total=$TOTAL" >> $GITHUB_OUTPUT
+        else
+          echo "test_passed=0" >> $GITHUB_OUTPUT
+          echo "test_failed=0" >> $GITHUB_OUTPUT
+          echo "test_skipped=0" >> $GITHUB_OUTPUT
+          echo "test_total=0" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Extract coverage percentage
+      id: coverage
+      shell: bash
+      run: |
+        if [ -f "${{ inputs.coverage-path }}" ]; then
+          COVERAGE=$(node -e "const s=require('./${{ inputs.coverage-path }}'); console.log(s.total.statements.pct || 0)")
+          echo "coverage_percentage=$COVERAGE" >> $GITHUB_OUTPUT
+        else
+          echo "coverage_percentage=0" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Generate badges
+      id: badges
+      shell: bash
+      run: |
+        PASSED="${{ steps.test-results.outputs.test_passed }}"
+        FAILED="${{ steps.test-results.outputs.test_failed }}"
+        SKIPPED="${{ steps.test-results.outputs.test_skipped }}"
+        if [ "$FAILED" -gt "0" ]; then
+          COLOR="red"
+          LABEL="$PASSED passed, $FAILED failed, $SKIPPED skipped"
+        else
+          COLOR="brightgreen"
+          LABEL="$PASSED passed, $SKIPPED skipped"
+        fi
+        ENCODED_LABEL=$(echo "$LABEL" | sed 's/ /%20/g')
+        echo "test-badge=https://img.shields.io/badge/tests-$ENCODED_LABEL-$COLOR" >> $GITHUB_OUTPUT
+        PERCENTAGE="${{ steps.coverage.outputs.coverage_percentage }}"
+        if (( $(echo "$PERCENTAGE >= 80" | bc -l) )); then
+          COLOR="brightgreen"
+        elif (( $(echo "$PERCENTAGE >= 70" | bc -l) )); then
+          COLOR="yellow"
+        else
+          COLOR="red"
+        fi
+        echo "coverage-badge=https://img.shields.io/badge/coverage-${{ steps.coverage.outputs.coverage_percentage }}%25-$COLOR" >> $GITHUB_OUTPUT
+
+    - name: Generate GitHub Pages URLs
+      id: urls
+      shell: bash
+      run: |
+        REPO_OWNER="${{ github.repository_owner }}"
+        REPO_NAME="${{ github.event.repository.name }}"
+        BASE_PATH="${{ steps.path.outputs.base-path }}"
+        REPORT_URL="https://$REPO_OWNER.github.io/$REPO_NAME/$BASE_PATH/"
+        
+        # For combined-coverage, the HTML is at root; for unit/e2e, it's under /coverage/
+        if [[ "${{ inputs.subdir }}" == "combined-coverage" ]]; then
+          COVERAGE_URL="https://$REPO_OWNER.github.io/$REPO_NAME/$BASE_PATH/"
+        else
+          COVERAGE_URL="https://$REPO_OWNER.github.io/$REPO_NAME/$BASE_PATH/coverage/"
+        fi
+        
+        echo "report-url=$REPORT_URL" >> $GITHUB_OUTPUT
+        echo "coverage-url=$COVERAGE_URL" >> $GITHUB_OUTPUT
+        echo "base-path=$BASE_PATH" >> $GITHUB_OUTPUT
+
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: deploy-root
+        branch: gh-pages
+        clean: false
+        single-commit: true
+        token: ${{ inputs.token || github.token }}
