@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0...v1.1.0) (2025-11-02)
+
+
+### Features
+
+* **contributors:** add all-contributors integration with automatic PR merge recognition ([4cc8fea](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/4cc8fea576a32cd817dd9d6cdf5102821d082222))
+
 # [1.0.0-beta.5](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2025-11-02)
 
 
