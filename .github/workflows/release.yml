@@ -51,7 +51,7 @@ jobs:
         with:
           name: test-results-${{ matrix.suite }}
           path: test-results/gs-mcp-proxy-pii-redactor
-          retention-days: 14
+          retention-days: 1
 
   merge_coverage:
     name: Merge coverage (unit + e2e)
@@ -89,7 +89,7 @@ jobs:
         with:
           name: coverage-report-combined-${{ github.ref_name }}
           path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage
-          retention-days: 30
+          retention-days: 1
 
   deploy_reports_and_release:
     name: Deploy reports and release

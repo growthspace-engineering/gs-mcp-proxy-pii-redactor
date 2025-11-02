@@ -46,7 +46,7 @@ jobs:
         with:
           name: test-results-${{ matrix.suite }}
           path: test-results/gs-mcp-proxy-pii-redactor
-          retention-days: 14
+          retention-days: 5
 
   merge_coverage:
     name: Merge coverage
@@ -84,7 +84,7 @@ jobs:
         with:
           name: coverage-report-combined-pr-${{ github.event.pull_request.number }}
           path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage
-          retention-days: 14
+          retention-days: 5
 
   deploy_reports:
     name: Deploy reports
@@ -126,6 +126,33 @@ jobs:
           name: coverage-report-combined-pr-${{ github.event.pull_request.number }}
           path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage
 
+      - name: 📊 Fetch base branch coverage for comparison
+        id: base-coverage
+        continue-on-error: true
+        run: |
+          BASE_BRANCH="${{ github.event.pull_request.base.ref }}"
+          REPO_OWNER="${{ github.repository_owner }}"
+          REPO_NAME="${{ github.event.repository.name }}"
+          
+          # Try to fetch base branch coverage from GitHub Pages
+          BASE_UNIT_URL="https://$REPO_OWNER.github.io/$REPO_NAME/tests/branch/$BASE_BRANCH/unit/coverage/coverage-summary.json"
+          BASE_E2E_URL="https://$REPO_OWNER.github.io/$REPO_NAME/tests/branch/$BASE_BRANCH/e2e/coverage/coverage-summary.json"
+          BASE_COMBINED_URL="https://$REPO_OWNER.github.io/$REPO_NAME/tests/branch/$BASE_BRANCH/combined-coverage/coverage-summary.json"
+          
+          # Fetch base coverage (ignore errors if not found)
+          curl -sf "$BASE_UNIT_URL" -o base-unit-coverage.json || echo "{}" > base-unit-coverage.json
+          curl -sf "$BASE_E2E_URL" -o base-e2e-coverage.json || echo "{}" > base-e2e-coverage.json
+          curl -sf "$BASE_COMBINED_URL" -o base-combined-coverage.json || echo "{}" > base-combined-coverage.json
+          
+          # Extract percentages
+          BASE_UNIT=$(node -e "try { const s=require('./base-unit-coverage.json'); console.log(s.total?.statements?.pct || 0); } catch { console.log(0); }")
+          BASE_E2E=$(node -e "try { const s=require('./base-e2e-coverage.json'); console.log(s.total?.statements?.pct || 0); } catch { console.log(0); }")
+          BASE_COMBINED=$(node -e "try { const s=require('./base-combined-coverage.json'); console.log(s.total?.statements?.pct || 0); } catch { console.log(0); }")
+          
+          echo "unit=$BASE_UNIT" >> $GITHUB_OUTPUT
+          echo "e2e=$BASE_E2E" >> $GITHUB_OUTPUT
+          echo "combined=$BASE_COMBINED" >> $GITHUB_OUTPUT
+
       - name: 🚀 Deploy unit reports to GitHub Pages
         id: deploy-unit
         uses: ./.github/actions/deploy-github-pages
@@ -166,7 +193,26 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 📝 Add report links to workflow summary
+        env:
+          BASE_UNIT: ${{ steps.base-coverage.outputs.unit }}
+          BASE_E2E: ${{ steps.base-coverage.outputs.e2e }}
+          BASE_COMBINED: ${{ steps.base-coverage.outputs.combined }}
         run: |
+          # Extract current coverage percentages
+          UNIT_COV=$(node -e "const s=require('./test-results/gs-mcp-proxy-pii-redactor/unit/coverage/coverage-summary.json'); console.log(s.total.statements.pct)")
+          E2E_COV=$(node -e "const s=require('./test-results/gs-mcp-proxy-pii-redactor/e2e/coverage/coverage-summary.json'); console.log(s.total.statements.pct)")
+          COMBINED_COV=$(node -e "const s=require('./test-results/gs-mcp-proxy-pii-redactor/combined-coverage/coverage-summary.json'); console.log(s.total.statements.pct)")
+          
+          # Calculate diffs
+          UNIT_DIFF=$(node -e "console.log(($UNIT_COV - $BASE_UNIT).toFixed(2))")
+          E2E_DIFF=$(node -e "console.log(($E2E_COV - $BASE_E2E).toFixed(2))")
+          COMBINED_DIFF=$(node -e "console.log(($COMBINED_COV - $BASE_COMBINED).toFixed(2))")
+          
+          # Format diff strings
+          if (( $(echo "$UNIT_DIFF > 0" | bc -l) )); then UNIT_CHANGE="📈 +${UNIT_DIFF}%"; elif (( $(echo "$UNIT_DIFF < 0" | bc -l) )); then UNIT_CHANGE="📉 ${UNIT_DIFF}%"; else UNIT_CHANGE="➡️ ${UNIT_DIFF}%"; fi
+          if (( $(echo "$E2E_DIFF > 0" | bc -l) )); then E2E_CHANGE="📈 +${E2E_DIFF}%"; elif (( $(echo "$E2E_DIFF < 0" | bc -l) )); then E2E_CHANGE="📉 ${E2E_DIFF}%"; else E2E_CHANGE="➡️ ${E2E_DIFF}%"; fi
+          if (( $(echo "$COMBINED_DIFF > 0" | bc -l) )); then COMBINED_CHANGE="📈 +${COMBINED_DIFF}%"; elif (( $(echo "$COMBINED_DIFF < 0" | bc -l) )); then COMBINED_CHANGE="📉 ${COMBINED_DIFF}%"; else COMBINED_CHANGE="➡️ ${COMBINED_DIFF}%"; fi
+          
           echo "## 📊 Test Reports" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Unit Tests" >> $GITHUB_STEP_SUMMARY
@@ -174,22 +220,30 @@ jobs:
           echo "- 📊 [Coverage Report](${{ steps.deploy-unit.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
           echo "- ![Tests](${{ steps.deploy-unit.outputs.test-badge }})" >> $GITHUB_STEP_SUMMARY
           echo "- ![Coverage](${{ steps.deploy-unit.outputs.coverage-badge }})" >> $GITHUB_STEP_SUMMARY
+          if [ "$BASE_UNIT" != "0" ]; then echo "- Coverage change: $UNIT_CHANGE" >> $GITHUB_STEP_SUMMARY; fi
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### E2E Tests" >> $GITHUB_STEP_SUMMARY
           echo "- 📄 [Test Report](${{ steps.deploy-e2e.outputs.report-url }})" >> $GITHUB_STEP_SUMMARY
           echo "- 📊 [Coverage Report](${{ steps.deploy-e2e.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
           echo "- ![Tests](${{ steps.deploy-e2e.outputs.test-badge }})" >> $GITHUB_STEP_SUMMARY
           echo "- ![Coverage](${{ steps.deploy-e2e.outputs.coverage-badge }})" >> $GITHUB_STEP_SUMMARY
+          if [ "$BASE_E2E" != "0" ]; then echo "- Coverage change: $E2E_CHANGE" >> $GITHUB_STEP_SUMMARY; fi
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Combined Coverage" >> $GITHUB_STEP_SUMMARY
           echo "- 📊 [Coverage Report](${{ steps.deploy-combined.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
           echo "- ![Coverage](${{ steps.deploy-combined.outputs.coverage-badge }})" >> $GITHUB_STEP_SUMMARY
+          if [ "$BASE_COMBINED" != "0" ]; then echo "- Coverage change: $COMBINED_CHANGE" >> $GITHUB_STEP_SUMMARY; fi
 
       - name: 💬 Comment on PR with report links
         uses: actions/github-script@v7
+        env:
+          BASE_UNIT: ${{ steps.base-coverage.outputs.unit }}
+          BASE_E2E: ${{ steps.base-coverage.outputs.e2e }}
+          BASE_COMBINED: ${{ steps.base-coverage.outputs.combined }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
+            const fs = require('fs');
             const prNumber = context.payload.pull_request.number;
             const unitReportUrl = '${{ steps.deploy-unit.outputs.report-url }}';
             const unitCoverageUrl = '${{ steps.deploy-unit.outputs.coverage-url }}';
@@ -202,23 +256,47 @@ jobs:
             const combinedCoverageUrl = '${{ steps.deploy-combined.outputs.coverage-url }}';
             const combinedCoverageBadge = '${{ steps.deploy-combined.outputs.coverage-badge }}';
             
+            // Read current coverage
+            const unitCov = JSON.parse(fs.readFileSync('./test-results/gs-mcp-proxy-pii-redactor/unit/coverage/coverage-summary.json', 'utf8')).total.statements.pct;
+            const e2eCov = JSON.parse(fs.readFileSync('./test-results/gs-mcp-proxy-pii-redactor/e2e/coverage/coverage-summary.json', 'utf8')).total.statements.pct;
+            const combinedCov = JSON.parse(fs.readFileSync('./test-results/gs-mcp-proxy-pii-redactor/combined-coverage/coverage-summary.json', 'utf8')).total.statements.pct;
+            
+            // Read base coverage
+            const baseUnit = parseFloat(process.env.BASE_UNIT || '0');
+            const baseE2E = parseFloat(process.env.BASE_E2E || '0');
+            const baseCombined = parseFloat(process.env.BASE_COMBINED || '0');
+            
+            // Calculate diffs
+            const unitDiff = (unitCov - baseUnit).toFixed(2);
+            const e2eDiff = (e2eCov - baseE2E).toFixed(2);
+            const combinedDiff = (combinedCov - baseCombined).toFixed(2);
+            
+            // Format change strings
+            const formatChange = (diff, base) => {
+              if (base === 0) return '';
+              const num = parseFloat(diff);
+              if (num > 0) return `\n- Coverage change: 📈 +${diff}%`;
+              if (num < 0) return `\n- Coverage change: 📉 ${diff}%`;
+              return `\n- Coverage change: ➡️ ${diff}%`;
+            };
+            
             const body = `## 📊 Test Reports
             
             ### Unit Tests
             - 📄 [Test Report](${unitReportUrl})
             - 📊 [Coverage Report](${unitCoverageUrl})
             - ![Tests](${unitTestBadge})
-            - ![Coverage](${unitCoverageBadge})
+            - ![Coverage](${unitCoverageBadge})${formatChange(unitDiff, baseUnit)}
             
             ### E2E Tests
             - 📄 [Test Report](${e2eReportUrl})
             - 📊 [Coverage Report](${e2eCoverageUrl})
             - ![Tests](${e2eTestBadge})
-            - ![Coverage](${e2eCoverageBadge})
+            - ![Coverage](${e2eCoverageBadge})${formatChange(e2eDiff, baseE2E)}
             
             ### Combined Coverage
             - 📊 [Coverage Report](${combinedCoverageUrl})
-            - ![Coverage](${combinedCoverageBadge})
+            - ![Coverage](${combinedCoverageBadge})${formatChange(combinedDiff, baseCombined)}
             
             ---
             *Reports generated for commit ${context.sha.substring(0, 7)}*`;
