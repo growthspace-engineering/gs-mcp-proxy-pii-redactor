@@ -87,7 +87,7 @@ function run(cmd) {
   fs.copyFileSync(e2eFile, path.join(tmpDir, 'e2e.json'));
 
   run(`npx nyc merge ${tmpDir} ${path.join(outDir, 'coverage-final.json')}`);
-  run(`npx nyc report -t ${outDir} -r html -r lcov --report-dir ${outDir}`);
+  run(`npx nyc report -t ${outDir} -r html -r lcov -r json-summary --report-dir ${outDir}`);
   run(`node scripts/inject-themes.cjs ${outDir} gs-mcp-proxy-pii-redactor`);
 
   console.log('✅ Combined coverage generated at:', outDir);

@@ -156,7 +156,14 @@ runs:
         REPO_NAME="${{ github.event.repository.name }}"
         BASE_PATH="${{ steps.path.outputs.base-path }}"
         REPORT_URL="https://$REPO_OWNER.github.io/$REPO_NAME/$BASE_PATH/"
-        COVERAGE_URL="https://$REPO_OWNER.github.io/$REPO_NAME/$BASE_PATH/coverage/"
+        
+        # For combined-coverage, the HTML is at root; for unit/e2e, it's under /coverage/
+        if [[ "${{ inputs.subdir }}" == "combined-coverage" ]]; then
+          COVERAGE_URL="https://$REPO_OWNER.github.io/$REPO_NAME/$BASE_PATH/"
+        else
+          COVERAGE_URL="https://$REPO_OWNER.github.io/$REPO_NAME/$BASE_PATH/coverage/"
+        fi
+        
         echo "report-url=$REPORT_URL" >> $GITHUB_OUTPUT
         echo "coverage-url=$COVERAGE_URL" >> $GITHUB_OUTPUT
         echo "base-path=$BASE_PATH" >> $GITHUB_OUTPUT
