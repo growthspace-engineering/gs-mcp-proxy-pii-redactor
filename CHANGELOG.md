@@ -1,3 +1,10 @@
+# [1.0.0-beta.8](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.7...v1.0.0-beta.8) (2025-11-02)
+
+
+### Bug Fixes
+
+* **contributors:** add generate step and remove broken template ([e5f8d8f](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/e5f8d8f26bfbfce31c419d5f7406c47f9c21f70b))
+
 # [1.0.0-beta.7](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2025-11-02)
 
 
