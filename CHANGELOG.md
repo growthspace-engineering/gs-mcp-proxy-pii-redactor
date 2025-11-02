@@ -1,3 +1,10 @@
+# [1.0.0-beta.7](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.6...v1.0.0-beta.7) (2025-11-02)
+
+
+### Bug Fixes
+
+* **ci:** use BOT token to bypass branch protection in contributors workflow ([83de0a3](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/83de0a35778ae9df687554ed778ae59aeeec6f1c))
+
 # [1.0.0-beta.6](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2025-11-02)
 
 
