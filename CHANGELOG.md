@@ -1,3 +1,18 @@
+# [1.0.0-beta.2](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2025-11-02)
+
+
+### Bug Fixes
+
+* **ci:** combined-coverage URL and badge; generate coverage-summary.json ([6219a40](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/6219a407d6563f0a559d6df1036650f2cccdcefa))
+* **ci:** install dependencies before semantic-release ([32fc433](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/32fc433babb98c6357e37dbaf1b0b8625ce38fc4))
+* **ci:** use ? instead of & for badge style parameter ([c13f70e](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/c13f70e459228a2562884fe165dd3e607b5ac449))
+* **tests:** update coverage configuration to exclude module files and adjust coverage report link ([db5bd91](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/db5bd91ea21ca9f2cd01ce5d3ee6eb0f400eb813))
+
+
+### Features
+
+* **ci:** add coverage comparison, reduce retention, add README badges ([2ed8ac0](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/2ed8ac0dc8813791baedb4cd4b9b7dabbfb1387a))
+
 # 1.0.0-beta.1 (2025-11-01)
 
 
