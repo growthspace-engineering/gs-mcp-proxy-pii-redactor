@@ -69,24 +69,27 @@ export class AppController {
     @Param('clientName') clientName: string,
     @Req() req: Request,
     @Res() res: Response,
-  ) {
+  ): Promise<void> {
     const config = this.configService.getConfig();
     const clientConfig = config.mcpServers[clientName];
 
     if (!clientConfig) {
-      return res.status(404).json({ error: 'Client not found' });
+      res.status(404).json({ error: 'Client not found' });
+      return;
     }
 
     // Check authentication if configured
     if (clientConfig.options?.authTokens && clientConfig.options.authTokens.length > 0) {
       const authHeader = req.headers.authorization;
       if (!authHeader) {
-        return res.status(401).json({ error: 'Unauthorized' });
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
       }
 
       const token = authHeader.replace(/^Bearer /, '').trim();
       if (!clientConfig.options.authTokens.includes(token)) {
-        return res.status(401).json({ error: 'Unauthorized' });
+        res.status(401).json({ error: 'Unauthorized' });
+        return;
       }
     }
 

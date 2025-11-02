@@ -113,9 +113,12 @@ See [Configuration](docs/configuration.md) for full configuration reference and 
 # Unit tests
 npm test
 
-# E2E tests (requires GITHUB_TOKEN for some tests)
+# E2E tests (requires GITHUB_TOKEN)
+export GITHUB_TOKEN=your_token_here
 npm run test:e2e
 ```
+
+**Note:** All E2E tests require a valid `GITHUB_TOKEN` environment variable. The test suite validates both SSE and Streamable HTTP transport options.
 
 ## Contributing
 

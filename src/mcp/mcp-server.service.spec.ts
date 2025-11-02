@@ -45,7 +45,11 @@ describe('MCPServerService', () => {
 
   beforeEach(async () => {
     mockServer = {
-      connect: jest.fn().mockResolvedValue(undefined),
+      connect: jest.fn().mockImplementation(async (transport: any) => {
+        if (typeof transport?.start === 'function') {
+          await transport.start();
+        }
+      }),
     } as any;
 
     mockClientWrapper = {

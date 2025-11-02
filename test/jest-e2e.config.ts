@@ -40,6 +40,9 @@ const config: Config = {
   maxWorkers: '75%',
   // Verbose output for better readability
   verbose: true,
+  // Mitigate occasional Node event-loop linger after reporters finish
+  detectOpenHandles: true,
+  forceExit: true,
   reporters: [
     'default',
     [

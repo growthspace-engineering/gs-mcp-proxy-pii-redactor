@@ -509,8 +509,17 @@ export class MCPClientWrapper {
       this.pingInterval = null;
     }
 
+    // Close the MCP client first to tear down any ongoing requests/timeouts
+    if (this.client) {
+      try {
+        await this.client.close();
+      } catch {}
+      this.client = null;
+    }
+
     if (this.transport) {
       await this.transport.close();
+      this.transport = null;
     }
   }
 }
