@@ -1,3 +1,10 @@
+# [1.0.0-beta.6](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.5...v1.0.0-beta.6) (2025-11-02)
+
+
+### Bug Fixes
+
+* **ci:** use all-contributors CLI directly instead of non-existent GitHub Action ([7c92b89](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/7c92b89b297fd121cb099ea352a9ecd4bf5ad136))
+
 # [1.0.0-beta.5](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.4...v1.0.0-beta.5) (2025-11-02)
 
 
