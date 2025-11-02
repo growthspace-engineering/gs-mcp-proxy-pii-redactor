@@ -18,12 +18,11 @@
   "main": "dist/main.js",
   "scripts": {
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "prepare": "husky",
     "commit": "cz",
     "inject": "node scripts/inject-themes.cjs ./test-results/gs-mcp-proxy-pii-redactor gs-mcp-proxy-pii-redactor",
@@ -53,7 +52,8 @@
     "docker:build": "IMAGE=gs-mcp-pii-redactor && VERSION=$(node -p \"require('./package.json').version\") && docker build -t $IMAGE:latest -t $IMAGE:$VERSION .",
     "docker:run": "IMAGE=gs-mcp-pii-redactor && PORT=$(node -e \"const a=require('./config.json').mcpProxy?.addr||':8083';console.log(String(a).replace(':','')||'8083')\") && docker run --rm -e GITHUB_TOKEN -e MCP_PROXY_GCS_BUCKET -e MCP_PROXY_GCS_FILES -e MCP_PROXY_SERVICE_ACCOUNT -e MCP_PROXY_SERVICE_ACCOUNT_B64 -p $PORT:$PORT -v $(pwd)/config.json:/app/config.json $IMAGE:latest",
     "docker:run:min": "docker run --rm -p 8084:8084 -v $(pwd)/docker-config.min.json:/app/config.json gs-mcp-pii-redactor:latest",
-    "deploy:docker": "npm run docker:build && npm run docker:run"
+    "deploy:docker": "npm run docker:build && npm run docker:run",
+    "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.0.0",
@@ -94,13 +94,10 @@
     "concurrently": "^9.2.1",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.42.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-prettier": "^5.0.0",
     "husky": "^9.1.7",
     "jest": "^30.2.0",
     "jest-junit": "^16.0.0",
     "jest-stare": "^2.5.2",
-    "prettier": "^3.0.0",
     "rimraf": "^5.0.5",
     "semantic-release": "^25.0.1",
     "source-map-support": "^0.5.21",
@@ -109,6 +106,13 @@
     "ts-loader": "^9.4.3",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "eslint-plugin-unused-imports": "^4.3.0",
+    "lint-staged": "^16.2.6"
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": "eslint --fix"
   }
 }
