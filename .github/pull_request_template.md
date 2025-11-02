@@ -2,9 +2,10 @@
 <!-- Brief description of changes -->
 
 ## Related Issues
-<!-- Link related issues: Closes #123, Fixes #456 -->
-Closes #
-- 
+<!-- Link related issues using keywords like "Closes #", "Fixes #", "Resolves #" -->
+<!-- Example: Closes #42 -->
+
+
 
 ## Checklist
 - Code follows project style guidelines
