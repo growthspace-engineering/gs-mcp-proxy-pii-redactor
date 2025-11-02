@@ -1,0 +1,64 @@
+##### Labeler ##########################################################################################################
+
+# Enable "labeler" for your PR that would add labels to PRs based on the paths that are modified in the PR.
+
+labelPRBasedOnFilePath:
+
+  Redaction:
+    - src/redaction/**/*
+    - docs/redaction.md
+
+  MCP:
+    - src/mcp/**/*
+    - docs/usage.md
+
+  Documentation:
+    - docs/**/*
+    - *.md
+    - README.md
+    - CONTRIBUTING.md
+    - CODE_OF_CONDUCT.md
+    - CHANGELOG.md
+
+  Configuration:
+    - config*.json
+    - src/config/**/*
+    - docs/configuration.md
+
+  Tests:
+    - test/**/*
+    - **/*.spec.ts
+    - **/*.e2e-spec.ts
+
+  Dependencies:
+    - package.json
+    - package-lock.json
+
+  CI/CD:
+    - .github/workflows/**/*
+    - .github/**/*.yml
+    - .github/**/*.yaml
+
+  Tools:
+    - .github/**/*
+    - .vscode/**/*
+    - .husky/**/*
+    - scripts/**/*
+
+##### Greetings ########################################################################################################
+
+# Comment to be posted to welcome users when they open their first PR
+
+firstPRWelcomeComment: >
+  Congratz on opening your first PR at @growthspace-engineering/gs-mcp-proxy-pii-redactor!
+  
+  It's time to grab a cup of coffee ☕
+  
+  ![coffee](https://raw.githubusercontent.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/main/assets/pr-open.webp)
+
+# Comment to be posted to congratulate user on their first merged PR
+
+firstPRMergeComment: >
+  Awesome work, congrats on your first merged pull request!
+  
+  ![welcome](https://raw.githubusercontent.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/main/assets/pr-merge.webp)

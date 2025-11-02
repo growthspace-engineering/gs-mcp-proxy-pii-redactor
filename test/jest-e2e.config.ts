@@ -38,6 +38,8 @@ const config: Config = {
   moduleFileExtensions: ['ts', 'js', 'json'],
   modulePathIgnorePatterns: ['<rootDir>/dist/'],
   maxWorkers: '75%',
+  // Verbose output for better readability
+  verbose: true,
   reporters: [
     'default',
     [
