@@ -1,31 +1,10 @@
 {
   "mcpServers": {
-    "proxied-github-v2": {
+    "proxied-github": {
       "command": "npx",
       "args": [
         "mcp-remote",
         "http://localhost:8084/github/"
-      ]
-    },
-    "proxied-github-allow-v2": {
-      "command": "npx",
-      "args": [
-        "mcp-remote",
-        "http://localhost:8084/github-allow/"
-      ]
-    },
-    "proxied-atlassian-v2": {
-      "command": "npx",
-      "args": [
-        "mcp-remote",
-        "http://localhost:8084/atlassian/"
-      ]
-    },
-    "proxied-gcp-v2": {
-      "command": "npx",
-      "args": [
-        "mcp-remote",
-        "http://localhost:8084/gcp/"
       ]
     }
   }
