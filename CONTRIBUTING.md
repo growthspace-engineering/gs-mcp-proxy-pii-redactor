@@ -79,12 +79,28 @@ npm run test:e2e:cov
 
 ### E2E Test Prerequisites
 
-Some E2E tests require a `GITHUB_TOKEN` environment variable for GitHub MCP server integration:
+**All E2E tests require a `GITHUB_TOKEN` environment variable** for GitHub MCP server integration. The tests will fail if this token is not present:
 
 ```bash
 export GITHUB_TOKEN=your_token_here
 npm run test:e2e
 ```
+
+#### Transport Options Testing
+
+The E2E test suite includes comprehensive tests for **both MCP transport options**:
+
+- **SSE (Server-Sent Events)** - Tests in `test/mcp.sse.e2e-spec.ts` and `test/mcp.search-repositories.sse.e2e-spec.ts`
+- **Streamable HTTP** - Tests in `test/mcp.e2e-spec.ts` and `test/mcp.search-repositories.e2e-spec.ts`
+
+Both transport types are tested with:
+- Connection and tool listing
+- Authentication handling
+- Tool execution (e.g., `search_repositories`)
+- Multiple sequential operations
+- Connection state management
+
+This ensures that the proxy works correctly regardless of which transport option clients choose to use.
 
 ### Test Coverage
 
@@ -96,21 +112,23 @@ npm run coverage:merge
 
 ## Code Style
 
-### Formatting
+### Linting & Formatting
 
-We use Prettier for code formatting. Format your code before committing:
+We use ESLint for linting and code formatting.
+
+Fix and format your changes:
 
 ```bash
-npm run format
+npm run lint:fix
 ```
 
-### Linting
-
-We use ESLint for code linting. Fix issues automatically:
+Check without fixing:
 
 ```bash
 npm run lint
 ```
+
+Note: A pre-commit hook runs lint-staged to automatically lint and fix staged files.
 
 ## Commit Guidelines
 
