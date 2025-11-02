@@ -3,5 +3,26 @@
     "commit-message-instructions.md": "markdown"
   },
   "markdown.preview.breaks": true,
-  "markdown.preview.typographer": true
+  "markdown.preview.typographer": true,
+  "workbench.colorCustomizations": {
+    "activityBar.activeBackground": "#9f08b8",
+    "activityBar.background": "#9f08b8",
+    "activityBar.foreground": "#e7e7e7",
+    "activityBar.inactiveForeground": "#e7e7e799",
+    "activityBarBadge.background": "#b79e08",
+    "activityBarBadge.foreground": "#15202b",
+    "commandCenter.border": "#e7e7e799",
+    "sash.hoverBorder": "#9f08b8",
+    "statusBar.background": "#750687",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#9f08b8",
+    "statusBarItem.remoteBackground": "#750687",
+    "statusBarItem.remoteForeground": "#e7e7e7",
+    "titleBar.activeBackground": "#750687",
+    "titleBar.activeForeground": "#e7e7e7",
+    "titleBar.inactiveBackground": "#75068799",
+    "titleBar.inactiveForeground": "#e7e7e799"
+  },
+  "gitlens.ai.generateCommitMessage.customInstructions": ".vscode/commit-message-instructions.md",
+  "peacock.color": "#750687"
 }

@@ -16,7 +16,7 @@ export class ConfigService {
     if (configPath.startsWith('http://') || configPath.startsWith('https://')) {
       this.logger.log(`Loading config from URL: ${configPath}`);
       const response = await axios.get<FullConfig>(configPath, {
-        httpsAgent: insecure ? require('https').createAgent({ rejectUnauthorized: false }) : undefined,
+        httpsAgent: insecure ? new (require('https').Agent)({ rejectUnauthorized: false }) : undefined,
       });
       fullConfig = response.data;
     } else {
