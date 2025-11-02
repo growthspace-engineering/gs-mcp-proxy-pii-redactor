@@ -67,10 +67,20 @@ export class MCPServerService implements OnModuleInit, OnModuleDestroy {
           await transport.close();
         }
         await instance.clientWrapper.close();
+        // Close sdk Server if it supports lifecycle methods
+        const srv: any = instance.server as any;
+        for (const method of ['close', 'shutdown', 'stop', 'dispose', 'terminate']) {
+          if (typeof srv?.[method] === 'function') {
+            try {
+              await srv[method]();
+            } catch {}
+          }
+        }
       } catch (error) {
         this.logger.error(`<${name}> Error during shutdown: ${error}`);
       }
     }
+    this.servers.clear();
   }
 
   getServer(name: string): MCPServerInstance | undefined {
@@ -92,23 +102,32 @@ export class MCPServerService implements OnModuleInit, OnModuleDestroy {
       return;
     }
 
-    const config = this.configService.getConfig();
-    const baseURL = config.mcpProxy.baseURL;
+    // Derive baseURL from the incoming request instead of config
+    // This ensures it works correctly in test environments with dynamic ports
+    const protocol = (req as any).protocol || 'http';
+    const hostHeader = typeof (req as any).get === 'function'
+      ? (req as any).get('host')
+      : (req.headers?.host as string | undefined);
+    const host = hostHeader || 'localhost';
+    const baseURL = `${protocol}://${host}`;
     const endpoint = `${baseURL}/${name}/message`;
 
     const transport = new SSEServerTransport(endpoint, res);
-    await transport.start();
-    
-    const sessionId = transport.sessionId;
-    instance.transports.set(sessionId, transport);
-    
+    // Do not call start() here; Server.connect() will start the transport
     await instance.server.connect(transport);
 
+    // Register the transport after connect so the sessionId matches the one used by the SDK
+    const sessionId = transport.sessionId;
+    instance.transports.set(sessionId, transport);
+
     // Handle cleanup
-    req.on('close', () => {
+    const cleanup = () => {
       instance.transports.delete(sessionId);
       transport.close();
-    });
+    };
+    req.on('close', cleanup);
+    (res as any).on?.('close', cleanup);
+    (res as any).on?.('finish', cleanup);
   }
 
   async handleStreamableHTTPRequest(
@@ -172,16 +191,37 @@ export class MCPServerService implements OnModuleInit, OnModuleDestroy {
     // Get session ID from header or query
     const sessionId = req.headers['mcp-session-id'] as string || req.query.sessionId as string;
     
+    this.logger.debug(`<${name}> handlePostMessage - sessionId: ${sessionId}, transports: ${Array.from(instance.transports.keys()).join(', ')}`);
+    
     if (sessionId) {
       const transport = instance.transports.get(sessionId);
       if (transport && 'handlePostMessage' in transport) {
-        await (transport as SSEServerTransport).handlePostMessage(req, res);
+        this.logger.debug(`<${name}> Found SSE transport for session ${sessionId}, delegating to handlePostMessage`);
+        // Forward the original request/response to the SSE transport. If the request stream
+        // is not readable due to body parsing, prefer passing parsed body for JSON requests;
+        // otherwise pass rawBody (when enabled), else fall back to streaming.
+        const contentType = (req.headers['content-type'] as string | undefined) || (req.headers['Content-Type'] as unknown as string | undefined);
+        const isJson = typeof contentType === 'string' && contentType.includes('application/json');
+        const hasParsedBody = typeof (req as any).body !== 'undefined' && (req as any).body !== null;
+        const rawBody = (req as any).rawBody;
+        if (isJson && hasParsedBody) {
+          await (transport as SSEServerTransport).handlePostMessage(req as any, res, (req as any).body);
+        } else if (typeof rawBody !== 'undefined') {
+          await (transport as SSEServerTransport).handlePostMessage(req as any, res, rawBody);
+        } else {
+          await (transport as SSEServerTransport).handlePostMessage(req as any, res);
+        }
         return;
+      } else {
+        this.logger.warn(`<${name}> SessionId ${sessionId} provided but no matching transport found or transport doesn't support handlePostMessage`);
       }
+    } else {
+      this.logger.warn(`<${name}> No sessionId provided in POST message request`);
     }
 
     // If no session ID or transport doesn't support handlePostMessage, 
     // fall back to streamable HTTP handler
+    this.logger.debug(`<${name}> Falling back to streamable HTTP handler`);
     await this.handleStreamableHTTPRequest(name, req, res);
   }
 }

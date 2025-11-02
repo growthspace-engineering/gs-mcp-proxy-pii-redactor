@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`MCP Proxy search_repositories via SSE (e2e) exposes search_repositories on github-allow via SSE and executes it 1`] = `
+{
+  "count": 7,
+  "first": {
+    "full_name": "Kibibit/achievibit-v3",
+    "name": "achievibit-v3",
+    "owner": null,
+    "visibility": "public",
+  },
+}
+`;
