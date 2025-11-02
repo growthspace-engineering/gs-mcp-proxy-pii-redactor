@@ -45,7 +45,11 @@
     "lsmcp:index": "npx @mizchi/lsmcp index -p typescript",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate",
-    "contributors:check": "all-contributors check"
+    "contributors:check": "all-contributors check",
+    "docker:build": "IMAGE=gs-mcp-pii-redactor && VERSION=$(node -p \"require('./package.json').version\") && docker build -t $IMAGE:latest -t $IMAGE:$VERSION .",
+    "docker:run": "IMAGE=gs-mcp-pii-redactor && PORT=$(node -e \"const a=require('./config.json').mcpProxy?.addr||':8083';console.log(String(a).replace(':','')||'8083')\") && docker run --rm -e GITHUB_TOKEN -e MCP_PROXY_GCS_BUCKET -e MCP_PROXY_GCS_FILES -e MCP_PROXY_SERVICE_ACCOUNT -e MCP_PROXY_SERVICE_ACCOUNT_B64 -p $PORT:$PORT -v $(pwd)/config.json:/app/config.json $IMAGE:latest",
+    "docker:run:min": "docker run --rm -p 8084:8084 -v $(pwd)/docker-config.min.json:/app/config.json gs-mcp-pii-redactor:latest",
+    "deploy:docker": "npm run docker:build && npm run docker:run"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.0.0",
