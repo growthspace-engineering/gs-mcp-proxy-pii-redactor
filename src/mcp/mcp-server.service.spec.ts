@@ -1,12 +1,14 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { MCPServerService, MCPServerInstance } from './mcp-server.service';
-import { ConfigService } from '../config/config.service';
-import { RedactionService } from '../redaction/redaction.service';
-import { MCPClientWrapper } from './mcp-client-wrapper';
+import { Request, Response } from 'express';
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
 import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
-import { Request, Response } from 'express';
+
+import { Test, TestingModule } from '@nestjs/testing';
+
+import { ConfigService } from '../config/config.service';
+import { RedactionService } from '../redaction/redaction.service';
+import { MCPClientWrapper } from './mcp-client-wrapper';
+import { MCPServerService } from './mcp-server.service';
 
 jest.mock('./mcp-client-wrapper');
 jest.mock('@modelcontextprotocol/sdk/server/sse.js');
@@ -25,22 +27,22 @@ describe('MCPServerService', () => {
       addr: ':8083',
       name: 'Test Proxy',
       version: '1.0.0',
-      type: 'sse' as const,
+      type: 'sse' as const
     },
     mcpServers: {
       testClient: {
         url: 'http://example.com',
         transportType: 'sse' as const,
-        options: {},
+        options: {}
       },
       panicClient: {
         url: 'http://example.com',
         transportType: 'sse' as const,
         options: {
-          panicIfInvalid: true,
-        },
-      },
-    },
+          panicIfInvalid: true
+        }
+      }
+    }
   };
 
   beforeEach(async () => {
@@ -49,13 +51,13 @@ describe('MCPServerService', () => {
         if (typeof transport?.start === 'function') {
           await transport.start();
         }
-      }),
+      })
     } as any;
 
     mockClientWrapper = {
       initialize: jest.fn().mockResolvedValue(undefined),
       getServer: jest.fn().mockResolvedValue(mockServer),
-      close: jest.fn().mockResolvedValue(undefined),
+      close: jest.fn().mockResolvedValue(undefined)
     } as any;
 
     (MCPClientWrapper as jest.Mock).mockImplementation(() => mockClientWrapper);
@@ -66,14 +68,14 @@ describe('MCPServerService', () => {
         {
           provide: ConfigService,
           useValue: {
-            getConfig: jest.fn().mockReturnValue(mockConfig),
-          },
+            getConfig: jest.fn().mockReturnValue(mockConfig)
+          }
         },
         {
           provide: RedactionService,
-          useValue: {},
-        },
-      ],
+          useValue: {}
+        }
+      ]
     }).compile();
 
     service = module.get<MCPServerService>(MCPServerService);
@@ -108,13 +110,13 @@ describe('MCPServerService', () => {
             url: 'http://example.com',
             transportType: 'sse' as const,
             options: {
-              panicIfInvalid: true,
-            },
-          },
-        },
+              panicIfInvalid: true
+            }
+          }
+        }
       };
       jest.spyOn(configService, 'getConfig').mockReturnValue(panicConfig);
-      
+
       const error = new Error('Init failed');
       mockClientWrapper.initialize.mockRejectedValueOnce(error);
 
@@ -132,8 +134,8 @@ describe('MCPServerService', () => {
         ...mockConfig,
         mcpProxy: {
           ...mockConfig.mcpProxy,
-          type: undefined,
-        },
+          type: undefined
+        }
       };
       jest.spyOn(configService, 'getConfig').mockReturnValue(configWithoutType as any);
 
@@ -148,10 +150,10 @@ describe('MCPServerService', () => {
       await service.onModuleInit();
 
       const mockTransport1 = {
-        close: jest.fn().mockResolvedValue(undefined),
+        close: jest.fn().mockResolvedValue(undefined)
       };
       const mockTransport2 = {
-        close: jest.fn().mockResolvedValue(undefined),
+        close: jest.fn().mockResolvedValue(undefined)
       };
 
       const instance = service.getServer('testClient');
@@ -179,7 +181,7 @@ describe('MCPServerService', () => {
       await service.onModuleInit();
 
       const mockTransport = {
-        close: jest.fn().mockRejectedValue(new Error('Transport close failed')),
+        close: jest.fn().mockRejectedValue(new Error('Transport close failed'))
       };
 
       const instance = service.getServer('testClient');
@@ -228,17 +230,17 @@ describe('MCPServerService', () => {
       mockSSETransport = {
         start: jest.fn().mockResolvedValue(undefined),
         close: jest.fn().mockResolvedValue(undefined),
-        sessionId: 'test-session-id',
+        sessionId: 'test-session-id'
       } as any;
 
       (SSEServerTransport as jest.Mock).mockImplementation(() => mockSSETransport);
 
       mockReq = {
-        on: jest.fn(),
+        on: jest.fn()
       };
       mockRes = {
         status: jest.fn().mockReturnThis(),
-        json: jest.fn().mockReturnThis(),
+        json: jest.fn().mockReturnThis()
       };
     });
 
@@ -273,7 +275,7 @@ describe('MCPServerService', () => {
 
       // Call the close handler
       const closeHandler = (mockReq.on as jest.Mock).mock.calls.find(
-        (call) => call[0] === 'close',
+        (call) => call[0] === 'close'
       )?.[1];
       await closeHandler();
 
@@ -291,7 +293,7 @@ describe('MCPServerService', () => {
       await service.onModuleInit();
 
       mockStreamableTransport = {
-        handleRequest: jest.fn().mockResolvedValue(undefined),
+        handleRequest: jest.fn().mockResolvedValue(undefined)
       } as any;
 
       // Reset mock before each test
@@ -301,12 +303,12 @@ describe('MCPServerService', () => {
       mockReq = {
         headers: {},
         query: {},
-        body: {},
+        body: {}
       };
       mockRes = {
         status: jest.fn().mockReturnThis(),
         json: jest.fn().mockReturnThis(),
-        headersSent: false,
+        headersSent: false
       };
     });
 
@@ -434,17 +436,17 @@ describe('MCPServerService', () => {
       await service.onModuleInit();
 
       mockSSETransport = {
-        handlePostMessage: jest.fn().mockResolvedValue(undefined),
+        handlePostMessage: jest.fn().mockResolvedValue(undefined)
       } as any;
 
       mockReq = {
         headers: {},
         query: {},
-        body: {},
+        body: {}
       };
       mockRes = {
         status: jest.fn().mockReturnThis(),
-        json: jest.fn().mockReturnThis(),
+        json: jest.fn().mockReturnThis()
       };
     });
 
@@ -489,7 +491,7 @@ describe('MCPServerService', () => {
     it('should fall back to streamable HTTP if transport does not support handlePostMessage', async () => {
       const instance = service.getServer('testClient');
       const nonSSETransport = {
-        handleRequest: jest.fn().mockResolvedValue(undefined),
+        handleRequest: jest.fn().mockResolvedValue(undefined)
       };
       instance!.transports.set('non-sse-session', nonSSETransport as any);
 

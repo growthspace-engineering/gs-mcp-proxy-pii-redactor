@@ -203,9 +203,9 @@ describe('scanner-generic', () => {
       it('should handle very long strings efficiently', () => {
         const prefix = 'A'.repeat(1000);
         const suffix = 'B'.repeat(1000);
-        const input = `${prefix} test@example.com ${suffix}`;
+        const input = `${ prefix } test@example.com ${ suffix }`;
         const result = redactGeneric(input);
-        expect(result).toBe(`${prefix} [REDACTED] ${suffix}`);
+        expect(result).toBe(`${ prefix } [REDACTED] ${ suffix }`);
       });
     });
   });

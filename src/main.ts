@@ -1,9 +1,11 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { Logger } from '@nestjs/common';
-import { ConfigService } from './config/config.service';
 import * as commander from 'commander';
+
+import { Logger } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+
 import * as packageJson from '../package.json';
+import { ConfigService } from './config/config.service';
+import { AppModule } from './app.module';
 
 const logger = new Logger('Bootstrap');
 
@@ -29,7 +31,8 @@ async function bootstrap() {
   }
 
   const app = await NestFactory.create(AppModule, {
-    rawBody: true, // Preserve raw body for SSE transport
+    // Preserve raw body for SSE transport
+    rawBody: true
   });
   const configService = app.get(ConfigService);
 
@@ -37,7 +40,7 @@ async function bootstrap() {
     await configService.load(options.config, options.insecure);
     logger.log('Configuration loaded successfully');
   } catch (error) {
-    logger.error(`Failed to load config: ${error}`);
+    logger.error(`Failed to load config: ${ error }`);
     process.exit(1);
   }
 
@@ -45,11 +48,11 @@ async function bootstrap() {
   const port = config.mcpProxy.addr.replace(':', '') || 8083;
 
   await app.listen(port);
-  logger.log(`Server listening on port ${port}`);
+  logger.log(`Server listening on port ${ port }`);
 }
 
 bootstrap().catch((error) => {
-  logger.error(`Failed to start server: ${error}`);
+  logger.error(`Failed to start server: ${ error }`);
   process.exit(1);
 });
 

@@ -1,5 +1,7 @@
-import { Injectable, Logger } from '@nestjs/common';
 import { Storage } from '@google-cloud/storage';
+
+import { Injectable, Logger } from '@nestjs/common';
+
 import { RedactionOptions } from '../config/types';
 import { Matcher } from './matcher';
 import { redactGeneric } from './scanner-generic';
@@ -23,7 +25,7 @@ export class RedactionService {
 
     try {
       const dictionary = await this.readPIIListsFromGCS();
-      
+
       if (dictionary.length === 0) {
         this.initError = new Error('Empty dictionary for matcher');
         this.logger.error('Redaction service init failed: empty dictionary');
@@ -31,10 +33,12 @@ export class RedactionService {
       }
 
       this.matcher = await Matcher.build(dictionary);
-      this.logger.log(`Redaction service initialized with ${dictionary.length} terms`);
+      this.logger.log(
+        [ 'Redaction service initialized with ', String(dictionary.length), ' terms' ].join('')
+      );
     } catch (error) {
       this.initError = error as Error;
-      this.logger.error(`Redaction service init failed: ${error}`);
+      this.logger.error([ 'Redaction service init failed: ', String(error) ].join(''));
     }
   }
 
@@ -57,7 +61,7 @@ export class RedactionService {
     return this.redactByKeys(data, config.keys);
   }
 
-  private redactAllStrings(data: any): any {
+  private redactAllStrings(data: unknown): unknown {
     if (typeof data === 'string') {
       const genericRedacted = redactGeneric(data);
       return this.matcher!.redact(genericRedacted);
@@ -66,8 +70,8 @@ export class RedactionService {
       return data.map((item) => this.redactAllStrings(item));
     }
     if (data && typeof data === 'object') {
-      const result: Record<string, any> = {};
-      for (const [key, value] of Object.entries(data)) {
+      const result: Record<string, unknown> = {};
+      for (const [ key, value ] of Object.entries(data as Record<string, unknown>)) {
         result[key] = this.redactAllStrings(value);
       }
       return result;
@@ -75,10 +79,10 @@ export class RedactionService {
     return data;
   }
 
-  private redactByKeys(data: any, keys: string[]): any {
+  private redactByKeys(data: unknown, keys: string[]): unknown {
     const keySet = new Set(keys);
 
-    const walk = (obj: any): any => {
+    const walk = (obj: unknown): unknown => {
       if (typeof obj === 'string') {
         const genericRedacted = redactGeneric(obj);
         return this.matcher!.redact(genericRedacted);
@@ -87,8 +91,8 @@ export class RedactionService {
         return obj.map((item) => walk(item));
       }
       if (obj && typeof obj === 'object') {
-        const result: Record<string, any> = {};
-        for (const [key, value] of Object.entries(obj)) {
+        const result: Record<string, unknown> = {};
+        for (const [ key, value ] of Object.entries(obj as Record<string, unknown>)) {
           if (keySet.has(key)) {
             if (typeof value === 'string') {
               const genericRedacted = redactGeneric(value);
@@ -116,9 +120,9 @@ export class RedactionService {
 
     // Get file names from environment variable, default to names.txt,emails.txt
     const filesEnv = process.env.MCP_PROXY_GCS_FILES?.trim();
-    const fileNames = filesEnv
-      ? filesEnv.split(',').map((f) => f.trim()).filter((f) => f.length > 0)
-      : ['names.txt', 'emails.txt'];
+    const fileNames = filesEnv ?
+      filesEnv.split(',').map((f) => f.trim()).filter((f) => f.length > 0) :
+      [ 'names.txt', 'emails.txt' ];
 
     if (fileNames.length === 0) {
       throw new Error('MCP_PROXY_GCS_FILES must contain at least one file name');
@@ -130,19 +134,21 @@ export class RedactionService {
     }
 
     const storage = new Storage({
-      credentials: JSON.parse(serviceAccountJSON),
+      credentials: JSON.parse(serviceAccountJSON)
     });
 
     const bucket = storage.bucket(bucketName);
 
     const readObject = async (objectName: string): Promise<string[]> => {
       const file = bucket.file(objectName);
-      const [exists] = await file.exists();
+      const [ exists ] = await file.exists();
       if (!exists) {
-        throw new Error(`Object ${objectName} does not exist in bucket ${bucketName}`);
+        throw new Error(
+          [ 'Object ', objectName, ' does not exist in bucket ', bucketName ].join('')
+        );
       }
 
-      const [contents] = await file.download();
+      const [ contents ] = await file.download();
       const text = contents.toString('utf-8');
       const lines = text
         .split('\n')
@@ -167,7 +173,9 @@ export class RedactionService {
       try {
         return Buffer.from(b64, 'base64').toString('utf-8');
       } catch (error) {
-        throw new Error(`Failed to base64-decode MCP_PROXY_SERVICE_ACCOUNT_B64: ${error}`);
+        throw new Error(
+          [ 'Failed to base64-decode MCP_PROXY_SERVICE_ACCOUNT_B64: ', String(error) ].join('')
+        );
       }
     }
 
@@ -187,7 +195,9 @@ export class RedactionService {
       }
       return JSON.stringify(parsed);
     } catch (error) {
-      throw new Error(`Invalid service account JSON: ${error}`);
+      throw new Error(
+        [ 'Invalid service account JSON: ', String(error) ].join('')
+      );
     }
   }
 }

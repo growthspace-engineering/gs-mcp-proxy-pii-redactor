@@ -1,8 +1,10 @@
+import { Request, Response } from 'express';
+
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppController } from './app.controller';
+
 import { ConfigService } from './config/config.service';
 import { MCPServerService } from './mcp/mcp-server.service';
-import { Request, Response } from 'express';
+import { AppController } from './app.controller';
 
 describe('AppController', () => {
   let controller: AppController;
@@ -15,43 +17,43 @@ describe('AppController', () => {
       addr: ':8083',
       name: 'Test Proxy',
       version: '1.0.0',
-      type: 'sse' as const,
+      type: 'sse' as const
     },
     mcpServers: {
       testClient: {
         url: 'http://example.com',
         transportType: 'sse' as const,
-        options: {},
+        options: {}
       },
       authClient: {
         url: 'http://example.com',
         transportType: 'sse' as const,
         options: {
-          authTokens: ['valid-token-123'],
-        },
-      },
-    },
+          authTokens: [ 'valid-token-123' ]
+        }
+      }
+    }
   };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [AppController],
+      controllers: [ AppController ],
       providers: [
         {
           provide: ConfigService,
           useValue: {
-            getConfig: jest.fn().mockReturnValue(mockConfig),
-          },
+            getConfig: jest.fn().mockReturnValue(mockConfig)
+          }
         },
         {
           provide: MCPServerService,
           useValue: {
-            handleSSERequest: jest.fn().mockResolvedValue(undefined),
-            handlePostMessage: jest.fn().mockResolvedValue(undefined),
-            handleStreamableHTTPRequest: jest.fn().mockResolvedValue(undefined),
-          },
-        },
-      ],
+            handleSSERequest: jest.fn().mockResolvedValue(void 0),
+            handlePostMessage: jest.fn().mockResolvedValue(void 0),
+            handleStreamableHTTPRequest: jest.fn().mockResolvedValue(void 0)
+          }
+        }
+      ]
     }).compile();
 
     controller = module.get<AppController>(AppController);
@@ -73,12 +75,12 @@ describe('AppController', () => {
     beforeEach(() => {
       mockReq = {
         headers: {},
-        on: jest.fn(),
+        on: jest.fn()
       };
       mockRes = {
         status: jest.fn().mockReturnThis(),
         json: jest.fn().mockReturnThis(),
-        headersSent: false,
+        headersSent: false
       };
     });
 
@@ -89,7 +91,7 @@ describe('AppController', () => {
       expect(mcpServerService.handleSSERequest).toHaveBeenCalledWith(
         'testClient',
         mockReq,
-        mockRes,
+        mockRes
       );
     });
 
@@ -172,10 +174,10 @@ describe('AppController', () => {
             url: 'http://example.com',
             transportType: 'sse' as const,
             options: {
-              authTokens: [],
-            },
-          },
-        },
+              authTokens: []
+            }
+          }
+        }
       };
       jest.spyOn(configService, 'getConfig').mockReturnValue(configWithEmptyAuth);
 
@@ -192,12 +194,12 @@ describe('AppController', () => {
     beforeEach(() => {
       mockReq = {
         headers: {},
-        query: {},
+        query: {}
       };
       mockRes = {
         status: jest.fn().mockReturnThis(),
         json: jest.fn().mockReturnThis(),
-        headersSent: false,
+        headersSent: false
       };
     });
 
@@ -208,7 +210,7 @@ describe('AppController', () => {
       expect(mcpServerService.handlePostMessage).toHaveBeenCalledWith(
         'testClient',
         mockReq,
-        mockRes,
+        mockRes
       );
     });
 
@@ -275,12 +277,12 @@ describe('AppController', () => {
     beforeEach(() => {
       mockReq = {
         headers: {},
-        method: 'GET',
+        method: 'GET'
       };
       mockRes = {
         status: jest.fn().mockReturnThis(),
         json: jest.fn().mockReturnThis(),
-        headersSent: false,
+        headersSent: false
       };
     });
 
@@ -309,22 +311,32 @@ describe('AppController', () => {
 
     it('should redirect to SSE endpoint when server type is SSE and method is GET', async () => {
       mockReq.method = 'GET';
-      jest.spyOn(controller, 'handleSSE').mockResolvedValue(undefined);
+      jest.spyOn(controller, 'handleSSE').mockResolvedValue(void 0);
 
       await controller.handleStreamableHTTP('testClient', mockReq as Request, mockRes as Response);
 
-      expect(controller.handleSSE).toHaveBeenCalledWith('testClient', mockReq, mockRes);
-      expect(mcpServerService.handleStreamableHTTPRequest).not.toHaveBeenCalled();
+      expect(controller.handleSSE).toHaveBeenCalledWith(
+        'testClient',
+        mockReq,
+        mockRes
+      );
+      expect(mcpServerService.handleStreamableHTTPRequest)
+        .not.toHaveBeenCalled();
     });
 
     it('should redirect to POST message endpoint when server type is SSE and method is POST', async () => {
       mockReq.method = 'POST';
-      jest.spyOn(controller, 'handlePostMessage').mockResolvedValue(undefined);
+      jest.spyOn(controller, 'handlePostMessage').mockResolvedValue(void 0);
 
       await controller.handleStreamableHTTP('testClient', mockReq as Request, mockRes as Response);
 
-      expect(controller.handlePostMessage).toHaveBeenCalledWith('testClient', mockReq, mockRes);
-      expect(mcpServerService.handleStreamableHTTPRequest).not.toHaveBeenCalled();
+      expect(controller.handlePostMessage).toHaveBeenCalledWith(
+        'testClient',
+        mockReq,
+        mockRes
+      );
+      expect(mcpServerService.handleStreamableHTTPRequest)
+        .not.toHaveBeenCalled();
     });
 
     it('should return 404 for unsupported method when server type is SSE', async () => {
@@ -341,8 +353,8 @@ describe('AppController', () => {
         ...mockConfig,
         mcpProxy: {
           ...mockConfig.mcpProxy,
-          type: 'streamable-http' as const,
-        },
+          type: 'streamable-http' as const
+        }
       };
       jest.spyOn(configService, 'getConfig').mockReturnValue(streamableConfig);
 
@@ -351,7 +363,7 @@ describe('AppController', () => {
       expect(mcpServerService.handleStreamableHTTPRequest).toHaveBeenCalledWith(
         'testClient',
         mockReq,
-        mockRes,
+        mockRes
       );
     });
 
@@ -360,12 +372,14 @@ describe('AppController', () => {
         ...mockConfig,
         mcpProxy: {
           ...mockConfig.mcpProxy,
-          type: undefined,
-        },
+          type: void 0
+        }
       };
-      jest.spyOn(configService, 'getConfig').mockReturnValue(configWithoutType as any);
+      jest.spyOn(configService, 'getConfig').mockReturnValue(
+        configWithoutType as ReturnType<ConfigService['getConfig']>
+      );
       mockReq.method = 'GET';
-      jest.spyOn(controller, 'handleSSE').mockResolvedValue(undefined);
+      jest.spyOn(controller, 'handleSSE').mockResolvedValue(void 0);
 
       await controller.handleStreamableHTTP('testClient', mockReq as Request, mockRes as Response);
 
@@ -377,8 +391,8 @@ describe('AppController', () => {
         ...mockConfig,
         mcpProxy: {
           ...mockConfig.mcpProxy,
-          type: 'streamable-http' as const,
-        },
+          type: 'streamable-http' as const
+        }
       };
       jest.spyOn(configService, 'getConfig').mockReturnValue(streamableConfig);
       const error = new Error('Test error');
@@ -395,8 +409,8 @@ describe('AppController', () => {
         ...mockConfig,
         mcpProxy: {
           ...mockConfig.mcpProxy,
-          type: 'streamable-http' as const,
-        },
+          type: 'streamable-http' as const
+        }
       };
       jest.spyOn(configService, 'getConfig').mockReturnValue(streamableConfig);
       mockRes.headersSent = true;
@@ -414,8 +428,8 @@ describe('AppController', () => {
         ...mockConfig,
         mcpProxy: {
           ...mockConfig.mcpProxy,
-          type: 'streamable-http' as const,
-        },
+          type: 'streamable-http' as const
+        }
       };
       jest.spyOn(configService, 'getConfig').mockReturnValue(streamableConfig);
       mockReq.headers = { authorization: 'Bearer valid-token-123' };

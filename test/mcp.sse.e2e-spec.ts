@@ -1,13 +1,16 @@
-import { Test } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import request from 'supertest';
 import * as fs from 'fs';
 import * as path from 'path';
+
+import request from 'supertest';
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { SSEClientTransport } from '@modelcontextprotocol/sdk/client/sse.js';
+
+import { INestApplication } from '@nestjs/common';
+import { Test } from '@nestjs/testing';
+
 import { AppModule } from '../src/app.module';
 import { ConfigService } from '../src/config/config.service';
 import { MCPServerService } from '../src/mcp/mcp-server.service';
-import { Client } from '@modelcontextprotocol/sdk/client/index.js';
-import { SSEClientTransport } from '@modelcontextprotocol/sdk/client/sse.js';
 
 describe('MCP Proxy SSE Transport (e2e)', () => {
   let app: INestApplication;
@@ -18,12 +21,12 @@ describe('MCP Proxy SSE Transport (e2e)', () => {
     // Enforce presence of GITHUB_TOKEN for this test to run
     if (!process.env.GITHUB_TOKEN) {
       throw new Error(
-        'GITHUB_TOKEN is required for this test. Export a valid PAT and re-run.',
+        'GITHUB_TOKEN is required for this test. Export a valid PAT and re-run.'
       );
     }
 
     const moduleRef = await Test.createTestingModule({
-      imports: [AppModule],
+      imports: [ AppModule ]
     }).compile();
 
     app = moduleRef.createNestApplication();
@@ -34,8 +37,9 @@ describe('MCP Proxy SSE Transport (e2e)', () => {
     const cfgSrcPath = path.join(__dirname, '..', 'config.json');
     const cfg = JSON.parse(fs.readFileSync(cfgSrcPath, 'utf-8'));
     cfg.mcpProxy.addr = ':0';
-    cfg.mcpProxy.type = 'sse'; // Force SSE transport
-    
+
+    cfg.mcpProxy.type = 'sse';
+
     // Restrict to only required MCP servers to avoid noisy externals
     const originalServers = (cfg.mcpServers ?? {}) as Record<string, any>;
     const mcpServers: Record<string, any> = {};
@@ -46,7 +50,7 @@ describe('MCP Proxy SSE Transport (e2e)', () => {
       allowGithub.options = allowGithub.options || {};
       allowGithub.options.toolFilter = {
         mode: 'allow',
-        list: ['list_issues', 'search_repositories'],
+        list: [ 'list_issues', 'search_repositories' ]
       };
       mcpServers['github-allow'] = allowGithub;
     }
@@ -88,15 +92,15 @@ describe('MCP Proxy SSE Transport (e2e)', () => {
   });
 
   const connectAndListTools = async (clientName: string) => {
-    const target = `${baseUrl}/${clientName}/sse`;
+    const target = `${ baseUrl }/${ clientName }/sse`;
     const headers: Record<string, string> = {};
-    if (process.env.GITHUB_TOKEN) headers['Authorization'] = `Bearer ${process.env.GITHUB_TOKEN}`;
+    if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${ process.env.GITHUB_TOKEN }`;
     const transport = new SSEClientTransport(new URL(target), { requestInit: { headers } });
     const mcpClient = new Client({ name: 'e2e-sse', version: '0.0.1' });
     await mcpClient.connect(transport);
     const tools = await mcpClient.listTools({});
     await mcpClient.close();
-    return tools.tools.map(t => t.name).sort();
+    return tools.tools.map((t) => t.name).sort();
   };
 
   // Add jest retries to reduce flakiness in CI and local runs
@@ -124,7 +128,7 @@ describe('MCP Proxy SSE Transport (e2e)', () => {
       timeoutId = setTimeout(() => rej(new Error('connect timeout')), timeoutMs);
     });
     try {
-      await Promise.race([client.connect(transport), timeoutPromise]);
+      await Promise.race([ client.connect(transport), timeoutPromise ]);
     } finally {
       if (timeoutId) clearTimeout(timeoutId);
     }
@@ -140,7 +144,7 @@ describe('MCP Proxy SSE Transport (e2e)', () => {
 
   it('github-allow client only exposes allow-listed tools via SSE', async () => {
     const names = await connectAndListTools('github-allow');
-    expect(names).toEqual(['list_issues', 'search_repositories']);
+    expect(names).toEqual([ 'list_issues', 'search_repositories' ]);
   }, 60000);
 
   it('unknown client returns 404 on SSE endpoint', async () => {
@@ -153,12 +157,13 @@ describe('MCP Proxy SSE Transport (e2e)', () => {
 
   it('SSE transport handles authentication correctly', async () => {
     // This should fail without auth token
-    const target = `${baseUrl}/github-allow/sse`;
-    const transport = new SSEClientTransport(new URL(target), { 
-      requestInit: { headers: {} } // No auth header
+    const target = `${ baseUrl }/github-allow/sse`;
+    const transport = new SSEClientTransport(new URL(target), {
+      // No auth header
+      requestInit: { headers: {} }
     });
     const mcpClient = new Client({ name: 'e2e-sse-no-auth', version: '0.0.1' });
-    
+
     // Should fail to connect or list tools without proper auth
     try {
       await mcpClient.connect(transport);
@@ -174,9 +179,9 @@ describe('MCP Proxy SSE Transport (e2e)', () => {
 
   it('reconnects cleanly and can list tools again', async () => {
     // First connection
-    const target = `${baseUrl}/github-allow/sse`;
+    const target = `${ baseUrl }/github-allow/sse`;
     const headers: Record<string, string> = {};
-    headers['Authorization'] = `Bearer ${process.env.GITHUB_TOKEN}`;
+    headers.Authorization = `Bearer ${ process.env.GITHUB_TOKEN }`;
     const { client: client1 } = await connectSSEWithTimeout(target, headers, 'e2e-sse-1');
     const tools1 = await withRetry(() => client1.listTools({}));
     expect(Array.isArray(tools1.tools)).toBe(true);
@@ -194,18 +199,18 @@ describe('MCP Proxy SSE Transport (e2e)', () => {
   const itMaybeStress = process.env.E2E_SSE_STRESS ? it : it.skip;
 
   itMaybeStress('supports two concurrent SSE clients without interference', async () => {
-    const target = `${baseUrl}/github-allow/sse`;
+    const target = `${ baseUrl }/github-allow/sse`;
     const headers: Record<string, string> = {};
-    headers['Authorization'] = `Bearer ${process.env.GITHUB_TOKEN}`;
+    headers.Authorization = `Bearer ${ process.env.GITHUB_TOKEN }`;
 
-    const [{ client: c1 }, { client: c2 }] = await Promise.all([
+    const [ { client: c1 }, { client: c2 } ] = await Promise.all([
       connectSSEWithTimeout(target, headers, 'e2e-sse-c1'),
-      connectSSEWithTimeout(target, headers, 'e2e-sse-c2'),
+      connectSSEWithTimeout(target, headers, 'e2e-sse-c2')
     ]);
 
-    const [r1, r2] = await Promise.all([
+    const [ r1, r2 ] = await Promise.all([
       withRetry(() => c1.listTools({})),
-      withRetry(() => c2.listTools({})),
+      withRetry(() => c2.listTools({}))
     ]);
     expect(Array.isArray(r1.tools)).toBe(true);
     expect(Array.isArray(r2.tools)).toBe(true);

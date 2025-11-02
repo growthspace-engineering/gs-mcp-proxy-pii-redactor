@@ -1,6 +1,6 @@
-import { RedactionService } from './redaction.service';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Matcher } from './matcher';
+
+import { RedactionService } from './redaction.service';
 
 // Mock GCS Storage
 jest.mock('@google-cloud/storage', () => {
@@ -9,12 +9,12 @@ jest.mock('@google-cloud/storage', () => {
       return {
         bucket: jest.fn().mockReturnValue({
           file: jest.fn().mockReturnValue({
-            exists: jest.fn().mockResolvedValue([true]),
-            download: jest.fn().mockResolvedValue([Buffer.from('john\njane\ndoe')]),
-          }),
-        }),
+            exists: jest.fn().mockResolvedValue([ true ]),
+            download: jest.fn().mockResolvedValue([ Buffer.from('john\njane\ndoe') ])
+          })
+        })
       };
-    }),
+    })
   };
 });
 
@@ -29,11 +29,11 @@ describe('RedactionService', () => {
       type: 'service_account',
       project_id: 'test-project',
       private_key: '-----BEGIN PRIVATE KEY-----\ntest\n-----END PRIVATE KEY-----',
-      client_email: 'test@test.iam.gserviceaccount.com',
+      client_email: 'test@test.iam.gserviceaccount.com'
     });
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RedactionService],
+      providers: [ RedactionService ]
     }).compile();
 
     service = module.get<RedactionService>(RedactionService);
@@ -53,7 +53,8 @@ describe('RedactionService', () => {
 
     it('should only initialize once', async () => {
       await service.initialize();
-      await service.initialize(); // Second call should not re-initialize
+      // Second call should not re-initialize
+      await service.initialize();
       const { matcher } = await service.getService();
       expect(matcher).toBeDefined();
     });
@@ -140,9 +141,10 @@ describe('RedactionService', () => {
 
     it('should redact only specified keys', () => {
       const data = { name: 'john', description: 'this is a description', age: 25 };
-      const result = service.redactResponse(data, { enabled: true, keys: ['name'] });
+      const result = service.redactResponse(data, { enabled: true, keys: [ 'name' ] });
       expect(result.name).toBe('[REDACTED]');
-      expect(result.description).toBe('this is a description'); // Not redacted
+      // Not redacted
+      expect(result.description).toBe('this is a description');
       expect(result.age).toBe(25);
     });
 
@@ -154,36 +156,36 @@ describe('RedactionService', () => {
 
     it('should handle nested objects when redacting by keys', () => {
       const data = { user: { name: 'john', age: 25 } };
-      const result = service.redactResponse(data, { enabled: true, keys: ['name'] });
+      const result = service.redactResponse(data, { enabled: true, keys: [ 'name' ] });
       expect(result.user.name).toBe('[REDACTED]');
       expect(result.user.age).toBe(25);
     });
 
     it('should handle arrays when redacting all strings', () => {
-      const data = { names: ['john', 'jane', 'bob'] };
+      const data = { names: [ 'john', 'jane', 'bob' ] };
       const result = service.redactResponse(data, { enabled: true });
       expect(result.names[0]).toBe('[REDACTED]');
       expect(result.names[1]).toBe('[REDACTED]');
     });
 
     it('should handle arrays when redacting by keys', () => {
-      const data = { names: ['john', 'jane'], ages: [25, 30] };
-      const result = service.redactResponse(data, { enabled: true, keys: ['names'] });
+      const data = { names: [ 'john', 'jane' ], ages: [ 25, 30 ] };
+      const result = service.redactResponse(data, { enabled: true, keys: [ 'names' ] });
       expect(result.names[0]).toBe('[REDACTED]');
       expect(result.names[1]).toBe('[REDACTED]');
-      expect(result.ages).toEqual([25, 30]);
+      expect(result.ages).toEqual([ 25, 30 ]);
     });
 
     it('should handle arrays of objects when redacting all strings', () => {
-      const data = { users: [{ name: 'john' }, { name: 'jane' }] };
+      const data = { users: [ { name: 'john' }, { name: 'jane' } ] };
       const result = service.redactResponse(data, { enabled: true });
       expect(result.users[0].name).toBe('[REDACTED]');
       expect(result.users[1].name).toBe('[REDACTED]');
     });
 
     it('should handle arrays of objects when redacting by keys', () => {
-      const data = { users: [{ name: 'john', age: 25 }] };
-      const result = service.redactResponse(data, { enabled: true, keys: ['name'] });
+      const data = { users: [ { name: 'john', age: 25 } ] };
+      const result = service.redactResponse(data, { enabled: true, keys: [ 'name' ] });
       expect(result.users[0].name).toBe('[REDACTED]');
       expect(result.users[0].age).toBe(25);
     });
@@ -200,7 +202,7 @@ describe('RedactionService', () => {
         number: 42,
         boolean: true,
         null: null,
-        undefined: undefined,
+        undefined: undefined
       };
       const result = service.redactResponse(data, { enabled: true });
       expect(result.string).toBe('[REDACTED]');
@@ -215,10 +217,10 @@ describe('RedactionService', () => {
         level1: {
           level2: {
             level3: {
-              name: 'john',
-            },
-          },
-        },
+              name: 'john'
+            }
+          }
+        }
       };
       const result = service.redactResponse(data, { enabled: true });
       expect(result.level1.level2.level3.name).toBe('[REDACTED]');
@@ -227,9 +229,9 @@ describe('RedactionService', () => {
     it('should handle mixed arrays and objects', () => {
       const data = {
         users: [
-          { name: 'john', contacts: ['john@test.com', 'jane@test.com'] },
-          { name: 'jane', contacts: [] },
-        ],
+          { name: 'john', contacts: [ 'john@test.com', 'jane@test.com' ] },
+          { name: 'jane', contacts: [] }
+        ]
       };
       const result = service.redactResponse(data, { enabled: true });
       expect(result.users[0].name).toBe('[REDACTED]');
@@ -243,11 +245,11 @@ describe('RedactionService', () => {
         user: {
           name: 'jane',
           profile: {
-            name: 'doe',
-          },
-        },
+            name: 'doe'
+          }
+        }
       };
-      const result = service.redactResponse(data, { enabled: true, keys: ['name'] });
+      const result = service.redactResponse(data, { enabled: true, keys: [ 'name' ] });
       expect(result.name).toBe('[REDACTED]');
       expect(result.user.name).toBe('[REDACTED]');
       expect(result.user.profile.name).toBe('[REDACTED]');
@@ -257,10 +259,10 @@ describe('RedactionService', () => {
       const data = {
         user: {
           name: 'john',
-          details: { age: 25, name: 'jane' },
-        },
+          details: { age: 25, name: 'jane' }
+        }
       };
-      const result = service.redactResponse(data, { enabled: true, keys: ['name'] });
+      const result = service.redactResponse(data, { enabled: true, keys: [ 'name' ] });
       // When a key matches, redact all strings in its value
       expect(result.user.name).toBe('[REDACTED]');
       expect(result.user.details.name).toBe('[REDACTED]');
@@ -272,10 +274,10 @@ describe('RedactionService', () => {
       const serviceAccount = {
         type: 'service_account',
         project_id: 'test',
-        private_key: '-----BEGIN PRIVATE KEY-----\ntest\n-----END PRIVATE KEY-----',
+        private_key: '-----BEGIN PRIVATE KEY-----\ntest\n-----END PRIVATE KEY-----'
       };
       const encoded = Buffer.from(JSON.stringify(serviceAccount)).toString('base64');
-      
+
       delete process.env.MCP_PROXY_SERVICE_ACCOUNT;
       process.env.MCP_PROXY_SERVICE_ACCOUNT_B64 = encoded;
 
@@ -290,9 +292,9 @@ describe('RedactionService', () => {
         type: 'service_account',
         project_id: 'test',
         private_key: '-----BEGIN PRIVATE KEY-----\\ntest\\n-----END PRIVATE KEY-----',
-        client_email: 'test@test.com',
+        client_email: 'test@test.com'
       };
-      
+
       process.env.MCP_PROXY_SERVICE_ACCOUNT = JSON.stringify(serviceAccount);
 
       const newService = new RedactionService();

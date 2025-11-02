@@ -1,16 +1,16 @@
+import { Request, Response } from 'express';
+
 import {
+  All,
   Controller,
   Get,
-  Post,
-  Delete,
-  All,
-  Param,
-  Req,
-  Res,
-  UseGuards,
   Logger,
+  Param,
+  Post,
+  Req,
+  Res
 } from '@nestjs/common';
-import { Request, Response } from 'express';
+
 import { ConfigService } from './config/config.service';
 import { MCPServerService } from './mcp/mcp-server.service';
 
@@ -20,7 +20,7 @@ export class AppController {
 
   constructor(
     private configService: ConfigService,
-    private mcpServerService: MCPServerService,
+    private mcpServerService: MCPServerService
   ) {}
 
   @Get()
@@ -32,7 +32,7 @@ export class AppController {
   async handleSSE(
     @Param('clientName') clientName: string,
     @Req() req: Request,
-    @Res() res: Response,
+    @Res() res: Response
   ) {
     const config = this.configService.getConfig();
     const clientConfig = config.mcpServers[clientName];
@@ -42,7 +42,10 @@ export class AppController {
     }
 
     // Check authentication if configured
-    if (clientConfig.options?.authTokens && clientConfig.options.authTokens.length > 0) {
+    if (
+      clientConfig.options?.authTokens &&
+      clientConfig.options.authTokens.length > 0
+    ) {
       const authHeader = req.headers.authorization;
       if (!authHeader) {
         return res.status(401).json({ error: 'Unauthorized' });
@@ -57,7 +60,14 @@ export class AppController {
     try {
       await this.mcpServerService.handleSSERequest(clientName, req, res);
     } catch (error) {
-      this.logger.error(`Error handling SSE for ${clientName}: ${error}`);
+      this.logger.error(
+        [
+          'Error handling SSE for ',
+          clientName,
+          ': ',
+          String(error)
+        ].join('')
+      );
       if (!res.headersSent) {
         res.status(500).json({ error: 'Internal server error' });
       }
@@ -68,7 +78,7 @@ export class AppController {
   async handlePostMessage(
     @Param('clientName') clientName: string,
     @Req() req: Request,
-    @Res() res: Response,
+    @Res() res: Response
   ): Promise<void> {
     const config = this.configService.getConfig();
     const clientConfig = config.mcpServers[clientName];
@@ -79,7 +89,10 @@ export class AppController {
     }
 
     // Check authentication if configured
-    if (clientConfig.options?.authTokens && clientConfig.options.authTokens.length > 0) {
+    if (
+      clientConfig.options?.authTokens &&
+      clientConfig.options.authTokens.length > 0
+    ) {
       const authHeader = req.headers.authorization;
       if (!authHeader) {
         res.status(401).json({ error: 'Unauthorized' });
@@ -96,7 +109,14 @@ export class AppController {
     try {
       await this.mcpServerService.handlePostMessage(clientName, req, res);
     } catch (error) {
-      this.logger.error(`Error handling POST message for ${clientName}: ${error}`);
+      this.logger.error(
+        [
+          'Error handling POST message for ',
+          clientName,
+          ': ',
+          String(error)
+        ].join('')
+      );
       if (!res.headersSent) {
         res.status(500).json({ error: 'Internal server error' });
       }
@@ -107,7 +127,7 @@ export class AppController {
   async handleStreamableHTTP(
     @Param('clientName') clientName: string,
     @Req() req: Request,
-    @Res() res: Response,
+    @Res() res: Response
   ) {
     const config = this.configService.getConfig();
     const clientConfig = config.mcpServers[clientName];
@@ -117,7 +137,10 @@ export class AppController {
     }
 
     // Check authentication if configured
-    if (clientConfig.options?.authTokens && clientConfig.options.authTokens.length > 0) {
+    if (
+      clientConfig.options?.authTokens &&
+      clientConfig.options.authTokens.length > 0
+    ) {
       const authHeader = req.headers.authorization;
       if (!authHeader) {
         return res.status(401).json({ error: 'Unauthorized' });
@@ -144,9 +167,20 @@ export class AppController {
     }
 
     try {
-      await this.mcpServerService.handleStreamableHTTPRequest(clientName, req, res);
+      await this.mcpServerService.handleStreamableHTTPRequest(
+        clientName,
+        req,
+        res
+      );
     } catch (error) {
-      this.logger.error(`Error handling Streamable HTTP for ${clientName}: ${error}`);
+      this.logger.error(
+        [
+          'Error handling Streamable HTTP for ',
+          clientName,
+          ': ',
+          String(error)
+        ].join('')
+      );
       if (!res.headersSent) {
         res.status(500).json({ error: 'Internal server error' });
       }

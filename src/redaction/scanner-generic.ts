@@ -138,7 +138,7 @@ function scanPhoneAt(
   s: string,
   i: number,
   minDigits: number,
-  maxDigits: number,
+  maxDigits: number
 ): { start: number; end: number; valid: boolean } {
   const n = s.length;
   const start = i;

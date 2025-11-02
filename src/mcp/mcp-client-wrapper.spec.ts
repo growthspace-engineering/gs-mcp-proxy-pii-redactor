@@ -1,6 +1,6 @@
-import { MCPClientWrapper } from './mcp-client-wrapper';
-import { RedactionService } from '../redaction/redaction.service';
 import { MCPClientConfigV2 } from '../config/types';
+import { RedactionService } from '../redaction/redaction.service';
+import { MCPClientWrapper } from './mcp-client-wrapper';
 
 describe('MCPClientWrapper', () => {
   let wrapper: MCPClientWrapper;
@@ -11,13 +11,13 @@ describe('MCPClientWrapper', () => {
     redactionService = {
       initialize: jest.fn().mockResolvedValue(undefined),
       getService: jest.fn().mockResolvedValue({ matcher: null, error: null }),
-      redactResponse: jest.fn((data) => data),
+      redactResponse: jest.fn((data) => data)
     } as any;
 
     mockConfig = {
       url: 'http://example.com',
       transportType: 'sse',
-      options: {},
+      options: {}
     };
   });
 
@@ -34,8 +34,8 @@ describe('MCPClientWrapper', () => {
       mockConfig.options = {
         toolFilter: {
           mode: 'block',
-          list: [],
-        },
+          list: []
+        }
       };
       wrapper = new MCPClientWrapper('test-client', mockConfig, redactionService);
       expect(wrapper.shouldFilterTool('any-tool')).toBe(false);
@@ -45,8 +45,8 @@ describe('MCPClientWrapper', () => {
       mockConfig.options = {
         toolFilter: {
           mode: 'block',
-          list: ['blocked-tool'],
-        },
+          list: [ 'blocked-tool' ]
+        }
       };
       wrapper = new MCPClientWrapper('test-client', mockConfig, redactionService);
       expect(wrapper.shouldFilterTool('blocked-tool')).toBe(true);
@@ -56,8 +56,8 @@ describe('MCPClientWrapper', () => {
       mockConfig.options = {
         toolFilter: {
           mode: 'block',
-          list: ['blocked-tool'],
-        },
+          list: [ 'blocked-tool' ]
+        }
       };
       wrapper = new MCPClientWrapper('test-client', mockConfig, redactionService);
       expect(wrapper.shouldFilterTool('allowed-tool')).toBe(false);
@@ -67,8 +67,8 @@ describe('MCPClientWrapper', () => {
       mockConfig.options = {
         toolFilter: {
           mode: 'allow',
-          list: ['allowed-tool'],
-        },
+          list: [ 'allowed-tool' ]
+        }
       };
       wrapper = new MCPClientWrapper('test-client', mockConfig, redactionService);
       expect(wrapper.shouldFilterTool('allowed-tool')).toBe(false);
@@ -78,8 +78,8 @@ describe('MCPClientWrapper', () => {
       mockConfig.options = {
         toolFilter: {
           mode: 'allow',
-          list: ['allowed-tool'],
-        },
+          list: [ 'allowed-tool' ]
+        }
       };
       wrapper = new MCPClientWrapper('test-client', mockConfig, redactionService);
       expect(wrapper.shouldFilterTool('blocked-tool')).toBe(true);
@@ -88,8 +88,8 @@ describe('MCPClientWrapper', () => {
     it('should default to block mode when mode is not specified', () => {
       mockConfig.options = {
         toolFilter: {
-          list: ['blocked-tool'],
-        },
+          list: [ 'blocked-tool' ]
+        }
       };
       wrapper = new MCPClientWrapper('test-client', mockConfig, redactionService);
       expect(wrapper.shouldFilterTool('blocked-tool')).toBe(true);
@@ -99,8 +99,8 @@ describe('MCPClientWrapper', () => {
       mockConfig.options = {
         toolFilter: {
           mode: 'unknown-mode' as any,
-          list: ['some-tool'],
-        },
+          list: [ 'some-tool' ]
+        }
       };
       wrapper = new MCPClientWrapper('test-client', mockConfig, redactionService);
       expect(wrapper.shouldFilterTool('some-tool')).toBe(false);
@@ -110,8 +110,8 @@ describe('MCPClientWrapper', () => {
       mockConfig.options = {
         toolFilter: {
           mode: 'BLOCK' as any,
-          list: ['blocked-tool'],
-        },
+          list: [ 'blocked-tool' ]
+        }
       };
       wrapper = new MCPClientWrapper('test-client', mockConfig, redactionService);
       expect(wrapper.shouldFilterTool('blocked-tool')).toBe(true);
@@ -121,8 +121,8 @@ describe('MCPClientWrapper', () => {
       mockConfig.options = {
         toolFilter: {
           mode: 'block',
-          list: ['tool1', 'tool2', 'tool3'],
-        },
+          list: [ 'tool1', 'tool2', 'tool3' ]
+        }
       };
       wrapper = new MCPClientWrapper('test-client', mockConfig, redactionService);
       expect(wrapper.shouldFilterTool('tool1')).toBe(true);
@@ -136,7 +136,7 @@ describe('MCPClientWrapper', () => {
     it('should infer stdio when command is present', () => {
       const config: MCPClientConfigV2 = {
         command: 'echo',
-        options: {},
+        options: {}
       };
       wrapper = new MCPClientWrapper('test-client', config, redactionService);
       // Access private method through any cast
@@ -147,7 +147,7 @@ describe('MCPClientWrapper', () => {
     it('should infer sse when url is present', () => {
       const config: MCPClientConfigV2 = {
         url: 'http://example.com',
-        options: {},
+        options: {}
       };
       wrapper = new MCPClientWrapper('test-client', config, redactionService);
       const inferType = (wrapper as any).inferTransportType.bind(wrapper);
@@ -156,7 +156,7 @@ describe('MCPClientWrapper', () => {
 
     it('should throw error when neither command nor url is present', () => {
       const config: MCPClientConfigV2 = {
-        options: {},
+        options: {}
       };
       wrapper = new MCPClientWrapper('test-client', config, redactionService);
       const inferType = (wrapper as any).inferTransportType.bind(wrapper);

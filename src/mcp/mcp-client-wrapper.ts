@@ -1,17 +1,19 @@
+import { Client } from '@modelcontextprotocol/sdk/client/index.js';
+import { SSEClientTransport } from '@modelcontextprotocol/sdk/client/sse.js';
+import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
+import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+
 import { Logger } from '@nestjs/common';
-import { RedactionService } from '../redaction/redaction.service';
-import { AuditLogger } from '../redaction/audit-logger';
+
 import {
   MCPClientConfigV2,
   MCPClientType,
-  ToolFilterMode,
   RedactionOptions,
+  ToolFilterMode
 } from '../config/types';
-import { Client } from '@modelcontextprotocol/sdk/client/index.js';
-import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
-import { SSEClientTransport } from '@modelcontextprotocol/sdk/client/sse.js';
-import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
-import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { AuditLogger } from '../redaction/audit-logger';
+import { RedactionService } from '../redaction/redaction.service';
 
 export class MCPClientWrapper {
   private readonly logger = new Logger(MCPClientWrapper.name);
@@ -30,7 +32,7 @@ export class MCPClientWrapper {
   constructor(
     name: string,
     config: MCPClientConfigV2,
-    private redactionService: RedactionService,
+    private redactionService: RedactionService
   ) {
     this.name = name;
     this.config = config;
@@ -41,7 +43,7 @@ export class MCPClientWrapper {
       this.config.transportType || this.inferTransportType();
 
     this.logger.log(
-      `<${this.name}> Initializing ${transportType} transport...`,
+      `<${ this.name }> Initializing ${ transportType } transport...`
     );
 
     // Check if redaction is enabled and service can initialize
@@ -50,14 +52,14 @@ export class MCPClientWrapper {
         await this.redactionService.initialize();
         const keys = this.config.options.redaction.keys || [];
         this.logger.log(
-          `<${this.name}> Redaction enabled with ${keys.length} keys`,
+          `<${ this.name }> Redaction enabled with ${ keys.length } keys`
         );
       } catch (error) {
         this.logger.error(
-          `<${this.name}> Redaction service unavailable: ${error}`,
+          `<${ this.name }> Redaction service unavailable: ${ error }`
         );
         throw new Error(
-          `Redaction service unavailable for client with redaction enabled: ${error}`,
+          `Redaction service unavailable for client with redaction enabled: ${ error }`
         );
       }
     }
@@ -73,27 +75,27 @@ export class MCPClientWrapper {
         await this.initializeStreamableHTTP();
         break;
       default:
-        throw new Error(`Unknown transport type: ${transportType}`);
+        throw new Error(`Unknown transport type: ${ transportType }`);
     }
 
     // Initialize MCP client
     this.client = new Client(
       {
         name: 'mcp-proxy',
-        version: '1.0.0',
+        version: '1.0.0'
       },
       {
         capabilities: {
           experimental: {},
           roots: {
-            listChanged: false,
-          },
-        },
-      },
+            listChanged: false
+          }
+        }
+      }
     );
 
     await this.client.connect(this.transport!);
-    this.logger.log(`<${this.name}> Successfully initialized MCP client`);
+    this.logger.log(`<${ this.name }> Successfully initialized MCP client`);
 
     if (this.needPing) {
       this.startPingTask();
@@ -128,7 +130,7 @@ export class MCPClientWrapper {
     const stdioTransport = new StdioClientTransport({
       command: this.config.command,
       args: this.config.args || [],
-      env,
+      env
     });
 
     this.transport = stdioTransport;
@@ -161,17 +163,24 @@ export class MCPClientWrapper {
 
     const url = new URL(this.config.url);
 
-    const options: any = {
-      requestInit: {},
+    const options: { requestInit: { headers?: Record<string, string> } } = {
+      requestInit: {}
     };
 
     // Add headers if provided
     if (this.config.headers) {
       options.requestInit.headers = { ...this.config.headers };
       // Temporary debug to confirm upstream auth header presence
-      const authVal = (options.requestInit.headers as any)['Authorization'] || (options.requestInit.headers as any)['authorization'];
+      const authHeaders = options.requestInit.headers as Record<string, string>;
+      const authVal = (authHeaders as Record<string, string>).Authorization ||
+        (authHeaders as Record<string, string>).authorization;
       this.logger.log(
-        `<${this.name}> Upstream headers set. Authorization present: ${Boolean(authVal)}`,
+        [
+          '<',
+          this.name,
+          '> Upstream headers set. Authorization present: ',
+          String(Boolean(authVal))
+        ].join('')
       );
     }
 
@@ -189,7 +198,8 @@ export class MCPClientWrapper {
   }
 
   private startPingTask(): void {
-    const interval = 30000; // 30 seconds
+    // 30 seconds
+    const interval = 30000;
 
     this.pingInterval = setInterval(async () => {
       try {
@@ -197,7 +207,7 @@ export class MCPClientWrapper {
           await this.client.ping();
         }
       } catch (error) {
-        this.logger.error(`<${this.name}> MCP Ping failed: ${error}`);
+        this.logger.error(`<${ this.name }> MCP Ping failed: ${ error }`);
       }
     }, interval);
   }
@@ -212,7 +222,7 @@ export class MCPClientWrapper {
 
     // Apply tool filtering
     const filteredTools = tools.filter(
-      (tool) => !this.shouldFilterTool(tool.name),
+      (tool) => !this.shouldFilterTool(tool.name)
     );
 
     return filteredTools;
@@ -229,7 +239,7 @@ export class MCPClientWrapper {
     } catch (error: any) {
       // If the server doesn't support prompts (Method not found), return empty array
       if (error.code === -32601) {
-        this.logger.debug(`<${this.name}> Prompts not supported (optional)`);
+        this.logger.debug(`<${ this.name }> Prompts not supported (optional)`);
         return [];
       }
       throw error;
@@ -247,7 +257,9 @@ export class MCPClientWrapper {
     } catch (error: any) {
       // If the server doesn't support resources (Method not found), return empty array
       if (error.code === -32601) {
-        this.logger.debug(`<${this.name}> Resources not supported (optional)`);
+        this.logger.debug(
+          [ '<', this.name, '> Resources not supported (optional)' ].join('')
+        );
         return [];
       }
       throw error;
@@ -256,8 +268,8 @@ export class MCPClientWrapper {
 
   async callTool(
     name: string,
-    args: any,
-    redactionConfig?: RedactionOptions,
+    args: Record<string, string> | undefined,
+    redactionConfig?: RedactionOptions
   ): Promise<any> {
     if (!this.client) {
       throw new Error('Client not initialized');
@@ -265,21 +277,21 @@ export class MCPClientWrapper {
 
     const response = await this.client.callTool({
       name,
-      arguments: args,
+      arguments: args
     });
 
     // Apply redaction if enabled
     if (redactionConfig?.enabled) {
       const { matcher } = await this.redactionService.getService();
       if (matcher) {
-        const auditor = redactionConfig.verboseAudit
-          ? new AuditLogger(this.name)
-          : null;
+        const auditor = redactionConfig.verboseAudit ?
+          new AuditLogger(this.name) :
+          null;
 
         const originalResult = JSON.parse(JSON.stringify(response));
         const redacted = this.redactionService.redactResponse(
           response,
-          redactionConfig,
+          redactionConfig
         );
 
         if (auditor) {
@@ -287,7 +299,7 @@ export class MCPClientWrapper {
             redactionConfig,
             'tool_call',
             originalResult,
-            redacted,
+            redacted
           );
         }
 
@@ -300,8 +312,8 @@ export class MCPClientWrapper {
 
   async getPrompt(
     name: string,
-    args: any,
-    redactionConfig?: RedactionOptions,
+    args: Record<string, string> | undefined,
+    redactionConfig?: RedactionOptions
   ): Promise<any> {
     if (!this.client) {
       throw new Error('Client not initialized');
@@ -309,21 +321,21 @@ export class MCPClientWrapper {
 
     const response = await this.client.getPrompt({
       name,
-      arguments: args,
+      arguments: args
     });
 
     // Apply redaction if enabled
     if (redactionConfig?.enabled) {
       const { matcher } = await this.redactionService.getService();
       if (matcher) {
-        const auditor = redactionConfig.verboseAudit
-          ? new AuditLogger(this.name)
-          : null;
+        const auditor = redactionConfig.verboseAudit ?
+          new AuditLogger(this.name) :
+          null;
 
         const originalResult = JSON.parse(JSON.stringify(response));
         const redacted = this.redactionService.redactResponse(
           response,
-          redactionConfig,
+          redactionConfig
         );
 
         if (auditor) {
@@ -331,7 +343,7 @@ export class MCPClientWrapper {
             redactionConfig,
             'prompt_call',
             originalResult,
-            redacted,
+            redacted
           );
         }
 
@@ -344,28 +356,28 @@ export class MCPClientWrapper {
 
   async readResource(
     uri: string,
-    redactionConfig?: RedactionOptions,
+    redactionConfig?: RedactionOptions
   ): Promise<any> {
     if (!this.client) {
       throw new Error('Client not initialized');
     }
 
     const response = await this.client.readResource({
-      uri,
+      uri
     });
 
     // Apply redaction if enabled
     if (redactionConfig?.enabled) {
       const { matcher } = await this.redactionService.getService();
       if (matcher) {
-        const auditor = redactionConfig.verboseAudit
-          ? new AuditLogger(this.name)
-          : null;
+        const auditor = redactionConfig.verboseAudit ?
+          new AuditLogger(this.name) :
+          null;
 
         const originalResult = JSON.parse(JSON.stringify(response));
         const redacted = this.redactionService.redactResponse(
           response,
-          redactionConfig,
+          redactionConfig
         );
 
         if (auditor) {
@@ -373,7 +385,7 @@ export class MCPClientWrapper {
             redactionConfig,
             'resource_call',
             originalResult,
-            redacted,
+            redacted
           );
         }
 
@@ -397,7 +409,13 @@ export class MCPClientWrapper {
       case 'allow':
         if (!filterSet.has(toolName)) {
           this.logger.log(
-            `<${this.name}> Ignoring tool ${toolName} as it is not in allow list`,
+            [
+              '<',
+              this.name,
+              '> Ignoring tool ',
+              toolName,
+              ' as it is not in allow list'
+            ].join('')
           );
           return true;
         }
@@ -405,13 +423,21 @@ export class MCPClientWrapper {
       case 'block':
         if (filterSet.has(toolName)) {
           this.logger.log(
-            `<${this.name}> Ignoring tool ${toolName} as it is in block list`,
+            [
+              '<',
+              this.name,
+              '> Ignoring tool ',
+              toolName,
+              ' as it is in block list'
+            ].join('')
           );
           return true;
         }
         return false;
       default:
-        this.logger.warn(`<${this.name}> Unknown tool filter mode: ${mode}`);
+        this.logger.warn(
+          [ '<', this.name, '> Unknown tool filter mode: ', mode ].join('')
+        );
         return false;
     }
   }
@@ -428,7 +454,7 @@ export class MCPClientWrapper {
       ListToolsRequestSchema,
       ListPromptsRequestSchema,
       ListResourcesRequestSchema,
-      ReadResourceRequestSchema,
+      ReadResourceRequestSchema
     } = await import('@modelcontextprotocol/sdk/types.js');
 
     // Create a fresh server that proxies to this client
@@ -436,15 +462,15 @@ export class MCPClientWrapper {
     const server = new Server(
       {
         name: this.name,
-        version: '1.0.0',
+        version: '1.0.0'
       },
       {
         capabilities: {
           tools: {},
           prompts: {},
-          resources: {},
-        },
-      },
+          resources: {}
+        }
+      }
     );
 
     // Register tools from client
@@ -458,12 +484,13 @@ export class MCPClientWrapper {
       const requestedName = request.params.name;
       const tool = tools.find((t) => t.name === requestedName);
       if (!tool) {
-        throw new Error(`Tool ${requestedName} not found`);
+        throw new Error(`Tool ${ requestedName } not found`);
       }
+      const stringArgs = (request.params.arguments || {}) as Record<string, string>;
       return await this.callTool(
         requestedName,
-        request.params.arguments || {},
-        this.config.options?.redaction,
+        stringArgs,
+        this.config.options?.redaction
       );
     });
 
@@ -478,12 +505,13 @@ export class MCPClientWrapper {
       const requestedName = request.params.name;
       const prompt = prompts.find((p) => p.name === requestedName);
       if (!prompt) {
-        throw new Error(`Prompt ${requestedName} not found`);
+        throw new Error(`Prompt ${ requestedName } not found`);
       }
+      const stringArgs = (request.params.arguments || {}) as Record<string, string>;
       return await this.getPrompt(
         requestedName,
-        request.params.arguments || {},
-        this.config.options?.redaction,
+        stringArgs,
+        this.config.options?.redaction
       );
     });
 
@@ -496,7 +524,7 @@ export class MCPClientWrapper {
     server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
       return await this.readResource(
         request.params.uri,
-        this.config.options?.redaction,
+        this.config.options?.redaction
       );
     });
 

@@ -1,8 +1,12 @@
-import { Injectable, Logger } from '@nestjs/common';
 import * as fs from 'fs';
+import { Agent as HttpsAgent } from 'https';
 import * as path from 'path';
+
 import axios from 'axios';
-import { Config, FullConfig, MCPClientConfigV2, OptionsV2 } from './types';
+
+import { Injectable, Logger } from '@nestjs/common';
+
+import { Config, FullConfig, OptionsV2 } from './types';
 
 @Injectable()
 export class ConfigService {
@@ -14,19 +18,18 @@ export class ConfigService {
 
     // Check if configPath is a URL
     if (configPath.startsWith('http://') || configPath.startsWith('https://')) {
-      this.logger.log(`Loading config from URL: ${configPath}`);
-      const response = await axios.get<FullConfig>(configPath, {
-        httpsAgent: insecure
-          ? new (require('https').Agent)({ rejectUnauthorized: false })
-          : undefined,
-      });
+      this.logger.log(`Loading config from URL: ${ configPath }`);
+      const axiosOptions = insecure ?
+        { httpsAgent: new HttpsAgent({ rejectUnauthorized: false }) } :
+        {};
+      const response = await axios.get<FullConfig>(configPath, axiosOptions);
       fullConfig = response.data;
     } else {
       // Load from file
-      const absolutePath = path.isAbsolute(configPath)
-        ? configPath
-        : path.join(process.cwd(), configPath);
-      this.logger.log(`Loading config from file: ${absolutePath}`);
+      const absolutePath = path.isAbsolute(configPath) ?
+        configPath :
+        path.join(process.cwd(), configPath);
+      this.logger.log(`Loading config from file: ${ absolutePath }`);
       const fileContent = fs.readFileSync(absolutePath, 'utf-8');
       fullConfig = JSON.parse(fileContent);
     }
@@ -45,8 +48,8 @@ export class ConfigService {
 
     // Expand environment variables in headers
     if (fullConfig.mcpServers) {
-      for (const [clientName, clientConfig] of Object.entries(
-        fullConfig.mcpServers,
+      for (const [ _clientName, clientConfig ] of Object.entries(
+        fullConfig.mcpServers
       )) {
         if (clientConfig.headers) {
           this.expandEnvVarsInHeaders(clientConfig.headers);
@@ -71,7 +74,7 @@ export class ConfigService {
 
     this.config = {
       mcpProxy: fullConfig.mcpProxy,
-      mcpServers: fullConfig.mcpServers || {},
+      mcpServers: fullConfig.mcpServers || {}
     };
 
     return this.config;
@@ -87,14 +90,18 @@ export class ConfigService {
   private expandEnvVarsInHeaders(headers: Record<string, string>): void {
     const envVarPattern = /\$\{([A-Za-z_][A-Za-z0-9_]*)\}/g;
 
-    for (const [key, value] of Object.entries(headers)) {
+    for (const [ key, value ] of Object.entries(headers)) {
       if (envVarPattern.test(value)) {
-        const expanded = value.replace(envVarPattern, (match, varName) => {
+        const expanded = value.replace(envVarPattern, (_m, varName) => {
           const envValue = process.env[varName];
-          if (envValue === undefined) {
-            throw new Error(
-              `Environment variable ${varName} referenced in header ${key} is not set`,
-            );
+          if (typeof envValue === 'undefined') {
+            throw new Error([
+              'Environment variable ',
+              varName,
+              ' referenced in header ',
+              key,
+              ' is not set'
+            ].join(''));
           }
           return envValue;
         });
