@@ -41,6 +41,8 @@ const config: Config = {
   modulePathIgnorePatterns: ['<rootDir>/dist/'],
   // Performance optimizations
   maxWorkers: '75%',
+  // Verbose output for better readability
+  verbose: true,
   // Reporters
   reporters: [
     'default',
