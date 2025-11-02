@@ -215,24 +215,22 @@ jobs:
           
           echo "## 📊 Test Reports" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
+          echo "_Click badges to view detailed reports_" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Unit Tests" >> $GITHUB_STEP_SUMMARY
-          echo "- 📄 [Test Report](${{ steps.deploy-unit.outputs.report-url }})" >> $GITHUB_STEP_SUMMARY
-          echo "- 📊 [Coverage Report](${{ steps.deploy-unit.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
-          echo "- ![Tests](${{ steps.deploy-unit.outputs.test-badge }})" >> $GITHUB_STEP_SUMMARY
-          echo "- ![Coverage](${{ steps.deploy-unit.outputs.coverage-badge }})" >> $GITHUB_STEP_SUMMARY
-          if [ "$BASE_UNIT" != "0" ]; then echo "- Coverage change: $UNIT_CHANGE" >> $GITHUB_STEP_SUMMARY; fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "[![Tests](${{ steps.deploy-unit.outputs.test-badge }}&style=flat-square)](${{ steps.deploy-unit.outputs.report-url }}) [![Coverage](${{ steps.deploy-unit.outputs.coverage-badge }}&style=flat-square)](${{ steps.deploy-unit.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
+          if [ "$BASE_UNIT" != "0" ]; then echo "" >> $GITHUB_STEP_SUMMARY && echo "Coverage change: $UNIT_CHANGE" >> $GITHUB_STEP_SUMMARY; fi
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### E2E Tests" >> $GITHUB_STEP_SUMMARY
-          echo "- 📄 [Test Report](${{ steps.deploy-e2e.outputs.report-url }})" >> $GITHUB_STEP_SUMMARY
-          echo "- 📊 [Coverage Report](${{ steps.deploy-e2e.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
-          echo "- ![Tests](${{ steps.deploy-e2e.outputs.test-badge }})" >> $GITHUB_STEP_SUMMARY
-          echo "- ![Coverage](${{ steps.deploy-e2e.outputs.coverage-badge }})" >> $GITHUB_STEP_SUMMARY
-          if [ "$BASE_E2E" != "0" ]; then echo "- Coverage change: $E2E_CHANGE" >> $GITHUB_STEP_SUMMARY; fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "[![Tests](${{ steps.deploy-e2e.outputs.test-badge }}&style=flat-square)](${{ steps.deploy-e2e.outputs.report-url }}) [![Coverage](${{ steps.deploy-e2e.outputs.coverage-badge }}&style=flat-square)](${{ steps.deploy-e2e.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
+          if [ "$BASE_E2E" != "0" ]; then echo "" >> $GITHUB_STEP_SUMMARY && echo "Coverage change: $E2E_CHANGE" >> $GITHUB_STEP_SUMMARY; fi
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Combined Coverage" >> $GITHUB_STEP_SUMMARY
-          echo "- 📊 [Coverage Report](${{ steps.deploy-combined.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
-          echo "- ![Coverage](${{ steps.deploy-combined.outputs.coverage-badge }})" >> $GITHUB_STEP_SUMMARY
-          if [ "$BASE_COMBINED" != "0" ]; then echo "- Coverage change: $COMBINED_CHANGE" >> $GITHUB_STEP_SUMMARY; fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "[![Coverage](${{ steps.deploy-combined.outputs.coverage-badge }}&style=flat-square)](${{ steps.deploy-combined.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
+          if [ "$BASE_COMBINED" != "0" ]; then echo "" >> $GITHUB_STEP_SUMMARY && echo "Coverage change: $COMBINED_CHANGE" >> $GITHUB_STEP_SUMMARY; fi
 
       - name: 💬 Comment on PR with report links
         uses: actions/github-script@v7
@@ -282,21 +280,19 @@ jobs:
             
             const body = `## 📊 Test Reports
             
+            _Click badges to view detailed reports_
+            
             ### Unit Tests
-            - 📄 [Test Report](${unitReportUrl})
-            - 📊 [Coverage Report](${unitCoverageUrl})
-            - ![Tests](${unitTestBadge})
-            - ![Coverage](${unitCoverageBadge})${formatChange(unitDiff, baseUnit)}
+            
+            [![Tests](${unitTestBadge}&style=flat-square)](${unitReportUrl}) [![Coverage](${unitCoverageBadge}&style=flat-square)](${unitCoverageUrl})${formatChange(unitDiff, baseUnit)}
             
             ### E2E Tests
-            - 📄 [Test Report](${e2eReportUrl})
-            - 📊 [Coverage Report](${e2eCoverageUrl})
-            - ![Tests](${e2eTestBadge})
-            - ![Coverage](${e2eCoverageBadge})${formatChange(e2eDiff, baseE2E)}
+            
+            [![Tests](${e2eTestBadge}&style=flat-square)](${e2eReportUrl}) [![Coverage](${e2eCoverageBadge}&style=flat-square)](${e2eCoverageUrl})${formatChange(e2eDiff, baseE2E)}
             
             ### Combined Coverage
-            - 📊 [Coverage Report](${combinedCoverageUrl})
-            - ![Coverage](${combinedCoverageBadge})${formatChange(combinedDiff, baseCombined)}
+            
+            [![Coverage](${combinedCoverageBadge}&style=flat-square)](${combinedCoverageUrl})${formatChange(combinedDiff, baseCombined)}
             
             ---
             *Reports generated for commit ${context.sha.substring(0, 7)}*`;
