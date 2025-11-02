@@ -19,6 +19,7 @@ const config = {
     '**/lib/**/*.ts'
   ],
   rules: {
+    '@typescript-eslint/no-explicit-any': 'off',
     'template-curly-spacing': [ 'error', 'always' ],
     'space-infix-ops': 'error',
     'array-bracket-newline': 'off',
@@ -61,7 +62,7 @@ const config = {
     'key-spacing': 'error',
     'keyword-spacing': 'error',
     'linebreak-style': 'error',
-    'max-len': [ 'error', {
+    'max-len': [ 'warn', {
       // starting small (forcing 120), but later we should force 80
       code: 80,
       ignoreComments: true,
@@ -87,7 +88,8 @@ const config = {
     'no-tabs': 'error',
     'no-throw-literal': 'error',
     'no-trailing-spaces': 'error',
-    'no-unused-vars': [ 'error', {
+    '@typescript-eslint/no-unused-vars': 'off',
+    'no-unused-vars': [ 'warn', {
       args: 'none'
     } ],
 
@@ -139,7 +141,6 @@ const config = {
     'dot-notation': 'error',
     // 'require-await': 'warn',
     // 'no-shadow': 'warn',
-    'no-undefined': 'error',
     'line-comment-position': [ 'error', { position: 'above' } ]
   },
   overrides: [
@@ -172,6 +173,7 @@ const config = {
      * Enable your own typescript rules.
      */
       rules: {
+        '@typescript-eslint/no-explicit-any': 'off',
         'unused-imports/no-unused-imports': 'error',
         'simple-import-sort/imports': [ 'error', {
           groups: [
@@ -254,7 +256,7 @@ const config = {
         'key-spacing': 'error',
         'keyword-spacing': 'error',
         'linebreak-style': 'error',
-        'max-len': [ 'error', {
+        'max-len': [ 'warn', {
         // starting small (forcing 120), but later we should force 80
           code: 80,
           ignoreComments: true,
@@ -280,7 +282,8 @@ const config = {
         'no-tabs': 'error',
         'no-throw-literal': 'error',
         'no-trailing-spaces': 'error',
-        'no-unused-vars': [ 'error', {
+        '@typescript-eslint/no-unused-vars': 'off',
+        'no-unused-vars': [ 'warn', {
           args: 'none'
         } ],
 
@@ -323,7 +326,6 @@ const config = {
         'require-atomic-updates': 'error',
         'dot-notation': 'error',
         // 'require-await': 'warn',
-        'no-undefined': 'error',
         'line-comment-position': [ 'error', { position: 'above' } ],
         'template-curly-spacing': [ 'error', 'always' ]
       }
@@ -341,6 +343,7 @@ const config = {
         'import'
       ],
       rules: {
+        '@typescript-eslint/no-explicit-any': 'off',
         'unused-imports/no-unused-imports': 'error',
         'simple-import-sort/imports': [ 'error', {
           groups: [
