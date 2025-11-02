@@ -53,7 +53,8 @@ describe('RedactionService', () => {
 
     it('should only initialize once', async () => {
       await service.initialize();
-      await service.initialize(); // Second call should not re-initialize
+      // Second call should not re-initialize
+      await service.initialize();
       const { matcher } = await service.getService();
       expect(matcher).toBeDefined();
     });
@@ -142,7 +143,8 @@ describe('RedactionService', () => {
       const data = { name: 'john', description: 'this is a description', age: 25 };
       const result = service.redactResponse(data, { enabled: true, keys: [ 'name' ] });
       expect(result.name).toBe('[REDACTED]');
-      expect(result.description).toBe('this is a description'); // Not redacted
+      // Not redacted
+      expect(result.description).toBe('this is a description');
       expect(result.age).toBe(25);
     });
 

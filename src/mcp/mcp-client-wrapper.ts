@@ -163,7 +163,7 @@ export class MCPClientWrapper {
 
     const url = new URL(this.config.url);
 
-    const options: any = {
+    const options: { requestInit: { headers?: Record<string, string> } } = {
       requestInit: {}
     };
 
@@ -171,9 +171,16 @@ export class MCPClientWrapper {
     if (this.config.headers) {
       options.requestInit.headers = { ...this.config.headers };
       // Temporary debug to confirm upstream auth header presence
-      const authVal = (options.requestInit.headers as any).Authorization || (options.requestInit.headers as any).authorization;
+      const authHeaders = options.requestInit.headers as Record<string, string>;
+      const authVal = (authHeaders as Record<string, string>).Authorization ||
+        (authHeaders as Record<string, string>).authorization;
       this.logger.log(
-        `<${ this.name }> Upstream headers set. Authorization present: ${ Boolean(authVal) }`
+        [
+          '<',
+          this.name,
+          '> Upstream headers set. Authorization present: ',
+          String(Boolean(authVal))
+        ].join('')
       );
     }
 
@@ -191,7 +198,8 @@ export class MCPClientWrapper {
   }
 
   private startPingTask(): void {
-    const interval = 30000; // 30 seconds
+    // 30 seconds
+    const interval = 30000;
 
     this.pingInterval = setInterval(async () => {
       try {
@@ -249,7 +257,9 @@ export class MCPClientWrapper {
     } catch (error: any) {
       // If the server doesn't support resources (Method not found), return empty array
       if (error.code === -32601) {
-        this.logger.debug(`<${ this.name }> Resources not supported (optional)`);
+        this.logger.debug(
+          [ '<', this.name, '> Resources not supported (optional)' ].join('')
+        );
         return [];
       }
       throw error;
@@ -258,7 +268,7 @@ export class MCPClientWrapper {
 
   async callTool(
     name: string,
-    args: any,
+    args: Record<string, string> | undefined,
     redactionConfig?: RedactionOptions
   ): Promise<any> {
     if (!this.client) {
@@ -302,7 +312,7 @@ export class MCPClientWrapper {
 
   async getPrompt(
     name: string,
-    args: any,
+    args: Record<string, string> | undefined,
     redactionConfig?: RedactionOptions
   ): Promise<any> {
     if (!this.client) {
@@ -399,7 +409,13 @@ export class MCPClientWrapper {
       case 'allow':
         if (!filterSet.has(toolName)) {
           this.logger.log(
-            `<${ this.name }> Ignoring tool ${ toolName } as it is not in allow list`
+            [
+              '<',
+              this.name,
+              '> Ignoring tool ',
+              toolName,
+              ' as it is not in allow list'
+            ].join('')
           );
           return true;
         }
@@ -407,13 +423,21 @@ export class MCPClientWrapper {
       case 'block':
         if (filterSet.has(toolName)) {
           this.logger.log(
-            `<${ this.name }> Ignoring tool ${ toolName } as it is in block list`
+            [
+              '<',
+              this.name,
+              '> Ignoring tool ',
+              toolName,
+              ' as it is in block list'
+            ].join('')
           );
           return true;
         }
         return false;
       default:
-        this.logger.warn(`<${ this.name }> Unknown tool filter mode: ${ mode }`);
+        this.logger.warn(
+          [ '<', this.name, '> Unknown tool filter mode: ', mode ].join('')
+        );
         return false;
     }
   }
@@ -462,9 +486,10 @@ export class MCPClientWrapper {
       if (!tool) {
         throw new Error(`Tool ${ requestedName } not found`);
       }
+      const stringArgs = (request.params.arguments || {}) as Record<string, string>;
       return await this.callTool(
         requestedName,
-        request.params.arguments || {},
+        stringArgs,
         this.config.options?.redaction
       );
     });
@@ -482,9 +507,10 @@ export class MCPClientWrapper {
       if (!prompt) {
         throw new Error(`Prompt ${ requestedName } not found`);
       }
+      const stringArgs = (request.params.arguments || {}) as Record<string, string>;
       return await this.getPrompt(
         requestedName,
-        request.params.arguments || {},
+        stringArgs,
         this.config.options?.redaction
       );
     });

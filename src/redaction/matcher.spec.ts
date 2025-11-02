@@ -43,9 +43,12 @@ describe('Matcher', () => {
       const matcher = await Matcher.build(dictionary);
 
       expect(matcher.redact('The cat is here')).toBe('The [REDACTED] is here');
-      expect(matcher.redact('catalog')).toBe('catalog'); // Should not match
-      expect(matcher.redact('bobcat')).toBe('bobcat'); // Should not match
-      expect(matcher.redact('scat')).toBe('scat'); // Should not match
+      // Should not match
+      expect(matcher.redact('catalog')).toBe('catalog');
+      // Should not match
+      expect(matcher.redact('bobcat')).toBe('bobcat');
+      // Should not match
+      expect(matcher.redact('scat')).toBe('scat');
     });
 
     it('should handle word boundaries correctly with punctuation', async () => {
@@ -163,9 +166,12 @@ describe('Matcher', () => {
       const dictionary = [ 'user' ];
       const matcher = await Matcher.build(dictionary);
 
-      expect(matcher.redact('user_name')).toBe('user_name'); // underscore is part of word
-      expect(matcher.redact('user123')).toBe('user123'); // number is part of word
-      expect(matcher.redact('the user 123')).toBe('the [REDACTED] 123'); // space separates
+      // underscore is part of word
+      expect(matcher.redact('user_name')).toBe('user_name');
+      // number is part of word
+      expect(matcher.redact('user123')).toBe('user123');
+      // space separates
+      expect(matcher.redact('the user 123')).toBe('the [REDACTED] 123');
     });
 
     it('should handle consecutive terms with different cases', async () => {

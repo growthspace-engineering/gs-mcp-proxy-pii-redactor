@@ -4,26 +4,29 @@ export type MCPClientType = 'stdio' | 'sse' | 'streamable-http';
 
 export type ToolFilterMode = 'allow' | 'block';
 
-export interface ToolFilterConfig {
+export interface IToolFilterConfig {
   mode?: ToolFilterMode;
   list?: string[];
 }
+export type ToolFilterConfig = IToolFilterConfig;
 
-export interface RedactionOptions {
+export interface IRedactionOptions {
   enabled?: boolean;
   keys?: string[];
   verboseAudit?: boolean;
 }
+export type RedactionOptions = IRedactionOptions;
 
-export interface OptionsV2 {
+export interface IOptionsV2 {
   panicIfInvalid?: boolean;
   logEnabled?: boolean;
   authTokens?: string[];
   toolFilter?: ToolFilterConfig;
   redaction?: RedactionOptions;
 }
+export type OptionsV2 = IOptionsV2;
 
-export interface MCPProxyConfigV2 {
+export interface IMCPProxyConfigV2 {
   baseURL: string;
   addr: string;
   name: string;
@@ -31,27 +34,34 @@ export interface MCPProxyConfigV2 {
   type?: MCPServerType;
   options?: OptionsV2;
 }
+export type MCPProxyConfigV2 = IMCPProxyConfigV2;
 
-export interface MCPClientConfigV2 {
+export interface IMCPClientConfigV2 {
   transportType?: MCPClientType;
   command?: string;
   args?: string[];
   env?: Record<string, string>;
   url?: string;
   headers?: Record<string, string>;
-  timeout?: number; // in milliseconds
+  // in milliseconds
+  timeout?: number;
   options?: OptionsV2;
 }
+export type MCPClientConfigV2 = IMCPClientConfigV2;
 
-export interface Config {
+export interface IConfig {
   mcpProxy: MCPProxyConfigV2;
   mcpServers: Record<string, MCPClientConfigV2>;
 }
+export type Config = IConfig;
 
-export interface FullConfig {
-  server?: any; // Deprecated V1
-  clients?: any; // Deprecated V1
+export interface IFullConfig {
+  // Deprecated V1
+  server?: any;
+  // Deprecated V1
+  clients?: any;
   mcpProxy?: MCPProxyConfigV2;
   mcpServers?: Record<string, MCPClientConfigV2>;
 }
+export type FullConfig = IFullConfig;
 

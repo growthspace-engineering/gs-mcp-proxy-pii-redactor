@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import { Agent as HttpsAgent } from 'https';
 import * as path from 'path';
 
 import axios from 'axios';
@@ -18,11 +19,10 @@ export class ConfigService {
     // Check if configPath is a URL
     if (configPath.startsWith('http://') || configPath.startsWith('https://')) {
       this.logger.log(`Loading config from URL: ${ configPath }`);
-      const response = await axios.get<FullConfig>(configPath, {
-        httpsAgent: insecure ?
-          new (require('https').Agent)({ rejectUnauthorized: false }) :
-          undefined
-      });
+      const axiosOptions = insecure ?
+        { httpsAgent: new HttpsAgent({ rejectUnauthorized: false }) } :
+        {};
+      const response = await axios.get<FullConfig>(configPath, axiosOptions);
       fullConfig = response.data;
     } else {
       // Load from file
@@ -48,7 +48,7 @@ export class ConfigService {
 
     // Expand environment variables in headers
     if (fullConfig.mcpServers) {
-      for (const [ clientName, clientConfig ] of Object.entries(
+      for (const [ _clientName, clientConfig ] of Object.entries(
         fullConfig.mcpServers
       )) {
         if (clientConfig.headers) {
@@ -92,12 +92,16 @@ export class ConfigService {
 
     for (const [ key, value ] of Object.entries(headers)) {
       if (envVarPattern.test(value)) {
-        const expanded = value.replace(envVarPattern, (match, varName) => {
+        const expanded = value.replace(envVarPattern, (_m, varName) => {
           const envValue = process.env[varName];
-          if (envValue === undefined) {
-            throw new Error(
-              `Environment variable ${ varName } referenced in header ${ key } is not set`
-            );
+          if (typeof envValue === 'undefined') {
+            throw new Error([
+              'Environment variable ',
+              varName,
+              ' referenced in header ',
+              key,
+              ' is not set'
+            ].join(''));
           }
           return envValue;
         });

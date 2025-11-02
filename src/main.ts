@@ -31,7 +31,8 @@ async function bootstrap() {
   }
 
   const app = await NestFactory.create(AppModule, {
-    rawBody: true // Preserve raw body for SSE transport
+    // Preserve raw body for SSE transport
+    rawBody: true
   });
   const configService = app.get(ConfigService);
 

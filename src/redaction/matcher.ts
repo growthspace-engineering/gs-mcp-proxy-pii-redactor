@@ -2,10 +2,11 @@
 // Since we need case-insensitive and whole-word matching, we'll implement a simpler version
 // or use a library that supports these features
 
-interface Match {
+interface IMatch {
   start: number;
   end: number;
 }
+type Match = IMatch;
 
 export class Matcher {
   private patterns: string[];

@@ -37,7 +37,8 @@ describe('MCP Proxy SSE Transport (e2e)', () => {
     const cfgSrcPath = path.join(__dirname, '..', 'config.json');
     const cfg = JSON.parse(fs.readFileSync(cfgSrcPath, 'utf-8'));
     cfg.mcpProxy.addr = ':0';
-    cfg.mcpProxy.type = 'sse'; // Force SSE transport
+
+    cfg.mcpProxy.type = 'sse';
 
     // Restrict to only required MCP servers to avoid noisy externals
     const originalServers = (cfg.mcpServers ?? {}) as Record<string, any>;
@@ -158,7 +159,8 @@ describe('MCP Proxy SSE Transport (e2e)', () => {
     // This should fail without auth token
     const target = `${ baseUrl }/github-allow/sse`;
     const transport = new SSEClientTransport(new URL(target), {
-      requestInit: { headers: {} } // No auth header
+      // No auth header
+      requestInit: { headers: {} }
     });
     const mcpClient = new Client({ name: 'e2e-sse-no-auth', version: '0.0.1' });
 

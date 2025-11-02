@@ -48,9 +48,9 @@ describe('AppController', () => {
         {
           provide: MCPServerService,
           useValue: {
-            handleSSERequest: jest.fn().mockResolvedValue(undefined),
-            handlePostMessage: jest.fn().mockResolvedValue(undefined),
-            handleStreamableHTTPRequest: jest.fn().mockResolvedValue(undefined)
+            handleSSERequest: jest.fn().mockResolvedValue(void 0),
+            handlePostMessage: jest.fn().mockResolvedValue(void 0),
+            handleStreamableHTTPRequest: jest.fn().mockResolvedValue(void 0)
           }
         }
       ]
@@ -311,22 +311,32 @@ describe('AppController', () => {
 
     it('should redirect to SSE endpoint when server type is SSE and method is GET', async () => {
       mockReq.method = 'GET';
-      jest.spyOn(controller, 'handleSSE').mockResolvedValue(undefined);
+      jest.spyOn(controller, 'handleSSE').mockResolvedValue(void 0);
 
       await controller.handleStreamableHTTP('testClient', mockReq as Request, mockRes as Response);
 
-      expect(controller.handleSSE).toHaveBeenCalledWith('testClient', mockReq, mockRes);
-      expect(mcpServerService.handleStreamableHTTPRequest).not.toHaveBeenCalled();
+      expect(controller.handleSSE).toHaveBeenCalledWith(
+        'testClient',
+        mockReq,
+        mockRes
+      );
+      expect(mcpServerService.handleStreamableHTTPRequest)
+        .not.toHaveBeenCalled();
     });
 
     it('should redirect to POST message endpoint when server type is SSE and method is POST', async () => {
       mockReq.method = 'POST';
-      jest.spyOn(controller, 'handlePostMessage').mockResolvedValue(undefined);
+      jest.spyOn(controller, 'handlePostMessage').mockResolvedValue(void 0);
 
       await controller.handleStreamableHTTP('testClient', mockReq as Request, mockRes as Response);
 
-      expect(controller.handlePostMessage).toHaveBeenCalledWith('testClient', mockReq, mockRes);
-      expect(mcpServerService.handleStreamableHTTPRequest).not.toHaveBeenCalled();
+      expect(controller.handlePostMessage).toHaveBeenCalledWith(
+        'testClient',
+        mockReq,
+        mockRes
+      );
+      expect(mcpServerService.handleStreamableHTTPRequest)
+        .not.toHaveBeenCalled();
     });
 
     it('should return 404 for unsupported method when server type is SSE', async () => {
@@ -362,12 +372,14 @@ describe('AppController', () => {
         ...mockConfig,
         mcpProxy: {
           ...mockConfig.mcpProxy,
-          type: undefined
+          type: void 0
         }
       };
-      jest.spyOn(configService, 'getConfig').mockReturnValue(configWithoutType as any);
+      jest.spyOn(configService, 'getConfig').mockReturnValue(
+        configWithoutType as ReturnType<ConfigService['getConfig']>
+      );
       mockReq.method = 'GET';
-      jest.spyOn(controller, 'handleSSE').mockResolvedValue(undefined);
+      jest.spyOn(controller, 'handleSSE').mockResolvedValue(void 0);
 
       await controller.handleStreamableHTTP('testClient', mockReq as Request, mockRes as Response);
 

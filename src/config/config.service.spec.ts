@@ -32,7 +32,9 @@ describe('ConfigService', () => {
         mcpServers: {}
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock).mockReturnValue(
+        JSON.stringify(mockConfig)
+      );
 
       const result = await service.load('/absolute/path/config.json');
 
@@ -49,7 +51,9 @@ describe('ConfigService', () => {
         mcpServers: {}
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock).mockReturnValue(
+        JSON.stringify(mockConfig)
+      );
 
       const result = await service.load('config.json');
 
@@ -66,7 +70,9 @@ describe('ConfigService', () => {
         mcpServers: {}
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock).mockReturnValue(
+        JSON.stringify(mockConfig)
+      );
 
       const result = await service.load('config.json');
 
@@ -78,7 +84,9 @@ describe('ConfigService', () => {
         mcpServers: {}
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock).mockReturnValue(
+        JSON.stringify(mockConfig)
+      );
 
       await expect(service.load('config.json')).rejects.toThrow('mcpProxy is required');
     });
@@ -98,7 +106,10 @@ describe('ConfigService', () => {
 
       const result = await service.load('http://example.com/config.json');
 
-      expect(axios.get).toHaveBeenCalledWith('http://example.com/config.json', { httpsAgent: undefined });
+      expect(axios.get).toHaveBeenCalledWith(
+        'http://example.com/config.json',
+        {}
+      );
       expect(result).toEqual(mockConfig);
     });
 
@@ -115,7 +126,10 @@ describe('ConfigService', () => {
 
       const result = await service.load('https://example.com/config.json');
 
-      expect(axios.get).toHaveBeenCalledWith('https://example.com/config.json', { httpsAgent: undefined });
+      expect(axios.get).toHaveBeenCalledWith(
+        'https://example.com/config.json',
+        {}
+      );
       expect(result).toEqual(mockConfig);
     });
 
@@ -172,7 +186,9 @@ describe('ConfigService', () => {
         }
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock).mockReturnValue(
+        JSON.stringify(mockConfig)
+      );
 
       const result = await service.load('config.json');
 
@@ -197,7 +213,9 @@ describe('ConfigService', () => {
         }
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock).mockReturnValue(
+        JSON.stringify(mockConfig)
+      );
 
       await expect(service.load('config.json')).rejects.toThrow(
         'Environment variable MISSING_VAR referenced in header X-API-Key is not set'
@@ -224,7 +242,9 @@ describe('ConfigService', () => {
         }
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock).mockReturnValue(
+        JSON.stringify(mockConfig)
+      );
 
       const result = await service.load('config.json');
 
@@ -248,7 +268,9 @@ describe('ConfigService', () => {
         }
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock).mockReturnValue(
+        JSON.stringify(mockConfig)
+      );
 
       const result = await service.load('config.json');
 
@@ -273,7 +295,9 @@ describe('ConfigService', () => {
         }
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock).mockReturnValue(
+        JSON.stringify(mockConfig)
+      );
 
       const result = await service.load('config.json');
 
@@ -296,7 +320,9 @@ describe('ConfigService', () => {
         }
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock).mockReturnValue(
+        JSON.stringify(mockConfig)
+      );
 
       const result = await service.load('config.json');
 
@@ -319,7 +345,9 @@ describe('ConfigService', () => {
         }
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock).mockReturnValue(
+        JSON.stringify(mockConfig)
+      );
 
       const result = await service.load('config.json');
 
@@ -347,7 +375,9 @@ describe('ConfigService', () => {
         }
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock).mockReturnValue(
+        JSON.stringify(mockConfig)
+      );
 
       const result = await service.load('config.json');
 
@@ -376,7 +406,9 @@ describe('ConfigService', () => {
         }
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock).mockReturnValue(
+        JSON.stringify(mockConfig)
+      );
 
       const result = await service.load('config.json');
 
@@ -407,7 +439,9 @@ describe('ConfigService', () => {
         }
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock).mockReturnValue(
+        JSON.stringify(mockConfig)
+      );
 
       const result = await service.load('config.json');
 
@@ -431,7 +465,9 @@ describe('ConfigService', () => {
         mcpServers: {}
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock).mockReturnValue(
+        JSON.stringify(mockConfig)
+      );
 
       await service.load('config.json');
       const result = service.getConfig();
@@ -453,7 +489,8 @@ describe('ConfigService', () => {
         }
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock)
+        .mockReturnValue(JSON.stringify(mockConfig));
 
       const result = await service.load('config.json');
 
@@ -468,7 +505,8 @@ describe('ConfigService', () => {
         mcpServers: {}
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock)
+        .mockReturnValue(JSON.stringify(mockConfig));
 
       const result = await service.load('config.json');
 
@@ -488,7 +526,8 @@ describe('ConfigService', () => {
         }
       };
 
-      (fs.readFileSync as jest.Mock).mockReturnValue(JSON.stringify(mockConfig));
+      (fs.readFileSync as jest.Mock)
+        .mockReturnValue(JSON.stringify(mockConfig));
 
       const result = await service.load('config.json');
 
