@@ -1,3 +1,10 @@
+# [1.0.0-beta.3](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.2...v1.0.0-beta.3) (2025-11-02)
+
+
+### Features
+
+* **ci:** add release PR workflow and improve coverage badge labels ([1dfee70](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/1dfee7053258a1e7706405756ebd5eca8d393279))
+
 # [1.0.0-beta.2](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.1...v1.0.0-beta.2) (2025-11-02)
 
 
