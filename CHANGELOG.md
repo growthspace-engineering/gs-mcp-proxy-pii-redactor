@@ -1,3 +1,10 @@
+# [1.0.0-beta.12](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.11...v1.0.0-beta.12) (2025-11-02)
+
+
+### Features
+
+* **eslint:** adopt Growthspace ESLint config and add tsconfig.eslint.json ([2c4f36a](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/2c4f36a1d1383fa16e1665041c85b17430255856))
+
 # [1.0.0-beta.11](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.10...v1.0.0-beta.11) (2025-11-02)
 
 
