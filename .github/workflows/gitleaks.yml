@@ -1,5 +1,10 @@
 name: 🔒 Gitleaks Security Scan
 
+# NOTE: This workflow requires a GITLEAKS_LICENSE secret to be configured.
+# For organization repositories, obtain a free license from https://gitleaks.io
+# and add it as a repository secret named GITLEAKS_LICENSE.
+# See: https://github.com/gitleaks/gitleaks-action#-announcement
+
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -32,143 +37,28 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          # Scan only the diff for PRs, full repo for pushes
-          # The action automatically handles PR diff scanning
-          no-git: false
-          # Generate JSON report for detailed reporting
-          extra-args: >-
-            --verbose
-            --redact
-            --report-path ./gitleaks-report.json
-            --report-format json
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+        continue-on-error: true
 
-      - name: 📊 Generate Report
+      - name: 📊 Generate Report Summary
         if: steps.gitleaks.outcome == 'failure'
-        id: report
         run: |
-          if [ -f ./gitleaks-report.json ]; then
-            echo "## 🔒 Gitleaks Security Scan Results" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "⚠️ **Potential secrets or sensitive data detected!**" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "### Summary" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "The following potential leaks were detected:" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo '```json' >> $GITHUB_STEP_SUMMARY
-            cat ./gitleaks-report.json | jq -r '.[] | "**File:** `\(.File)`\n**Line:** \(.Line)\n**Rule:** \(.RuleID)\n**Description:** \(.Message)\n**Match:** `\(.Match | .[0:50] | if length > 50 then . + "..." else . end)`\n"' >> $GITHUB_STEP_SUMMARY || cat ./gitleaks-report.json >> $GITHUB_STEP_SUMMARY
-            echo '```' >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "### Detailed Findings" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            
-            # Create a detailed markdown table
-            echo "| File | Line | Rule ID | Description |" >> $GITHUB_STEP_SUMMARY
-            echo "|------|------|---------|-------------|" >> $GITHUB_STEP_SUMMARY
-            cat ./gitleaks-report.json | jq -r '.[] | "| `\(.File)` | \(.Line) | `\(.RuleID)` | \(.Message) |"' >> $GITHUB_STEP_SUMMARY || true
-            
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "### 🛡️ Remediation Steps" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "1. **If this is a false positive:** Add the file or pattern to \`.gitleaksignore\`" >> $GITHUB_STEP_SUMMARY
-            echo "2. **If this is a real secret:**" >> $GITHUB_STEP_SUMMARY
-            echo "   - Remove the secret from your code immediately" >> $GITHUB_STEP_SUMMARY
-            echo "   - Rotate the compromised secret" >> $GITHUB_STEP_SUMMARY
-            echo "   - Use environment variables or secrets management instead" >> $GITHUB_STEP_SUMMARY
-            echo "   - Consider using GitHub Secrets for CI/CD" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "📚 For more information, see: https://github.com/gitleaks/gitleaks" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "## 🔒 Gitleaks Security Scan Results" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "⚠️ **Secrets detected but report file not found**" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "Please check the logs above for details." >> $GITHUB_STEP_SUMMARY
-          fi
-
-      - name: 📤 Upload Gitleaks Report
-        if: steps.gitleaks.outcome == 'failure' && always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: gitleaks-report-${{ github.event.pull_request.number || github.sha }}
-          path: gitleaks-report.json
-          retention-days: 7
-          if-no-files-found: ignore
-
-      - name: 💬 Comment on PR (if leaks found)
-        if: github.event_name == 'pull_request' && steps.gitleaks.outcome == 'failure'
-        uses: actions/github-script@v7
-        env:
-          REPORT_PATH: ./gitleaks-report.json
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            const fs = require('fs');
-            const prNumber = context.payload.pull_request.number;
-            
-            let commentBody = '## 🔒 Gitleaks Security Scan\n\n';
-            commentBody += '⚠️ **Potential secrets or sensitive data detected!**\n\n';
-            
-            if (fs.existsSync(process.env.REPORT_PATH)) {
-              const report = JSON.parse(fs.readFileSync(process.env.REPORT_PATH, 'utf8'));
-              
-              commentBody += '### Summary\n\n';
-              commentBody += `${report.length} potential leak(s) detected:\n\n`;
-              
-              commentBody += '| File | Line | Rule ID | Description |\n';
-              commentBody += '|------|------|---------|-------------|\n';
-              
-              report.forEach(item => {
-                const file = item.File || 'unknown';
-                const line = item.Line || '?';
-                const rule = item.RuleID || 'unknown';
-                const message = item.Message || 'No description';
-                commentBody += `| \`${file}\` | ${line} | \`${rule}\` | ${message} |\n`;
-              });
-              
-              commentBody += '\n### 🛡️ Remediation Steps\n\n';
-              commentBody += '1. **If this is a false positive:** Add the file or pattern to `.gitleaksignore`\n';
-              commentBody += '2. **If this is a real secret:**\n';
-              commentBody += '   - Remove the secret from your code immediately\n';
-              commentBody += '   - Rotate the compromised secret\n';
-              commentBody += '   - Use environment variables or secrets management instead\n';
-              commentBody += '   - Consider using GitHub Secrets for CI/CD\n\n';
-            } else {
-              commentBody += 'Secrets detected but detailed report is not available. Please check the workflow logs.\n\n';
-            }
-            
-            commentBody += '📚 For more information, see: https://github.com/gitleaks/gitleaks\n';
-            commentBody += `\n---\n*Scan performed for commit ${context.sha.substring(0, 7)}*`;
-            
-            // Find existing comment
-            const comments = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: prNumber,
-            });
-            
-            const botComment = comments.data.find(comment => 
-              comment.user.type === 'Bot' && comment.body.includes('🔒 Gitleaks Security Scan')
-            );
-            
-            if (botComment) {
-              // Update existing comment
-              await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: botComment.id,
-                body: commentBody
-              });
-            } else {
-              // Create new comment
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: prNumber,
-                body: commentBody
-              });
-            }
+          echo "## 🔒 Gitleaks Security Scan Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⚠️ **Potential secrets or sensitive data detected!**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "The gitleaks scan found potential secrets in your code. Please review the details above." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🛡️ Remediation Steps" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "1. **If this is a false positive:** Add the file or pattern to \`.gitleaksignore\`" >> $GITHUB_STEP_SUMMARY
+          echo "2. **If this is a real secret:**" >> $GITHUB_STEP_SUMMARY
+          echo "   - Remove the secret from your code immediately" >> $GITHUB_STEP_SUMMARY
+          echo "   - Rotate the compromised secret" >> $GITHUB_STEP_SUMMARY
+          echo "   - Use environment variables or secrets management instead" >> $GITHUB_STEP_SUMMARY
+          echo "   - Consider using GitHub Secrets for CI/CD" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📚 For more information, see: https://github.com/gitleaks/gitleaks" >> $GITHUB_STEP_SUMMARY
 
       - name: ❌ Fail if leaks detected
         if: steps.gitleaks.outcome == 'failure'
