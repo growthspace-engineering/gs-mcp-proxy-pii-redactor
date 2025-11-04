@@ -6,6 +6,7 @@
 * **cli:** add --init and --init-dest to bootstrap config ([b7fb776](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/b7fb776d99fce06ad16cd778d6065242f1cef28d))
 
 # [1.2.0-beta.1](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.1.0...v1.2.0-beta.1) (2025-11-04)
+# [1.2.0](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.1.0...v1.2.0) (2025-11-04)
 
 
 ### Bug Fixes
