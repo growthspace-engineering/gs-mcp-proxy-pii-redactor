@@ -182,7 +182,23 @@ jobs:
           echo "//npm.pkg.github.com/:_authToken=${PUBLIC_RELEASE_BOT_TOKEN}" >> .npmrc
 
       - name: Release
+        id: semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
           NPM_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
         run: npx semantic-release
+      
+      - name: Trigger Beta Update Workflow
+        if: github.ref == 'refs/heads/main' && steps.semantic-release.outcome == 'success'
+        run: |
+          # Extract the tag from the semantic-release output
+          NEW_TAG=$(git describe --tags --abbrev=0)
+          
+          echo "Triggering update-beta-after-release workflow for tag: $NEW_TAG"
+          
+          # Trigger repository_dispatch event
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/dispatches \
+            -d "{\"event_type\":\"release_created\",\"client_payload\":{\"tag_name\":\"$NEW_TAG\"}}"
