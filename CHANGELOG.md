@@ -1,3 +1,10 @@
+# [1.0.0-beta.15](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.14...v1.0.0-beta.15) (2025-11-04)
+
+
+### Bug Fixes
+
+* **cli:** missing shabang and shorter cli name ([13ea548](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/13ea548ee3731ca53bb316fa6309630c40e4f072))
+
 # [1.0.0-beta.14](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.13...v1.0.0-beta.14) (2025-11-04)
 
 
