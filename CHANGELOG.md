@@ -1,3 +1,11 @@
+# [1.0.0-beta.18](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.17...v1.0.0-beta.18) (2025-11-04)
+
+
+### Bug Fixes
+
+* **build:** enable esModuleInterop ([ee546a1](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/ee546a1e76142070e109e18c8ea954ebd40357b0))
+* **build:** ensure full app emitted to dist ([a72bb44](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/a72bb4457917363bd308fdc5cbbdd907f2add257))
+
 # [1.0.0-beta.17](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.16...v1.0.0-beta.17) (2025-11-04)
 
 
