@@ -16,7 +16,7 @@ export interface IMCPServerInstance {
   server: Server;
   clientWrapper: MCPClientWrapper;
   transports: Map<string, SSEServerTransport | StreamableHTTPServerTransport>;
-  serverType: 'sse' | 'streamable-http';
+  serverType: 'sse' | 'streamable-http' | 'stdio';
 }
 export type MCPServerInstance = IMCPServerInstance;
 
