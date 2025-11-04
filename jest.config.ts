@@ -24,6 +24,7 @@ ensureDirectoryExists(testResultsDir);
 ensureDirectoryExists(coverageDir);
 
 const config: Config = {
+  displayName: 'unit',
   preset: 'ts-jest',
   testEnvironment: 'node',
   roots: [ '<rootDir>/src' ],
