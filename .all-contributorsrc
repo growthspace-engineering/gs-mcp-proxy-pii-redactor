@@ -47,6 +47,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "GalAmitai",
+      "name": "Gal Amitai",
+      "avatar_url": "https://avatars.githubusercontent.com/u/23203489?v=4",
+      "profile": "http://www.gla.co.il",
+      "contributions": [
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
