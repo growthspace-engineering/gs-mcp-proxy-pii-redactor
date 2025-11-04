@@ -1,0 +1,128 @@
+name: 🔄 Update Beta After Release
+
+on:
+  repository_dispatch:
+    types: [release_created]
+  push:
+    tags:
+      # This will only match full semantic version tags (no beta tags)
+      - 'v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  update-beta:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
+      
+      - name: Set tag name based on trigger type
+        id: set-tag
+        run: |
+          if [[ "${{ github.event_name }}" == "repository_dispatch" ]]; then
+            # For repository_dispatch events, get tag from payload
+            TAG_NAME="${{ github.event.client_payload.tag_name }}"
+            echo "Using tag from repository_dispatch: $TAG_NAME"
+          else
+            # For push events, get tag from ref_name
+            TAG_NAME="${{ github.ref_name }}"
+            echo "Using tag from push event: $TAG_NAME"
+          fi
+          echo "tag_name=$TAG_NAME" >> $GITHUB_OUTPUT
+      
+      - name: Verify tag is from main branch
+        id: verify-branch
+        run: |
+          # Get the commit that this tag points to
+          TAG_COMMIT=$(git rev-parse ${{ steps.set-tag.outputs.tag_name }})
+          
+          # Check if this commit is on main branch
+          if git branch -r --contains $TAG_COMMIT | grep "origin/main"; then
+            echo "Tag is from main branch, proceeding"
+            echo "is_main_branch=true" >> $GITHUB_OUTPUT
+          else
+            echo "::notice::Tag ${{ steps.set-tag.outputs.tag_name }} was not created on main branch. Exiting workflow."
+            exit 78 # Neutral exit code that GitHub treats as cancelled rather than failed
+          fi
+      
+      - name: Setup Git
+        run: |
+          git config --global user.name "gr0wth-b0t"
+          git config --global user.email "gsBot@growthspace.com"
+      
+      - name: Create merge branch and resolve conflicts
+        id: create-merge
+        run: |
+          TODAY=$(date '+%Y-%m-%d')
+          TAG_NAME="${{ steps.set-tag.outputs.tag_name }}"
+          TEMP_BRANCH="temp-merge-$TODAY"
+          
+          # Create a temporary branch from beta
+          git checkout beta
+          
+          # Fetch main branch from origin
+          git fetch origin main
+          
+          # Create a temporary branch from beta
+          git checkout -b $TEMP_BRANCH
+          
+          # Attempt to merge origin/main instead of main
+          if git merge origin/main -m "chore: merge main into beta after release $TAG_NAME"; then
+            echo "Merged successfully without conflicts"
+          else
+            echo "Conflicts detected, resolving automatically..."
+            
+            # For conflicts in package files, take --ours (beta) version
+            if git diff --name-only --diff-filter=U | grep -E 'package(-lock)?\.json'; then
+              git checkout --ours package.json package-lock.json
+              git add package.json package-lock.json
+              git commit --no-verify -m "chore: resolve version conflicts after merging $TAG_NAME"
+              echo "resolved=true" >> $GITHUB_OUTPUT
+            else
+              # If we have other conflicts, abort and create PR for manual resolution
+              git merge --abort
+              echo "Non-version conflicts detected, creating PR for manual resolution"
+              git push origin $TEMP_BRANCH
+              echo "resolved=false" >> $GITHUB_OUTPUT
+              echo "::warning::Non-version conflicts were found that require manual resolution"
+            fi
+          fi
+          
+          # Push the branch
+          git push origin $TEMP_BRANCH
+          
+          echo "branch_name=$TEMP_BRANCH" >> $GITHUB_OUTPUT
+        env:
+          HUSKY: '0'
+      
+      - name: Create PR from temp branch to beta
+        env:
+          GITHUB_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
+          TEMP_BRANCH: ${{ steps.create-merge.outputs.branch_name }}
+          CONFLICTS_RESOLVED: ${{ steps.create-merge.outputs.resolved }}
+          TAG_NAME: ${{ steps.set-tag.outputs.tag_name }}
+        run: |
+          TODAY=$(date '+%Y-%m-%d')
+          
+          # Create PR title based on conflict resolution status
+          PR_TITLE="[RELEASE][REVERSE][AUTO] 🥶 Release Candidate for beta $TODAY"
+          
+          # Create PR body
+          PR_BODY="This PR was automatically created to update beta with the latest release from main."
+          
+          if [[ "$CONFLICTS_RESOLVED" == "true" ]]; then
+            PR_BODY="$PR_BODY\n\nVersion conflicts in package.json and package-lock.json were automatically resolved by keeping the beta version."
+          elif [[ "$CONFLICTS_RESOLVED" == "false" ]]; then
+            PR_BODY="$PR_BODY\n\n**Action required:** This PR contains conflicts that need manual resolution."
+          fi
+          
+          # Create PR using GitHub CLI
+          gh pr create \
+            --base beta \
+            --head $TEMP_BRANCH \
+            --title "$PR_TITLE" \
+            --body "$PR_BODY"
+
+

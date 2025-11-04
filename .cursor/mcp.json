@@ -1,10 +1,61 @@
 {
   "mcpServers": {
-    "proxied-github": {
+    "redactor-lsmcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mizchi/lsmcp",
+        "-p",
+        "typescript"
+      ],
+      "workingDirectory": ".",
+      "env": {
+        "NODE_OPTIONS": "--max-old-space-size=4096"
+      }
+    },
+    "proxied-github-example1": {
+      "command": "gs-mcp-proxy",
+      "args": [
+        "--config",
+        "~/nice/config.json",
+        "--stdio-target",
+        "github"
+      ]
+    },
+    "proxied-github-example2": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@growthspace-engineering/gs-mcp-proxy-pii-redactor",
+        "--config",
+        "~/gs-mcp-proxy/config.json",
+        "--stdio-target",
+        "github"
+      ]
+    },
+    "proxied-atlassian": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@growthspace-engineering/gs-mcp-proxy-pii-redactor",
+        "--config",
+        "~/gs-mcp-proxy/config.json",
+        "--stdio-target",
+        "atlassian"
+      ]
+    },
+    "proxied-github-sse-example": {
       "command": "npx",
       "args": [
         "mcp-remote",
-        "http://localhost:8084/github/"
+        "http://localhost:8084/github/sse"
+      ]
+    },
+    "proxied-github-streamable-http-example": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "http://localhost:8084/github"
       ]
     }
   }

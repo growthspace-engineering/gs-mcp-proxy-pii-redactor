@@ -9,11 +9,58 @@
   "imageSize": 100,
   "commit": false,
   "commitConvention": "angular",
-  "contributors": [],
+  "contributors": [
+    {
+      "login": "thatkookooguy",
+      "name": "Neil Kalman",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10427304?v=4",
+      "profile": "http://thatkookooguy.kibibit.io/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Romarionijim",
+      "name": "Romario Nijim",
+      "avatar_url": "https://github.com/Romarionijim.png",
+      "profile": "https://github.com/Romarionijim",
+      "contributions": [
+        "ideas",
+        "maintenance",
+        "research"
+      ]
+    },
+    {
+      "login": "aheua10",
+      "name": "shai eliyahu",
+      "avatar_url": "https://avatars.githubusercontent.com/u/74975334?v=4",
+      "profile": "http://shaieliyahu.com",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "login": "allcontributors[bot]",
+      "name": "allcontributors[bot]",
+      "avatar_url": "https://avatars.githubusercontent.com/in/23186?v=4",
+      "profile": "https://github.com/apps/allcontributors",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "GalAmitai",
+      "name": "Gal Amitai",
+      "avatar_url": "https://avatars.githubusercontent.com/u/23203489?v=4",
+      "profile": "http://www.gla.co.il",
+      "contributions": [
+        "review"
+      ]
+    }
+  ],
   "contributorsPerLine": 7,
-  "contributorsSortAlphabetically": true,
-  "badgeTemplate": "[![All Contributors](https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg?style=flat-square)](#contributors)",
-  "contributorTemplate": "<%= contributor %>",
-  "linkToUsage": false
+  "contributorsSortAlphabetically": false,
+  "badgeTemplate": "<a href=\"#contributors-\"><img src=\"https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg?style=flat-square\" alt=\"All Contributors\"></a>",
+  "linkToUsage": false,
+  "commitType": "docs"
 }
-

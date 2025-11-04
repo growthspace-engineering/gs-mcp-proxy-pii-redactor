@@ -1,0 +1,68 @@
+name: 🔒 Gitleaks Security Scan
+
+# NOTE: This workflow requires a GITLEAKS_LICENSE secret to be configured.
+# For organization repositories, obtain a free license from https://gitleaks.io
+# and add it as a repository secret named GITLEAKS_LICENSE.
+# See: https://github.com/gitleaks/gitleaks-action#-announcement
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches:
+      - main
+      - beta
+  push:
+    branches:
+      - main
+      - beta
+
+jobs:
+  gitleaks:
+    name: Scan for secrets and leaks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          # Use GITHUB_TOKEN for PRs, need full history for gitleaks
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🔒 Run Gitleaks
+        id: gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+        continue-on-error: true
+
+      - name: 📊 Generate Report Summary
+        if: steps.gitleaks.outcome == 'failure'
+        run: |
+          echo "## 🔒 Gitleaks Security Scan Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⚠️ **Potential secrets or sensitive data detected!**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "The gitleaks scan found potential secrets in your code. Please review the details above." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🛡️ Remediation Steps" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "1. **If this is a false positive:** Add the file or pattern to \`.gitleaksignore\`" >> $GITHUB_STEP_SUMMARY
+          echo "2. **If this is a real secret:**" >> $GITHUB_STEP_SUMMARY
+          echo "   - Remove the secret from your code immediately" >> $GITHUB_STEP_SUMMARY
+          echo "   - Rotate the compromised secret" >> $GITHUB_STEP_SUMMARY
+          echo "   - Use environment variables or secrets management instead" >> $GITHUB_STEP_SUMMARY
+          echo "   - Consider using GitHub Secrets for CI/CD" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📚 For more information, see: https://github.com/gitleaks/gitleaks" >> $GITHUB_STEP_SUMMARY
+
+      - name: ❌ Fail if leaks detected
+        if: steps.gitleaks.outcome == 'failure'
+        run: |
+          echo "::error::Secrets detected! Please review the findings above and remove any sensitive data."
+          exit 1
+

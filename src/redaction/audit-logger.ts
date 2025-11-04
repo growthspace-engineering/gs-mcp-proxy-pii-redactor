@@ -1,7 +1,10 @@
-import { Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
+
 import { v4 as uuidv4 } from 'uuid';
+
+import { Logger } from '@nestjs/common';
+
 import { RedactionOptions } from '../config/types';
 
 export class AuditLogger {
@@ -17,7 +20,7 @@ export class AuditLogger {
     try {
       fs.mkdirSync(this.baseDir, { recursive: true, mode: 0o755 });
     } catch (error) {
-      this.logger.error(`Failed to create audit directory: ${error}`);
+      this.logger.error(`Failed to create audit directory: ${ error }`);
       throw error;
     }
   }
@@ -25,8 +28,8 @@ export class AuditLogger {
   logOperation(
     config: RedactionOptions | null | undefined,
     operation: string,
-    preData: any,
-    postData: any,
+    preData: unknown,
+    postData: unknown
   ): string {
     if (!config || !config.verboseAudit) {
       return '';
@@ -38,32 +41,32 @@ export class AuditLogger {
     // Write pre-redaction data
     const preFile = path.join(
       this.baseDir,
-      `${timestamp}-${opID}-${operation}-pre.json`,
+      `${ timestamp }-${ opID }-${ operation }-pre.json`
     );
     this.writeJSONFile(preFile, preData);
 
     // Write post-redaction data
     const postFile = path.join(
       this.baseDir,
-      `${timestamp}-${opID}-${operation}-post.json`,
+      `${ timestamp }-${ opID }-${ operation }-post.json`
     );
     this.writeJSONFile(postFile, postData);
 
     return opID;
   }
 
-  private writeJSONFile(filepath: string, data: any): void {
+  private writeJSONFile(filepath: string, data: unknown): void {
     try {
       const enhancedData = this.enhanceDataForReadability(data);
       const jsonData = JSON.stringify(enhancedData, null, 2);
 
       fs.writeFileSync(filepath, jsonData, { mode: 0o644 });
     } catch (error) {
-      this.logger.error(`Failed to write audit file ${filepath}: ${error}`);
+      this.logger.error(`Failed to write audit file ${ filepath }: ${ error }`);
     }
   }
 
-  private enhanceDataForReadability(data: any): any {
+  private enhanceDataForReadability(data: unknown): unknown {
     if (typeof data === 'string') {
       try {
         return JSON.parse(data);
@@ -77,8 +80,8 @@ export class AuditLogger {
     }
 
     if (data && typeof data === 'object') {
-      const result: Record<string, any> = {};
-      for (const [key, value] of Object.entries(data)) {
+      const result: Record<string, unknown> = {};
+      for (const [ key, value ] of Object.entries(data as Record<string, unknown>)) {
         result[key] = this.enhanceDataForReadability(value);
       }
       return result;

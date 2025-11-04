@@ -1,22 +1,43 @@
+import * as fs from 'fs';
 import * as path from 'path';
+
 import type { Config } from 'jest';
 
 const __dirname = path.resolve();
 
+const ensureDirectoryExists = (dir: string) => {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+};
+
+const testResultsDir = path.join(
+  __dirname,
+  'test-results',
+  'gs-mcp-proxy-pii-redactor',
+  'unit'
+);
+
+const coverageDir = path.join(testResultsDir, 'coverage');
+
+ensureDirectoryExists(testResultsDir);
+ensureDirectoryExists(coverageDir);
+
 const config: Config = {
+  displayName: 'unit',
   preset: 'ts-jest',
   testEnvironment: 'node',
-  roots: ['<rootDir>/src'],
-  testMatch: ['**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts'],
+  roots: [ '<rootDir>/src' ],
+  testMatch: [ '**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts' ],
   transform: {
     '^.+\\.ts$': [
       'ts-jest',
       {
         tsconfig: {
-          module: 'commonjs',
-        },
-      },
-    ],
+          module: 'commonjs'
+        }
+      }
+    ]
   },
   collectCoverageFrom: [
     'src/**/*.ts',
@@ -24,54 +45,40 @@ const config: Config = {
     '!src/**/*.spec.ts',
     '!src/**/*.test.ts',
     '!src/**/*.module.ts',
-    '!src/main.ts',
+    '!src/main.ts'
   ],
-  coverageDirectory: path.join(
-    __dirname,
-    'test-results',
-    'gs-mcp-proxy-pii-redactor',
-    'unit',
-    'coverage',
-  ),
-  coverageReporters: ['json', 'text', 'lcov', 'clover', 'json-summary', 'html'],
-  moduleFileExtensions: ['ts', 'js', 'json'],
+  coverageDirectory: coverageDir,
+  coverageReporters: [ 'json', 'text', 'lcov', 'clover', 'json-summary', 'html' ],
+  moduleFileExtensions: [ 'ts', 'js', 'json' ],
   moduleNameMapper: {
-    '^src/(.*)$': '<rootDir>/src/$1',
+    '^src/(.*)$': '<rootDir>/src/$1'
   },
-  modulePathIgnorePatterns: ['<rootDir>/dist/'],
+  modulePathIgnorePatterns: [ '<rootDir>/dist/' ],
   // Performance optimizations
   maxWorkers: '75%',
+  // Verbose output for better readability
+  verbose: true,
   // Reporters
   reporters: [
     'default',
     [
       'jest-stare',
       {
-        resultDir: path.join(
-          __dirname,
-          'test-results',
-          'gs-mcp-proxy-pii-redactor',
-          'unit',
-        ),
+        resultDir: testResultsDir,
         reportTitle: 'gs-mcp-proxy-pii-redactor Test Results',
         reportHeadline: 'gs-mcp-proxy-pii-redactor Test Results',
         additionalResultsProcessors: [],
-        coverageLink: './coverage/index.html',
-      },
+        coverageLink: './coverage/index.html'
+      }
     ],
     [
       'jest-junit',
       {
-        outputDirectory: path.join(
-          __dirname,
-          'test-results',
-          'gs-mcp-proxy-pii-redactor',
-          'unit',
-        ),
-        outputName: 'junit.xml',
-      },
-    ],
-  ],
+        outputDirectory: testResultsDir,
+        outputName: 'junit.xml'
+      }
+    ]
+  ]
 };
 
 export default config;
