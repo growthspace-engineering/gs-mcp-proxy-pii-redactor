@@ -5,6 +5,7 @@ import type { Config } from 'jest';
 const __dirname = path.resolve();
 
 const config: Config = {
+  displayName: 'e2e',
   preset: 'ts-jest',
   testEnvironment: 'node',
   rootDir: '..',
