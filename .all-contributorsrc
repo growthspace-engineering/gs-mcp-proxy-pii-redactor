@@ -29,10 +29,20 @@
         "maintenance",
         "research"
       ]
+    },
+    {
+      "login": "aheua10",
+      "name": "shai eliyahu",
+      "avatar_url": "https://avatars.githubusercontent.com/u/74975334?v=4",
+      "profile": "http://shaieliyahu.com",
+      "contributions": [
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
   "contributorsSortAlphabetically": true,
   "badgeTemplate": "<a href=\"#contributors-\"><img src=\"https://img.shields.io/badge/all_contributors-<%= contributors.length %>-orange.svg?style=flat-square\" alt=\"All Contributors\"></a>",
-  "linkToUsage": false
+  "linkToUsage": false,
+  "commitType": "docs"
 }
