@@ -1,3 +1,11 @@
+# [1.0.0-beta.17](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.16...v1.0.0-beta.17) (2025-11-04)
+
+
+### Bug Fixes
+
+* **build:** restrict tsc to src via tsconfig.build + build during release ([3339662](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/333966218278528ffcd6ac560c55c3e55832c356))
+* **release:** add missing package-json update ([2e362b6](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/2e362b61920a60bd6f84ae8361dad523d09ca9d3))
+
 # [1.0.0-beta.16](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.15...v1.0.0-beta.16) (2025-11-04)
 
 
