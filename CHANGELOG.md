@@ -1,3 +1,15 @@
+# [1.0.0-beta.14](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.13...v1.0.0-beta.14) (2025-11-04)
+
+
+### Bug Fixes
+
+* **stdio:** disable application print to stdio in stdio mode ([86acff4](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/86acff44bd2d8033c223fbf56b63f6280f0a3aff))
+
+
+### Features
+
+* **main:** support stdio mode as package name out of the box ([8932efd](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/8932efdd37d64b9aab6aad62fb9f1608db6187d3))
+
 # [1.0.0-beta.13](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.12...v1.0.0-beta.13) (2025-11-04)
 
 
