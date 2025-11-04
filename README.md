@@ -45,6 +45,10 @@ An MCP proxy that aggregates multiple MCP servers behind a single HTTP entrypoin
 
 ## Documentation
 
+- [IDE setup (stdio)](docs/ide/cursor.md)
+  - [Cursor](docs/ide/cursor.md)
+  - [Claude Desktop](docs/ide/claude.md)
+  - [Other IDEs](docs/ide/other.md)
 - [Configuration](docs/configuration.md) - Configuration reference and examples
 - [Usage](docs/usage.md) - CLI options, endpoints, authentication, and tool filtering
 - [PII Redaction](docs/redaction.md) - Redaction setup and configuration
@@ -81,10 +85,8 @@ npm run start:prod -- --config /path/to/config.json
 # With remote config URL
 npm run start:prod -- --config https://example.com/config.json
 
-# Stdio server mode (serve one downstream over stdio)
-# Select the downstream with --stdio-target when multiple are configured
-npm run build
-npm run start:stdio -- --stdio-target github-allow
+# IDE usage is the primary workflow (Cursor, Claude, etc.)
+# See docs/ide/* for stdio configuration examples
 ```
 
 ### Minimal Configuration
