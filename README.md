@@ -45,7 +45,7 @@ An MCP proxy that aggregates multiple MCP servers behind a single HTTP entrypoin
 
 ## Documentation
 
-- [IDE setup (stdio)](docs/ide/cursor.md)
+- [IDE setup](docs/ide/README.md)
   - [Cursor](docs/ide/cursor.md)
   - [Claude Desktop](docs/ide/claude.md)
   - [Other IDEs](docs/ide/other.md)
@@ -65,9 +65,9 @@ An MCP proxy that aggregates multiple MCP servers behind a single HTTP entrypoin
 
 Integrate directly with your IDE over stdio. No global install required.
 
-- Cursor: see `docs/ide/cursor.md` (stdio section)
-- Claude Desktop: see `docs/ide/claude.md` (stdio section)
-- Other IDEs: see `docs/ide/other.md`
+- Cursor: see [docs/ide/cursor.md](docs/ide/cursor.md) (stdio section)
+- Claude Desktop: see [docs/ide/claude.md](docs/ide/claude.md) (stdio section)
+- Other IDEs: see [docs/ide/other.md](docs/ide/other.md)
 
 ### Option 2 — Run locally before IDE integration (SSE/HTTP)
 
@@ -82,8 +82,8 @@ Integrate directly with your IDE over stdio. No global install required.
    gs-mcp-proxy --config ~/gs-mcp-proxy/config.json
    ```
 3. Connect your IDE using `mcp-remote` (SSE or streamable HTTP):
-   - Cursor: see `docs/ide/cursor.md` (SSE/HTTP sections)
-   - Claude Desktop: see `docs/ide/claude.md` (SSE/HTTP sections)
+   - Cursor: see [docs/ide/cursor.md](docs/ide/cursor.md) (SSE/HTTP sections)
+   - Claude Desktop: see [docs/ide/claude.md](docs/ide/claude.md) (SSE/HTTP sections)
 
 Developer setup (clone, build, run locally) has moved to [CONTRIBUTING.md](CONTRIBUTING.md).
 
