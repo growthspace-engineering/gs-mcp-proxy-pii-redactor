@@ -1,3 +1,10 @@
+## [1.3.1-beta.1](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.3.0...v1.3.1-beta.1) (2025-11-04)
+
+
+### Bug Fixes
+
+* **release:** include copy of the config in the release ([fbfad5b](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/fbfad5b67d53774e9e80231552335e85d0ce1a9b))
+
 # [1.3.0](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.2.0...v1.3.0) (2025-11-04)
 
 
