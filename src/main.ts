@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
+import { homedir } from 'os';
 import { join } from 'path';
 
 import * as commander from 'commander';
-import { readJsonSync } from 'fs-extra';
+import { copySync, ensureDirSync, pathExistsSync, readJsonSync } from 'fs-extra';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 
 import { Logger } from '@nestjs/common';
@@ -42,6 +43,8 @@ async function bootstrap() {
     .option('--insecure', 'allow insecure HTTPS connections', false)
     .option('-v, --version', 'print version and exit', false)
     .option('-h, --help', 'print help and exit', false)
+    .option('--init', 'initialize a default config in the user directory and exit', false)
+    .option('--init-dest <dir>', 'destination directory for --init (overrides default)')
     .option('--stdio-target <name>', 'target downstream server name when running in stdio mode');
 
   program.parse(process.argv);
@@ -56,6 +59,26 @@ async function bootstrap() {
     const packageJson = readJsonSync(join(__dirname, '../package.json'));
     console.log(packageJson.version);
     return;
+  }
+
+  if (options.init) {
+    const destinationDir = (options.initDest as string | undefined) || join(homedir(), 'gs-mcp-proxy');
+    const destinationPath = join(destinationDir, 'config.json');
+    const sourcePath = join(__dirname, '../config.json');
+
+    try {
+      ensureDirSync(destinationDir);
+      if (pathExistsSync(destinationPath)) {
+        logger.log(`Config already exists at ${ destinationPath }`);
+        process.exit(0);
+      }
+      copySync(sourcePath, destinationPath, { overwrite: false, errorOnExist: true });
+      logger.log(`Default config copied to ${ destinationPath }`);
+      process.exit(0);
+    } catch (error) {
+      logger.error(`Failed to initialize config: ${ error }`);
+      process.exit(1);
+    }
   }
 
   const app = await NestFactory.create(AppModule, {

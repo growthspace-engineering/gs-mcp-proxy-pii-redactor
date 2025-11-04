@@ -5,6 +5,8 @@
 ```bash
 -c, --config <path>     Path to config file or HTTP(S) URL (default: "config.json")
 --insecure              Allow insecure HTTPS connections for remote config
+-\-init                  Initialize default config in user dir and exit
+--init-dest <dir>       Destination directory for --init (overrides default)
 -v, --version           Print version and exit
 -h, --help              Print help and exit
 ```
@@ -20,6 +22,12 @@ npm run start:prod -- --config https://example.com/config.json
 
 # Allow insecure HTTPS for remote config
 npm run start:prod -- --config https://example.com/config.json --insecure
+
+# Initialize default config to ~/gs-mcp-proxy/config.json
+gs-mcp-proxy --init
+
+# Initialize default config to a custom directory
+gs-mcp-proxy --init --init-dest ~/my-proxy-config
 ```
 
 ## IDE integrations
