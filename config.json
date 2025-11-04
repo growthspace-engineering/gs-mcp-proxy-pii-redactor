@@ -4,7 +4,7 @@
     "addr": ":8084",
     "name": "MCP Proxy with PII Redaction",
     "version": "1.0.0",
-    "type": "streamable-http",
+    "type": "stdio",
     "options": {
       "panicIfInvalid": false,
       "logEnabled": true

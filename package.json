@@ -16,6 +16,9 @@
     "node": ">=22.14.0"
   },
   "main": "dist/main.js",
+  "bin": {
+    "gs-mcp-proxy-pii-redactor": "dist/main.js"
+  },
   "scripts": {
     "build": "nest build",
     "start": "nest start",
