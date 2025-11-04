@@ -65,6 +65,14 @@ An MCP proxy that aggregates multiple MCP servers behind a single HTTP entrypoin
 
 Integrate directly with your IDE over stdio. No global install required.
 
+Before configuring your IDE, initialize a default config file (creates `~/gs-mcp-proxy/config.json` by default):
+```bash
+gs-mcp-proxy --init
+# or without installing globally
+npx -y @growthspace-engineering/gs-mcp-proxy-pii-redactor --init
+```
+See [Usage](docs/usage.md) to customize the destination via `--init-dest`.
+
 - Cursor: see [docs/ide/cursor.md](docs/ide/cursor.md) (stdio section)
 - Claude Desktop: see [docs/ide/claude.md](docs/ide/claude.md) (stdio section)
 - Other IDEs: see [docs/ide/other.md](docs/ide/other.md)
@@ -75,13 +83,18 @@ Integrate directly with your IDE over stdio. No global install required.
    ```bash
    npm install -g @growthspace-engineering/gs-mcp-proxy-pii-redactor
    ```
-2. Run the CLI (with or without a config file):
+2. Initialize a default config file (creates `~/gs-mcp-proxy/config.json` by default):
    ```bash
-   gs-mcp-proxy
-   # or
-   gs-mcp-proxy --config ~/gs-mcp-proxy/config.json
+   gs-mcp-proxy --init
    ```
-3. Connect your IDE using `mcp-remote` (SSE or streamable HTTP):
+   See [Usage](docs/usage.md) to customize the destination via `--init-dest`.
+3. Run the CLI (with or without a config file):
+   ```bash
+   gs-mcp-proxy --config ~/gs-mcp-proxy/config.json
+   # or (uses ./config.json by default if present)
+   gs-mcp-proxy
+   ```
+4. Connect your IDE using `mcp-remote` (SSE or streamable HTTP):
    - Cursor: see [docs/ide/cursor.md](docs/ide/cursor.md) (SSE/HTTP sections)
    - Claude Desktop: see [docs/ide/claude.md](docs/ide/claude.md) (SSE/HTTP sections)
 
