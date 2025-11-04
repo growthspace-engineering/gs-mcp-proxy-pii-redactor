@@ -1,6 +1,6 @@
 {
   "name": "@growthspace-engineering/gs-mcp-proxy-pii-redactor",
-  "version": "1.0.0-beta.18",
+  "version": "1.2.0",
   "author": "Growthspace Engineering",
   "license": "MIT",
   "description": "MCP Proxy with PII Redaction - TypeScript/NestJS implementation",

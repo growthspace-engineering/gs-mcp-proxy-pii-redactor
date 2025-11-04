@@ -1,3 +1,32 @@
+# [1.2.0](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.1.0...v1.2.0) (2025-11-04)
+
+
+### Bug Fixes
+
+* **build:** enable esModuleInterop ([ee546a1](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/ee546a1e76142070e109e18c8ea954ebd40357b0))
+* **build:** ensure full app emitted to dist ([a72bb44](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/a72bb4457917363bd308fdc5cbbdd907f2add257))
+* **build:** restrict tsc to src via tsconfig.build + build during release ([3339662](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/333966218278528ffcd6ac560c55c3e55832c356))
+* **ci:** use all-contributors CLI directly instead of non-existent GitHub Action ([7c92b89](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/7c92b89b297fd121cb099ea352a9ecd4bf5ad136))
+* **ci:** use BOT token to bypass branch protection in contributors workflow ([83de0a3](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/83de0a35778ae9df687554ed778ae59aeeec6f1c))
+* **cli:** include dist in publish and build on prepublishOnly ([ff9a4bc](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/ff9a4bc4a3670c4bdabf573669040b4425c4430f))
+* **cli:** missing shabang and shorter cli name ([13ea548](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/13ea548ee3731ca53bb316fa6309630c40e4f072))
+* **contributors:** add generate step and remove broken template ([e5f8d8f](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/e5f8d8f26bfbfce31c419d5f7406c47f9c21f70b))
+* **gitleaks:** update Gitleaks workflow and simplify report generation ([c9b0393](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/c9b0393055397d0002df7a8a2af34e21c28b47d9))
+* **release:** add missing package-json update ([2e362b6](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/2e362b61920a60bd6f84ae8361dad523d09ca9d3))
+* **stdio:** disable application print to stdio in stdio mode ([86acff4](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/86acff44bd2d8033c223fbf56b63f6280f0a3aff))
+
+
+### Features
+
+* **core:** add stdio e2e and update config, server, docs ([554f159](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/554f159aa29b19bfbb5f48d0ded9005a3d961e69))
+* **docker:** add Dockerfile and .dockerignore for containerization ([e14449b](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/e14449b007e7ca2abd32edfe68684ebed964a648))
+* **eslint:** adopt Growthspace ESLint config and add tsconfig.eslint.json ([2c4f36a](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/2c4f36a1d1383fa16e1665041c85b17430255856))
+* **github:** add templates and contributor welcome automation ([d69821d](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/d69821d369a653e70aebe0b6f46df73b9f2d4045))
+* **gitleaks:** add Gitleaks configuration and ignore file for secret scanning ([228f9c9](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/228f9c9801e7eb2d110d41f0098e6e7a2423f10c))
+* **main:** support stdio mode as package name out of the box ([8932efd](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/8932efdd37d64b9aab6aad62fb9f1608db6187d3))
+* **release:** auto update beta branch with release tags ([7b07f31](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/7b07f311195315b06d698789a9404fd924ae1e9f))
+* **tests:** enhance Jest configuration ([d44ad41](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/d44ad41a8e500be6987dd0b4ef5660ca3eb56109))
+
 # [1.0.0-beta.18](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.17...v1.0.0-beta.18) (2025-11-04)
 
 
