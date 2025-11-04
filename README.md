@@ -45,6 +45,10 @@ An MCP proxy that aggregates multiple MCP servers behind a single HTTP entrypoin
 
 ## Documentation
 
+- [IDE setup](docs/ide/README.md)
+  - [Cursor](docs/ide/cursor.md)
+  - [Claude Desktop](docs/ide/claude.md)
+  - [Other IDEs](docs/ide/other.md)
 - [Configuration](docs/configuration.md) - Configuration reference and examples
 - [Usage](docs/usage.md) - CLI options, endpoints, authentication, and tool filtering
 - [PII Redaction](docs/redaction.md) - Redaction setup and configuration
@@ -57,46 +61,42 @@ An MCP proxy that aggregates multiple MCP servers behind a single HTTP entrypoin
 - Node.js >= 22.14.0
 - npm
 
-### Installation
+### Option 1 — Run with stdio (recommended)
 
-```bash
-git clone https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor.git
-cd gs-mcp-pii-redactor
-npm install
-```
+Integrate directly with your IDE over stdio. No global install required.
 
-### Running
+- Cursor: see [docs/ide/cursor.md](docs/ide/cursor.md) (stdio section)
+- Claude Desktop: see [docs/ide/claude.md](docs/ide/claude.md) (stdio section)
+- Other IDEs: see [docs/ide/other.md](docs/ide/other.md)
 
-```bash
-# Development mode with watch
-npm run start:dev
+### Option 2 — Run locally before IDE integration (SSE/HTTP)
 
-# Production build
-npm run build
-npm run start:prod
+1. Install the module globally:
+   ```bash
+   npm install -g @growthspace-engineering/gs-mcp-proxy-pii-redactor
+   ```
+2. Run the CLI (with or without a config file):
+   ```bash
+   gs-mcp-proxy
+   # or
+   gs-mcp-proxy --config ~/gs-mcp-proxy/config.json
+   ```
+3. Connect your IDE using `mcp-remote` (SSE or streamable HTTP):
+   - Cursor: see [docs/ide/cursor.md](docs/ide/cursor.md) (SSE/HTTP sections)
+   - Claude Desktop: see [docs/ide/claude.md](docs/ide/claude.md) (SSE/HTTP sections)
 
-# With custom config file
-npm run start:prod -- --config /path/to/config.json
+Developer setup (clone, build, run locally) has moved to [CONTRIBUTING.md](CONTRIBUTING.md).
 
-# With remote config URL
-npm run start:prod -- --config https://example.com/config.json
-
-# Stdio server mode (serve one downstream over stdio)
-# Select the downstream with --stdio-target when multiple are configured
-npm run build
-npm run start:stdio -- --stdio-target github-allow
-```
-
-### Minimal Configuration
+### Minimal Configuration (for local server)
 
 ```json
 {
   "mcpProxy": {
-    "baseURL": "http://localhost:8083",
-    "addr": ":8083",
+    "baseURL": "http://localhost:8084",
+    "addr": ":8084",
     "name": "MCP Proxy with PII Redaction",
     "version": "1.0.0",
-    "type": "streamable-http"
+    "type": "sse"
   },
   "mcpServers": {
     "github": {

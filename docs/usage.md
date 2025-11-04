@@ -22,18 +22,26 @@ npm run start:prod -- --config https://example.com/config.json
 npm run start:prod -- --config https://example.com/config.json --insecure
 ```
 
+## IDE integrations
+
+IDE usage is the primary workflow (Cursor, Claude, etc.). See per‑IDE setup for stdio, SSE, and streamable HTTP:
+
+- docs/ide/cursor.md
+- docs/ide/claude.md
+- docs/ide/other.md
+
 ## Endpoints
 
-Given `mcpProxy.baseURL = http://localhost:8083` and a server key `github`:
+Given `mcpProxy.baseURL = http://localhost:8084` and a server key `github`:
 
 ### SSE Transport (`type: sse`)
 
-- `GET http://localhost:8083/github/sse` — Establish SSE connection
-- `POST http://localhost:8083/github/message` — Send messages to SSE connection
+- `GET http://localhost:8084/github/sse` — Establish SSE connection
+- `POST http://localhost:8084/github/message` — Send messages to SSE connection
 
 ### Streamable HTTP Transport (`type: streamable-http`)
 
-- `GET/POST/DELETE http://localhost:8083/github` — Handle MCP requests
+- `GET/POST/DELETE http://localhost:8084/github` — Handle MCP requests
 
 The proxy supports both transports and routes requests based on the configured `mcpProxy.type`.
 
