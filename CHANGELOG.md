@@ -1,3 +1,10 @@
+# [1.0.0-beta.16](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.15...v1.0.0-beta.16) (2025-11-04)
+
+
+### Bug Fixes
+
+* **cli:** include dist in publish and build on prepublishOnly ([ff9a4bc](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/ff9a4bc4a3670c4bdabf573669040b4425c4430f))
+
 # [1.0.0-beta.15](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.14...v1.0.0-beta.15) (2025-11-04)
 
 
