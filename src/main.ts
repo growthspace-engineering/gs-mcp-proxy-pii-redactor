@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 
+import { join } from 'path';
+
 import * as commander from 'commander';
+import { readJsonSync } from 'fs-extra';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
-import * as packageJson from '../package.json';
 import { ConfigService } from './config/config.service';
 import { MCPServerService } from './mcp/mcp-server.service';
 import { AppModule } from './app.module';
@@ -51,6 +53,7 @@ async function bootstrap() {
   }
 
   if (options.version) {
+    const packageJson = readJsonSync(join(__dirname, '../package.json'));
     console.log(packageJson.version);
     return;
   }
