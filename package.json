@@ -22,6 +22,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "start:stdio": "node dist/main.js --config config.json",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "prepare": "husky",
     "commit": "cz",
