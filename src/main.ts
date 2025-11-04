@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import * as commander from 'commander';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 

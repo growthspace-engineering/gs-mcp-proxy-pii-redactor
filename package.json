@@ -17,7 +17,7 @@
   },
   "main": "dist/main.js",
   "bin": {
-    "gs-mcp-proxy-pii-redactor": "dist/main.js"
+    "gs-mcp-proxy": "dist/main.js"
   },
   "scripts": {
     "build": "nest build",
