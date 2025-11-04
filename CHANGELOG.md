@@ -1,3 +1,12 @@
+# [1.0.0-beta.13](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.12...v1.0.0-beta.13) (2025-11-04)
+
+
+### Features
+
+* **core:** add stdio e2e and update config, server, docs ([554f159](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/554f159aa29b19bfbb5f48d0ded9005a3d961e69))
+* **release:** auto update beta branch with release tags ([7b07f31](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/7b07f311195315b06d698789a9404fd924ae1e9f))
+* **tests:** enhance Jest configuration ([d44ad41](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/d44ad41a8e500be6987dd0b4ef5660ca3eb56109))
+
 # [1.0.0-beta.12](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.0.0-beta.11...v1.0.0-beta.12) (2025-11-02)
 
 
