@@ -23,7 +23,8 @@
     "dist/**",
     "README.md",
     "LICENSE",
-    "package.json"
+    "package.json",
+    "config.json"
   ],
   "scripts": {
     "build": "nest build",
