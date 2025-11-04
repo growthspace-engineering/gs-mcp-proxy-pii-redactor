@@ -104,7 +104,36 @@ This project supports a v2 JSON configuration format. Configuration can be provi
 - `addr` (required): Bind address (e.g., `:8083`)
 - `name` (required): Server identity for MCP handshake
 - `version` (required): Server version for MCP handshake
-- `type` (optional): `sse` (default) or `streamable-http`
+- `type` (optional): `sse` (default), `streamable-http`, or `stdio`
+  - `stdio`: Serve exactly one downstream MCP server over stdio. Select target via CLI `--stdio-target <name>` or configure only one `mcpServers` entry.
+
+#### Stdio server mode example
+
+```json
+{
+  "mcpProxy": {
+    "name": "MCP Proxy",
+    "version": "1.0.0",
+    "type": "stdio"
+  },
+  "mcpServers": {
+    "github-allow": {
+      "transportType": "streamable-http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": { "Authorization": "Bearer ${GITHUB_TOKEN}" },
+      "options": {
+        "toolFilter": { "mode": "allow", "list": ["list_issues", "search_repositories"] }
+      }
+    }
+  }
+}
+```
+
+Run:
+
+```bash
+node dist/main.js --config ./config.json --stdio-target github-allow
+```
 - `options` (optional): Defaults inherited by `mcpServers.*.options` (can be overridden per server)
 
 ### mcpServers

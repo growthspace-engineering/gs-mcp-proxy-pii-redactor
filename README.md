@@ -80,6 +80,11 @@ npm run start:prod -- --config /path/to/config.json
 
 # With remote config URL
 npm run start:prod -- --config https://example.com/config.json
+
+# Stdio server mode (serve one downstream over stdio)
+# Select the downstream with --stdio-target when multiple are configured
+npm run build
+npm run start:stdio -- --stdio-target github-allow
 ```
 
 ### Minimal Configuration

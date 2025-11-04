@@ -1,4 +1,4 @@
-export type MCPServerType = 'sse' | 'streamable-http';
+export type MCPServerType = 'sse' | 'streamable-http' | 'stdio';
 
 export type MCPClientType = 'stdio' | 'sse' | 'streamable-http';
 

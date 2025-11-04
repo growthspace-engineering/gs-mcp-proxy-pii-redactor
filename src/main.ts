@@ -1,10 +1,12 @@
 import * as commander from 'commander';
+import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import * as packageJson from '../package.json';
 import { ConfigService } from './config/config.service';
+import { MCPServerService } from './mcp/mcp-server.service';
 import { AppModule } from './app.module';
 
 const logger = new Logger('Bootstrap');
@@ -15,7 +17,8 @@ async function bootstrap() {
     .option('-c, --config <path>', 'path to config file or a http(s) url', 'config.json')
     .option('--insecure', 'allow insecure HTTPS connections', false)
     .option('-v, --version', 'print version and exit', false)
-    .option('-h, --help', 'print help and exit', false);
+    .option('-h, --help', 'print help and exit', false)
+    .option('--stdio-target <name>', 'target downstream server name when running in stdio mode');
 
   program.parse(process.argv);
   const options = program.opts();
@@ -44,9 +47,48 @@ async function bootstrap() {
     process.exit(1);
   }
 
-  const config = configService.getConfig();
-  const port = config.mcpProxy.addr.replace(':', '') || 8083;
+  // Ensure all modules run their lifecycle hooks (e.g., MCPServerService.onModuleInit)
+  await app.init();
 
+  const config = configService.getConfig();
+  if (config.mcpProxy.type === 'stdio') {
+    const targetArg = options.stdioTarget as string | undefined;
+    const serverNames = Object.keys(config.mcpServers || {});
+    const targetName = targetArg || (serverNames.length === 1 ? serverNames[0] : undefined);
+
+    if (!targetName) {
+      logger.error('In stdio mode, you must specify exactly one downstream or pass --stdio-target <name>');
+      await app.close();
+      process.exit(1);
+      return;
+    }
+
+    const mcpService = app.get(MCPServerService);
+    const instance = mcpService.getServer(targetName);
+    if (!instance) {
+      logger.error(`Downstream server "${ targetName }" not found`);
+      await app.close();
+      process.exit(1);
+      return;
+    }
+
+    logger.log(`Starting MCP proxy in stdio mode targeting "${ targetName }"`);
+    const transport = new StdioServerTransport();
+    await instance.server.connect(transport);
+
+    const shutdown = async () => {
+      try {
+        await app.close();
+      } finally {
+        process.exit(0);
+      }
+    };
+    process.on('SIGINT', shutdown);
+    process.on('SIGTERM', shutdown);
+    return;
+  }
+
+  const port = config.mcpProxy.addr.replace(':', '') || 8083;
   await app.listen(port);
   logger.log(`Server listening on port ${ port }`);
 }
