@@ -1,7 +1,7 @@
 {
   "name": "@growthspace-engineering/gs-mcp-proxy-pii-redactor",
   "version": "1.4.0",
-  "author": "Growthspace Engineering",
+  "author": "thatkookooguy <neilkalman@gmail.com>",
   "license": "MIT",
   "description": "MCP Proxy with PII Redaction - TypeScript/NestJS implementation",
   "repository": {
@@ -13,7 +13,7 @@
     "access": "public"
   },
   "engines": {
-    "node": ">=22.14.0"
+    "node": ">=20"
   },
   "main": "dist/main.js",
   "bin": {
@@ -47,11 +47,11 @@
     "posttest:cov": "npm run inject",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "pretest:e2e": "rimraf test-results",
-    "test:e2e": "jest --config ./test/jest-e2e.config.ts --runInBand",
-    "test:e2e:cov": "jest --config ./test/jest-e2e.config.ts --coverage --runInBand",
+    "test:e2e": "jest --config ./e2e/jest-e2e.config.ts --runInBand",
+    "test:e2e:cov": "jest --config ./e2e/jest-e2e.config.ts --coverage --runInBand",
     "posttest:e2e": "npm run inject",
     "posttest:e2e:cov": "npm run inject",
-    "test:e2e:watch": "jest --config ./test/jest-e2e.config.ts --watch --runInBand",
+    "test:e2e:watch": "jest --config ./e2e/jest-e2e.config.ts --watch --runInBand",
     "coverage:merge": "node scripts/build-combined-coverage.cjs",
     "test:unit:cov": "jest --coverage --cache --passWithNoTests --coverageDirectory ./test-results/gs-mcp-proxy-pii-redactor/unit/coverage",
     "pretest:all:cov": "rimraf test-results",

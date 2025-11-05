@@ -22,7 +22,7 @@
 </a>
 <a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg"></a>
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square" alt="All Contributors"></a>
+<a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square" alt="All Contributors"></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
 <p align="center">
@@ -58,8 +58,7 @@ An MCP proxy that aggregates multiple MCP servers behind a single HTTP entrypoin
 
 ### Prerequisites
 
-- Node.js >= 22.14.0
-- npm
+- Node.js >= 20 (or equivalent bun or pnpm)
 
 ### Option 1 — Run with stdio (recommended)
 
@@ -158,12 +157,11 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="http://thatkookooguy.kibibit.io/"><img src="https://avatars.githubusercontent.com/u/10427304?v=4?s=100" width="100px;" alt="Neil Kalman"/><br /><sub><b>Neil Kalman</b></sub></a><br /><a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commits?author=thatkookooguy" title="Code">💻</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Romarionijim"><img src="https://github.com/Romarionijim.png?s=100" width="100px;" alt="Romario Nijim"/><br /><sub><b>Romario Nijim</b></sub></a><br /><a href="#ideas-Romarionijim" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-Romarionijim" title="Maintenance">🚧</a> <a href="#research-Romarionijim" title="Research">🔬</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="http://thatkookooguy.kibibit.io/"><img src="https://avatars.githubusercontent.com/u/10427304?v=4?s=100" width="100px;" alt="Neil Kalman"/><br /><sub><b>Neil Kalman</b></sub></a><br /><a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commits?author=thatkookooguy" title="Code">💻</a> <a href="#question-thatkookooguy" title="Answering Questions">💬</a> <a href="#blog-thatkookooguy" title="Blogposts">📝</a> <a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commits?author=thatkookooguy" title="Documentation">📖</a> <a href="#ideas-thatkookooguy" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-thatkookooguy" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-thatkookooguy" title="Maintenance">🚧</a> <a href="#research-thatkookooguy" title="Research">🔬</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Romarionijim"><img src="https://github.com/Romarionijim.png?s=100" width="100px;" alt="Romario Nijim"/><br /><sub><b>Romario Nijim</b></sub></a><br /><a href="#ideas-Romarionijim" title="Ideas, Planning, & Feedback">🤔</a> <a href="#maintenance-Romarionijim" title="Maintenance">🚧</a> <a href="#research-Romarionijim" title="Research">🔬</a> <a href="#question-Romarionijim" title="Answering Questions">💬</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://shaieliyahu.com"><img src="https://avatars.githubusercontent.com/u/74975334?v=4?s=100" width="100px;" alt="shai eliyahu"/><br /><sub><b>shai eliyahu</b></sub></a><br /><a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/pulls?q=is%3Apr+reviewed-by%3Aaheua10" title="Reviewed Pull Requests">👀</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/apps/allcontributors"><img src="https://avatars.githubusercontent.com/in/23186?v=4?s=100" width="100px;" alt="allcontributors[bot]"/><br /><sub><b>allcontributors[bot]</b></sub></a><br /><a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commits?author=allcontributors[bot]" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://www.gla.co.il"><img src="https://avatars.githubusercontent.com/u/23203489?v=4?s=100" width="100px;" alt="Gal Amitai"/><br /><sub><b>Gal Amitai</b></sub></a><br /><a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/pulls?q=is%3Apr+reviewed-by%3AGalAmitai" title="Reviewed Pull Requests">👀</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/gr0wth-b0t"><img src="https://avatars.githubusercontent.com/u/94817429?v=4?s=100" width="100px;" alt="gr0wth-b0t"/><br /><sub><b>gr0wth-b0t</b></sub></a><br /><a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commits?author=gr0wth-b0t" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/yevgenim"><img src="https://avatars.githubusercontent.com/u/29144954?v=4?s=100" width="100px;" alt="Yevgeni Mumblat"/><br /><sub><b>Yevgeni Mumblat</b></sub></a><br /><a href="#ideas-yevgenim" title="Ideas, Planning, & Feedback">🤔</a></td>
     </tr>
   </tbody>
 </table>
@@ -182,15 +180,15 @@ When you merge a pull request, our GitHub Actions workflow automatically:
 
 You can also manually add contributors using:
 ```bash
-npm run contributors:add -- <username> <contribution-type>
+npm run contributors:add
 ```
-
-Contribution types include: `code`, `doc`, `test`, `bug`, `ideas`, `review`, and [more](https://allcontributors.org/docs/en/emoji-key).
+and the allcontributors cli will prompt you for the contribution details.
 
 ## Acknowledgments
-
-- This project was inspired by the [TBXark/mcp-proxy](https://github.com/TBXark/mcp-proxy) project, a Go-based MCP proxy server that aggregates multiple MCP servers through a single HTTP endpoint.
+This project was inspired by the following projects:
+- [TBXark/mcp-proxy](https://github.com/TBXark/mcp-proxy): a Go-based MCP proxy server that aggregates multiple MCP servers through a single HTTP endpoint.
+- [nestjs/nest](https://github.com/nestjs/nest): a progressive Node.js framework for building server-side applications.
 
 ## License
 
-MIT
+MIT 2025
