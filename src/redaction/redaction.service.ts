@@ -36,6 +36,12 @@ export class RedactionService {
       this.logger.log(
         [ 'Redaction service initialized with ', String(dictionary.length), ' terms' ].join('')
       );
+      try {
+        const engine = this.matcher.isAutomatonEnabled() ?
+          'Aho–Corasick automaton' :
+          'sequential scan';
+        this.logger.log([ 'Redaction engine: ', engine ].join(''));
+      } catch {}
     } catch (error) {
       this.initError = error as Error;
       this.logger.error([ 'Redaction service init failed: ', String(error) ].join(''));

@@ -74,6 +74,7 @@
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "@types/eventsource": "^1.1.15",
+    "ahocorasick": "^1.0.2",
     "axios": "^1.6.0",
     "commander": "^11.0.0",
     "eventsource": "^4.0.0",
