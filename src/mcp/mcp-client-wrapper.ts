@@ -28,6 +28,11 @@ export class MCPClientWrapper {
   private needPing = false;
   private needManualStart = false;
   private pingInterval: NodeJS.Timeout | null = null;
+  private defaultTimeoutMs = 15000;
+  private cacheTtlMs = 30000;
+  private toolsCache: { data: any[]; expiresAt: number } | null = null;
+  private promptsCache: { data: any[]; expiresAt: number } | null = null;
+  private resourcesCache: { data: any[]; expiresAt: number } | null = null;
 
   constructor(
     name: string,
@@ -217,15 +222,24 @@ export class MCPClientWrapper {
       throw new Error('Client not initialized');
     }
 
-    const response = await this.client.listTools({});
-    const tools = response.tools || [];
+    if (this.toolsCache && this.toolsCache.expiresAt > Date.now()) {
+      return this.toolsCache.data;
+    }
+
+    const timeoutMs = this.config.timeout || this.defaultTimeoutMs;
+    const response = await this.withTimeout(this.client.listTools({}), timeoutMs, 'listTools');
+    const tools = (response?.tools || []) as any[];
 
     // Apply tool filtering
     const filteredTools = tools.filter(
       (tool) => !this.shouldFilterTool(tool.name)
     );
 
-    return filteredTools;
+    this.toolsCache = {
+      data: filteredTools,
+      expiresAt: Date.now() + this.cacheTtlMs
+    };
+    return this.toolsCache.data;
   }
 
   async listPrompts(): Promise<any[]> {
@@ -234,8 +248,14 @@ export class MCPClientWrapper {
     }
 
     try {
-      const response = await this.client.listPrompts({});
-      return response.prompts || [];
+      if (this.promptsCache && this.promptsCache.expiresAt > Date.now()) {
+        return this.promptsCache.data;
+      }
+      const timeoutMs = this.config.timeout || this.defaultTimeoutMs;
+      const response = await this.withTimeout(this.client.listPrompts({}), timeoutMs, 'listPrompts');
+      const data = (response?.prompts || []) as any[];
+      this.promptsCache = { data, expiresAt: Date.now() + this.cacheTtlMs };
+      return data;
     } catch (error: any) {
       // If the server doesn't support prompts (Method not found), return empty array
       if (error.code === -32601) {
@@ -252,8 +272,14 @@ export class MCPClientWrapper {
     }
 
     try {
-      const response = await this.client.listResources({});
-      return response.resources || [];
+      if (this.resourcesCache && this.resourcesCache.expiresAt > Date.now()) {
+        return this.resourcesCache.data;
+      }
+      const timeoutMs = this.config.timeout || this.defaultTimeoutMs;
+      const response = await this.withTimeout(this.client.listResources({}), timeoutMs, 'listResources');
+      const data = (response?.resources || []) as any[];
+      this.resourcesCache = { data, expiresAt: Date.now() + this.cacheTtlMs };
+      return data;
     } catch (error: any) {
       // If the server doesn't support resources (Method not found), return empty array
       if (error.code === -32601) {
@@ -308,6 +334,34 @@ export class MCPClientWrapper {
     }
 
     return response;
+  }
+
+  private async withTimeout<T>(promise: Promise<T>, ms: number, opName: string): Promise<T | undefined> {
+    let timeoutHandle: NodeJS.Timeout | null = null;
+    try {
+      const result = await Promise.race([
+        promise,
+        new Promise<undefined>((resolve) => {
+          timeoutHandle = setTimeout(() => {
+            this.logger.warn([
+              '<',
+              this.name,
+              '> ',
+              opName,
+              ' timed out after ',
+              String(ms),
+              'ms'
+            ].join(''));
+            resolve(undefined);
+          }, ms);
+        })
+      ]);
+      return result as T | undefined;
+    } finally {
+      if (timeoutHandle) {
+        clearTimeout(timeoutHandle);
+      }
+    }
   }
 
   async getPrompt(
@@ -473,15 +527,15 @@ export class MCPClientWrapper {
       }
     );
 
-    // Register tools from client
-    const tools = await this.listTools();
-    // tools/list handler
+    // Register tools from client lazily to avoid slow startup
     server.setRequestHandler(ListToolsRequestSchema, async () => {
+      const tools = await this.listTools();
       return { tools } as any;
     });
     // Single dispatching handler for tool calls
     server.setRequestHandler(CallToolRequestSchema, async (request) => {
       const requestedName = request.params.name;
+      const tools = await this.listTools();
       const tool = tools.find((t) => t.name === requestedName);
       if (!tool) {
         throw new Error(`Tool ${ requestedName } not found`);
@@ -494,15 +548,15 @@ export class MCPClientWrapper {
       );
     });
 
-    // Register prompts from client
-    const prompts = await this.listPrompts();
-    // prompts/list handler
+    // Register prompts from client lazily
     server.setRequestHandler(ListPromptsRequestSchema, async () => {
+      const prompts = await this.listPrompts();
       return { prompts } as any;
     });
     // Single dispatching handler for prompt calls
     server.setRequestHandler(GetPromptRequestSchema, async (request) => {
       const requestedName = request.params.name;
+      const prompts = await this.listPrompts();
       const prompt = prompts.find((p) => p.name === requestedName);
       if (!prompt) {
         throw new Error(`Prompt ${ requestedName } not found`);
@@ -515,9 +569,9 @@ export class MCPClientWrapper {
       );
     });
 
-    // Register resources from client
-    const resources = await this.listResources();
+    // Register resources from client lazily
     server.setRequestHandler(ListResourcesRequestSchema, async () => {
+      const resources = await this.listResources();
       return { resources };
     });
 
