@@ -36,8 +36,8 @@ jobs:
       
       - name: Configure git
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
+          git config --local user.email "gsBot@growthspace.com"
+          git config --local user.name "gr0wth-b0t"
       
       - name: Determine contributor status
         id: contrib_status
@@ -48,7 +48,8 @@ jobs:
           const cfg = JSON.parse(fs.readFileSync('.all-contributorsrc', 'utf8'));
           const contributors = Array.isArray(cfg.contributors) ? cfg.contributors : [];
           const entry = contributors.find(c => String(c.login || '').toLowerCase() === login);
-          const found = Boolean(entry);
+          const isForbidden = ['gr0wth-b0t', 'allcontributors[bot]'].includes(login);
+          const found = Boolean(entry) && !isForbidden;
           const hasCode = found && Array.isArray(entry.contributions) && entry.contributions.includes('code');
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `found=${found}\n`);
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `has_code=${hasCode}\n`);
