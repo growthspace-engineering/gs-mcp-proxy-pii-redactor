@@ -90,8 +90,8 @@ npm run test:e2e
 
 The E2E test suite includes comprehensive tests for **both MCP transport options**:
 
-- **SSE (Server-Sent Events)** - Tests in `test/mcp.sse.e2e-spec.ts` and `test/mcp.search-repositories.sse.e2e-spec.ts`
-- **Streamable HTTP** - Tests in `test/mcp.e2e-spec.ts` and `test/mcp.search-repositories.e2e-spec.ts`
+- **SSE (Server-Sent Events)** - Tests in `e2e/mcp.sse.e2e-spec.ts` and `e2e/mcp.search-repositories.sse.e2e-spec.ts`
+- **Streamable HTTP** - Tests in `e2e/mcp.e2e-spec.ts` and `e2e/mcp.search-repositories.e2e-spec.ts`
 
 Both transport types are tested with:
 - Connection and tool listing
@@ -267,7 +267,7 @@ src/
   app.module.ts
   main.ts
 
-test/             # E2E tests
+e2e/             # E2E tests
 ```
 
 ## Getting Help

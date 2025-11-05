@@ -25,7 +25,7 @@
   },
   "gitlens.ai.generateCommitMessage.customInstructions": ".vscode/commit-message-instructions.md",
   "peacock.color": "#750687",
-  "jest.jestCommandLine": "npx jest --projects jest.config.ts test/jest-e2e.config.ts",
+  "jest.jestCommandLine": "npx jest --projects jest.config.ts e2e/jest-e2e.config.ts",
   "jest.runMode": {
     "type": "on-demand"
   },

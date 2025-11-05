@@ -29,8 +29,8 @@ test-results/
 *.tsbuildinfo
 
 .server.pid
- 
+
 # E2E temp configs
-/test/config.e2e.json
-/test/config.search.e2e.json
-/test/config.*.e2e.json
+/e2e/config.e2e.json
+/e2e/config.search.e2e.json
+/e2e/config.*.e2e.json
