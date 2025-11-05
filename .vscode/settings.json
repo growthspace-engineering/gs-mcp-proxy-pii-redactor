@@ -25,10 +25,22 @@
   },
   "gitlens.ai.generateCommitMessage.customInstructions": ".vscode/commit-message-instructions.md",
   "peacock.color": "#750687",
-  "jest.jestCommandLine": "npx jest --projects jest.config.ts e2e/jest-e2e.config.ts",
+  "jest.virtualFolders": [
+    {
+      "name": "unit-tests",
+      "path": "src"
+    },
+    {
+      "name": "e2e-tests",
+      "path": "e2e"
+    },
+  ],
   "jest.runMode": {
-    "type": "on-demand"
+    "type": "on-save",
+    "coverage": false,
+    "runAllTestsOnStartup": true
   },
+  "testing.automaticallyOpenTestResults": "neverOpen",
   // lint with eslint and fix on save
   "eslint.enable": true,
   "eslint.run": "onSave",
