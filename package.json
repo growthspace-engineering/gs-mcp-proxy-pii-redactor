@@ -16,6 +16,7 @@
     "config.json"
   ],
   "scripts": {
+    "prune-merged": "kb-prune-merged",
     "build": "nest build",
     "prepublishOnly": "npm run build",
     "start": "nest start",
@@ -76,6 +77,7 @@
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
+    "@kibibit/dev-tools": "^1.1.1",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
