@@ -13,16 +13,7 @@
         "NODE_OPTIONS": "--max-old-space-size=4096"
       }
     },
-    "proxied-github-example1": {
-      "command": "gs-mcp-proxy",
-      "args": [
-        "--config",
-        "~/nice/config.json",
-        "--stdio-target",
-        "github"
-      ]
-    },
-    "proxied-github-example2": {
+    "proxied-github": {
       "command": "npx",
       "args": [
         "-y",
@@ -44,18 +35,15 @@
         "atlassian"
       ]
     },
-    "proxied-github-sse-example": {
+    "proxied-gcp": {
       "command": "npx",
       "args": [
-        "mcp-remote",
-        "http://localhost:8084/github/sse"
-      ]
-    },
-    "proxied-github-streamable-http-example": {
-      "command": "npx",
-      "args": [
-        "mcp-remote",
-        "http://localhost:8084/github"
+        "-y",
+        "@growthspace-engineering/gs-mcp-proxy-pii-redactor",
+        "--config",
+        "~/gs-mcp-proxy/config.json",
+        "--stdio-target",
+        "gcp"
       ]
     }
   }

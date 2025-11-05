@@ -81,7 +81,8 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "uuid": "^9.0.0",
-    "winston": "^3.11.0"
+    "winston": "^3.11.0",
+    "ahocorasick": "^1.4.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
