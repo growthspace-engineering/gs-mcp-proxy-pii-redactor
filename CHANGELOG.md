@@ -1,3 +1,10 @@
+# [1.4.0-beta.1](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.3.1...v1.4.0-beta.1) (2025-11-05)
+
+
+### Features
+
+* **matcher:** use ahocorasick for quicker match searches ([85d7e8d](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commit/85d7e8d68176cf9def23aa858e5adf859231f4e1))
+
 ## [1.3.1](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/compare/v1.3.0...v1.3.1) (2025-11-04)
 
 
