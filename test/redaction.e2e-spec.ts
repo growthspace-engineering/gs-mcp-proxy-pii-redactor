@@ -14,6 +14,12 @@ describe('PII Redaction (e2e-like service tests)', () => {
     (service as any).initialized = true;
   });
 
+  it('uses Aho–Corasick automaton when available', async () => {
+    const m = await Matcher.build(['alpha', 'beta']);
+    expect(typeof (m as any).isAutomatonEnabled).toBe('function');
+    expect(m.isAutomatonEnabled()).toBe(true);
+  });
+
   it('redacts emails and phone numbers generically in plain strings', () => {
     const input =
       'Email me at foo.bar+test@example.com or at user@example.co.uk, call +1 (650) 555-1234 or +972 52-353-1234.';

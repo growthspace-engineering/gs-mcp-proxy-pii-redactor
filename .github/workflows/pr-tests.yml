@@ -153,43 +153,21 @@ jobs:
           echo "e2e=$BASE_E2E" >> $GITHUB_OUTPUT
           echo "combined=$BASE_COMBINED" >> $GITHUB_OUTPUT
 
-      - name: 🚀 Deploy unit reports to GitHub Pages
-        id: deploy-unit
-        uses: ./.github/actions/deploy-github-pages
+      - name: 🚀 Deploy all test reports to GitHub Pages (batched)
+        id: deploy-reports
+        uses: ./.github/actions/deploy-github-pages-batched
         with:
-          test-results-path: test-results/gs-mcp-proxy-pii-redactor/unit
-          project-name: gs-mcp-proxy-pii-redactor-pr-${{ github.event.pull_request.number }}-unit
-          coverage-path: test-results/gs-mcp-proxy-pii-redactor/unit/coverage/coverage-summary.json
-          jest-results-path: test-results/gs-mcp-proxy-pii-redactor/unit/jest-results.json
+          unit-results-path: test-results/gs-mcp-proxy-pii-redactor/unit
+          e2e-results-path: test-results/gs-mcp-proxy-pii-redactor/e2e
+          combined-coverage-path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage
+          unit-coverage-summary: test-results/gs-mcp-proxy-pii-redactor/unit/coverage/coverage-summary.json
+          e2e-coverage-summary: test-results/gs-mcp-proxy-pii-redactor/e2e/coverage/coverage-summary.json
+          combined-coverage-summary: test-results/gs-mcp-proxy-pii-redactor/combined-coverage/coverage-summary.json
+          unit-jest-results: test-results/gs-mcp-proxy-pii-redactor/unit/jest-results.json
+          e2e-jest-results: test-results/gs-mcp-proxy-pii-redactor/e2e/jest-results.json
           deployment-type: pr
           pr-number: ${{ github.event.pull_request.number }}
-          subdir: unit
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 🚀 Deploy e2e reports to GitHub Pages
-        id: deploy-e2e
-        uses: ./.github/actions/deploy-github-pages
-        with:
-          test-results-path: test-results/gs-mcp-proxy-pii-redactor/e2e
-          project-name: gs-mcp-proxy-pii-redactor-pr-${{ github.event.pull_request.number }}-e2e
-          coverage-path: test-results/gs-mcp-proxy-pii-redactor/e2e/coverage/coverage-summary.json
-          jest-results-path: test-results/gs-mcp-proxy-pii-redactor/e2e/jest-results.json
-          deployment-type: pr
-          pr-number: ${{ github.event.pull_request.number }}
-          subdir: e2e
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 🚀 Deploy combined coverage to GitHub Pages
-        id: deploy-combined
-        uses: ./.github/actions/deploy-github-pages
-        with:
-          test-results-path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage
-          project-name: gs-mcp-proxy-pii-redactor-pr-${{ github.event.pull_request.number }}-combined
-          coverage-path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage/coverage-summary.json
-          jest-results-path: test-results/gs-mcp-proxy-pii-redactor/unit/jest-results.json
-          deployment-type: pr
-          pr-number: ${{ github.event.pull_request.number }}
-          subdir: combined-coverage
+          project-name-prefix: gs-mcp-proxy-pii-redactor-pr-${{ github.event.pull_request.number }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 📝 Add report links to workflow summary
@@ -219,17 +197,17 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Unit Tests" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "[![Tests](${{ steps.deploy-unit.outputs.test-badge }}?style=flat-square)](${{ steps.deploy-unit.outputs.report-url }}) [![Coverage](${{ steps.deploy-unit.outputs.coverage-badge }}?style=flat-square)](${{ steps.deploy-unit.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
+          echo "[![Tests](${{ steps.deploy-reports.outputs.unit-test-badge }}?style=flat-square)](${{ steps.deploy-reports.outputs.unit-report-url }}) [![Coverage](${{ steps.deploy-reports.outputs.unit-coverage-badge }}?style=flat-square)](${{ steps.deploy-reports.outputs.unit-coverage-url }})" >> $GITHUB_STEP_SUMMARY
           if [ "$BASE_UNIT" != "0" ]; then echo "" >> $GITHUB_STEP_SUMMARY && echo "Coverage change: $UNIT_CHANGE" >> $GITHUB_STEP_SUMMARY; fi
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### E2E Tests" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "[![Tests](${{ steps.deploy-e2e.outputs.test-badge }}?style=flat-square)](${{ steps.deploy-e2e.outputs.report-url }}) [![Coverage](${{ steps.deploy-e2e.outputs.coverage-badge }}?style=flat-square)](${{ steps.deploy-e2e.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
+          echo "[![Tests](${{ steps.deploy-reports.outputs.e2e-test-badge }}?style=flat-square)](${{ steps.deploy-reports.outputs.e2e-report-url }}) [![Coverage](${{ steps.deploy-reports.outputs.e2e-coverage-badge }}?style=flat-square)](${{ steps.deploy-reports.outputs.e2e-coverage-url }})" >> $GITHUB_STEP_SUMMARY
           if [ "$BASE_E2E" != "0" ]; then echo "" >> $GITHUB_STEP_SUMMARY && echo "Coverage change: $E2E_CHANGE" >> $GITHUB_STEP_SUMMARY; fi
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Combined Coverage" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "[![Coverage](${{ steps.deploy-combined.outputs.coverage-badge }}?style=flat-square)](${{ steps.deploy-combined.outputs.coverage-url }})" >> $GITHUB_STEP_SUMMARY
+          echo "[![Coverage](${{ steps.deploy-reports.outputs.combined-coverage-badge }}?style=flat-square)](${{ steps.deploy-reports.outputs.combined-coverage-url }})" >> $GITHUB_STEP_SUMMARY
           if [ "$BASE_COMBINED" != "0" ]; then echo "" >> $GITHUB_STEP_SUMMARY && echo "Coverage change: $COMBINED_CHANGE" >> $GITHUB_STEP_SUMMARY; fi
 
       - name: 💬 Comment on PR with report links
@@ -243,16 +221,16 @@ jobs:
           script: |
             const fs = require('fs');
             const prNumber = context.payload.pull_request.number;
-            const unitReportUrl = '${{ steps.deploy-unit.outputs.report-url }}';
-            const unitCoverageUrl = '${{ steps.deploy-unit.outputs.coverage-url }}';
-            const unitTestBadge = '${{ steps.deploy-unit.outputs.test-badge }}';
-            const unitCoverageBadge = '${{ steps.deploy-unit.outputs.coverage-badge }}';
-            const e2eReportUrl = '${{ steps.deploy-e2e.outputs.report-url }}';
-            const e2eCoverageUrl = '${{ steps.deploy-e2e.outputs.coverage-url }}';
-            const e2eTestBadge = '${{ steps.deploy-e2e.outputs.test-badge }}';
-            const e2eCoverageBadge = '${{ steps.deploy-e2e.outputs.coverage-badge }}';
-            const combinedCoverageUrl = '${{ steps.deploy-combined.outputs.coverage-url }}';
-            const combinedCoverageBadge = '${{ steps.deploy-combined.outputs.coverage-badge }}';
+            const unitReportUrl = '${{ steps.deploy-reports.outputs.unit-report-url }}';
+            const unitCoverageUrl = '${{ steps.deploy-reports.outputs.unit-coverage-url }}';
+            const unitTestBadge = '${{ steps.deploy-reports.outputs.unit-test-badge }}';
+            const unitCoverageBadge = '${{ steps.deploy-reports.outputs.unit-coverage-badge }}';
+            const e2eReportUrl = '${{ steps.deploy-reports.outputs.e2e-report-url }}';
+            const e2eCoverageUrl = '${{ steps.deploy-reports.outputs.e2e-coverage-url }}';
+            const e2eTestBadge = '${{ steps.deploy-reports.outputs.e2e-test-badge }}';
+            const e2eCoverageBadge = '${{ steps.deploy-reports.outputs.e2e-coverage-badge }}';
+            const combinedCoverageUrl = '${{ steps.deploy-reports.outputs.combined-coverage-url }}';
+            const combinedCoverageBadge = '${{ steps.deploy-reports.outputs.combined-coverage-badge }}';
             
             // Read current coverage
             const unitCov = JSON.parse(fs.readFileSync('./test-results/gs-mcp-proxy-pii-redactor/unit/coverage/coverage-summary.json', 'utf8')).total.statements.pct;
