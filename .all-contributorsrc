@@ -16,7 +16,14 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/10427304?v=4",
       "profile": "http://thatkookooguy.kibibit.io/",
       "contributions": [
-        "code"
+        "code",
+        "question",
+        "blog",
+        "doc",
+        "ideas",
+        "infra",
+        "maintenance",
+        "research"
       ]
     },
     {
@@ -64,6 +71,15 @@
       "profile": "https://github.com/gr0wth-b0t",
       "contributions": [
         "code"
+      ]
+    },
+    {
+      "login": "yevgenim",
+      "name": "Yevgeni Mumblat",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29144954?v=4",
+      "profile": "https://github.com/yevgenim",
+      "contributions": [
+        "ideas"
       ]
     }
   ],
