@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
+import * as fs from 'fs';
 import { homedir } from 'os';
-import { join } from 'path';
+import { dirname, join, resolve } from 'path';
 
 import * as commander from 'commander';
 import { copySync, ensureDirSync, pathExistsSync, readJsonSync } from 'fs-extra';
@@ -17,21 +18,45 @@ import { AppModule } from './app.module';
 // When running in stdio mode, absolutely nothing should be written to stdout
 // except the JSON-RPC stream. Detect via CLI flag and silence/redirect logs.
 const isStdioCLI = process.argv.includes('--stdio-target');
+const isVerbose = process.argv.includes('--verbose');
+let logFileStream: fs.WriteStream | null = null;
+
 if (isStdioCLI) {
   // Disable Nest's internal logger entirely
   Logger.overrideLogger(false);
   // Redirect common console outputs to stderr to avoid corrupting stdout
   const writeToStderr = (...args: unknown[]) => {
     try {
-      const line = args.map((a) => (typeof a === 'string' ? a : JSON.stringify(a))).join(' ');
-      process.stderr.write(line + '\n');
+      const line = args
+        .map((a) => (typeof a === 'string' ? a : JSON.stringify(a)))
+        .join(' ');
+      const logLine = line + '\n';
+      process.stderr.write(logLine);
+
+      // Also write to file if verbose mode is enabled
+      if (isVerbose && logFileStream) {
+        logFileStream.write(logLine);
+      }
     } catch {
-      process.stderr.write('\n');
+      const fallback = '\n';
+      process.stderr.write(fallback);
+      if (isVerbose && logFileStream) {
+        logFileStream.write(fallback);
+      }
     }
   };
-  (console as unknown as { log: (...args: unknown[]) => void }).log = writeToStderr;
-  (console as unknown as { info: (...args: unknown[]) => void }).info = writeToStderr;
-  (console as unknown as { warn: (...args: unknown[]) => void }).warn = writeToStderr;
+  const consoleLog = console as unknown as {
+    log: (...args: unknown[]) => void;
+  };
+  const consoleInfo = console as unknown as {
+    info: (...args: unknown[]) => void;
+  };
+  const consoleWarn = console as unknown as {
+    warn: (...args: unknown[]) => void;
+  };
+  consoleLog.log = writeToStderr;
+  consoleInfo.info = writeToStderr;
+  consoleWarn.warn = writeToStderr;
 }
 
 const logger = new Logger('Bootstrap');
@@ -45,7 +70,16 @@ async function bootstrap() {
     .option('-h, --help', 'print help and exit', false)
     .option('--init', 'initialize a default config in the user directory and exit', false)
     .option('--init-dest <dir>', 'destination directory for --init (overrides default)')
-    .option('--stdio-target <name>', 'target downstream server name when running in stdio mode');
+    .option(
+      '--stdio-target <name>',
+      'target downstream server name when running in stdio mode'
+    )
+    .option(
+      '--verbose',
+      'enable verbose logging to file in stdio mode ' +
+      '(logs to gs-mcp-proxy.log next to config.json)',
+      false
+    );
 
   program.parse(process.argv);
   const options = program.opts();
@@ -72,7 +106,10 @@ async function bootstrap() {
         logger.log(`Config already exists at ${ destinationPath }`);
         process.exit(0);
       }
-      copySync(sourcePath, destinationPath, { overwrite: false, errorOnExist: true });
+      copySync(sourcePath, destinationPath, {
+        overwrite: false,
+        errorOnExist: true
+      });
       logger.log(`Default config copied to ${ destinationPath }`);
       process.exit(0);
     } catch (error) {
@@ -91,6 +128,31 @@ async function bootstrap() {
   try {
     await configService.load(options.config, options.insecure);
     logger.log('Configuration loaded successfully');
+
+    // Initialize log file if verbose mode is enabled in stdio mode
+    if (isStdioCLI && isVerbose) {
+      const configPath = options.config as string;
+      const isRemote =
+        configPath.startsWith('http://') ||
+        configPath.startsWith('https://');
+      const configDir = isRemote ?
+        process.cwd() :
+        dirname(resolve(configPath));
+      const logFilePath = join(configDir, 'gs-mcp-proxy.log');
+
+      try {
+        logFileStream = fs.createWriteStream(logFilePath, {
+          flags: 'a'
+        });
+        logger.log(
+          `Verbose logging enabled. Logs: ${ logFilePath }`
+        );
+      } catch (error) {
+        logger.warn(
+          `Failed to create log file at ${ logFilePath }: ${ error }`
+        );
+      }
+    }
   } catch (error) {
     logger.error(`Failed to load config: ${ error }`);
     process.exit(1);
@@ -133,6 +195,9 @@ async function bootstrap() {
 
     const shutdown = async () => {
       try {
+        if (logFileStream) {
+          logFileStream.end();
+        }
         await app.close();
       } finally {
         process.exit(0);

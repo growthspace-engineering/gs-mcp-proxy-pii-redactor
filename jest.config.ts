@@ -3,7 +3,7 @@ import * as path from 'path';
 
 import type { Config } from 'jest';
 
-const __dirname = path.resolve();
+const rootDir = path.resolve();
 
 const ensureDirectoryExists = (dir: string) => {
   if (!fs.existsSync(dir)) {
@@ -12,7 +12,7 @@ const ensureDirectoryExists = (dir: string) => {
 };
 
 const testResultsDir = path.join(
-  __dirname,
+  rootDir,
   'test-results',
   'gs-mcp-proxy-pii-redactor',
   'unit'

@@ -7,6 +7,8 @@
 --insecure              Allow insecure HTTPS connections for remote config
 -\-init                  Initialize default config in user dir and exit
 --init-dest <dir>       Destination directory for --init (overrides default)
+--stdio-target <name>   Target downstream server name when running in stdio mode
+--verbose               Enable verbose logging to file in stdio mode (logs to gs-mcp-proxy.log)
 -v, --version           Print version and exit
 -h, --help              Print help and exit
 ```
@@ -28,7 +30,24 @@ gs-mcp-proxy --init
 
 # Initialize default config to a custom directory
 gs-mcp-proxy --init --init-dest ~/my-proxy-config
+
+# Run in stdio mode with a specific server
+gs-mcp-proxy --stdio-target github --config ./config.json
+
+# Run in stdio mode with verbose logging to file
+gs-mcp-proxy --stdio-target github --config ./config.json --verbose
 ```
+
+### Stdio Mode Logging
+
+When running in stdio mode with the `--verbose` flag, all logs are written to `gs-mcp-proxy.log` in the same directory as your `config.json` file. This is useful when the proxy is spawned as a subprocess by AI agents in CI/CD pipelines where stderr may not be captured.
+
+```bash
+# Logs will be written to ~/my-config/gs-mcp-proxy.log
+gs-mcp-proxy --stdio-target gcp --config ~/my-config/config.json --verbose
+```
+
+The log file is appended to on each run, so you can track history across multiple invocations.
 
 ## IDE integrations
 
