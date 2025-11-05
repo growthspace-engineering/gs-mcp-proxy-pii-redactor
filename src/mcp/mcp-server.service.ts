@@ -33,8 +33,24 @@ export class MCPServerService implements OnModuleInit, OnModuleDestroy {
   async onModuleInit() {
     const config = this.configService.getConfig();
 
-    // Initialize all MCP clients and create proxy servers
-    for (const [ name, clientConfig ] of Object.entries(config.mcpServers)) {
+    // In stdio mode, initialize only the selected downstream target to avoid slow startup
+    const proxyType = config.mcpProxy.type || 'sse';
+    const argv = process.argv;
+    const targetFlagIdx = argv.indexOf('--stdio-target');
+    const targetFromArg = targetFlagIdx >= 0 ? argv[targetFlagIdx + 1] : undefined;
+    const allEntries = Object.entries(config.mcpServers);
+    const entriesToInit = proxyType === 'stdio' ?
+      (() => {
+        if (targetFromArg) {
+          return allEntries.filter(([ n ]) => n === targetFromArg);
+        }
+        // If no explicit target, initialize all. main.ts enforces correctness when running in stdio mode.
+        return allEntries;
+      })() :
+      allEntries;
+
+    // Initialize MCP clients and create proxy servers
+    for (const [ name, clientConfig ] of entriesToInit) {
       try {
         this.logger.log(`<${ name }> Initializing client...`);
 
