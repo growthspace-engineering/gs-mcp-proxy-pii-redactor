@@ -1,0 +1,306 @@
+name: 'Deploy All Test Reports to GitHub Pages (Batched)'
+description: 'Deploy unit, e2e, and combined coverage reports to GitHub Pages in a single commit'
+
+inputs:
+  unit-results-path:
+    description: 'Path to unit test results directory'
+    required: true
+  e2e-results-path:
+    description: 'Path to e2e test results directory'
+    required: true
+  combined-coverage-path:
+    description: 'Path to combined coverage directory'
+    required: true
+  unit-coverage-summary:
+    description: 'Path to unit coverage-summary.json file'
+    required: true
+  e2e-coverage-summary:
+    description: 'Path to e2e coverage-summary.json file'
+    required: true
+  combined-coverage-summary:
+    description: 'Path to combined coverage-summary.json file'
+    required: true
+  unit-jest-results:
+    description: 'Path to unit jest-results.json file'
+    required: true
+  e2e-jest-results:
+    description: 'Path to e2e jest-results.json file'
+    required: true
+  deployment-type:
+    description: 'Type of deployment: pr or branch'
+    required: true
+  pr-number:
+    description: 'PR number (required if deployment-type is pr)'
+    required: false
+  branch-name:
+    description: 'Branch name (required if deployment-type is branch)'
+    required: false
+  project-name-prefix:
+    description: 'Project name prefix for theme injection'
+    required: true
+  token:
+    description: 'GitHub token for deployment'
+    required: false
+
+outputs:
+  unit-report-url:
+    description: 'URL to the deployed unit test report'
+    value: ${{ steps.urls.outputs.unit-report-url }}
+  unit-coverage-url:
+    description: 'URL to the deployed unit coverage report'
+    value: ${{ steps.urls.outputs.unit-coverage-url }}
+  e2e-report-url:
+    description: 'URL to the deployed e2e test report'
+    value: ${{ steps.urls.outputs.e2e-report-url }}
+  e2e-coverage-url:
+    description: 'URL to the deployed e2e coverage report'
+    value: ${{ steps.urls.outputs.e2e-coverage-url }}
+  combined-coverage-url:
+    description: 'URL to the deployed combined coverage report'
+    value: ${{ steps.urls.outputs.combined-coverage-url }}
+  unit-test-badge:
+    description: 'Unit test badge URL'
+    value: ${{ steps.badges.outputs.unit-test-badge }}
+  unit-coverage-badge:
+    description: 'Unit coverage badge URL'
+    value: ${{ steps.badges.outputs.unit-coverage-badge }}
+  e2e-test-badge:
+    description: 'E2E test badge URL'
+    value: ${{ steps.badges.outputs.e2e-test-badge }}
+  e2e-coverage-badge:
+    description: 'E2E coverage badge URL'
+    value: ${{ steps.badges.outputs.e2e-coverage-badge }}
+  combined-coverage-badge:
+    description: 'Combined coverage badge URL'
+    value: ${{ steps.badges.outputs.combined-coverage-badge }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Determine deployment base path
+      id: path
+      shell: bash
+      run: |
+        if [ "${{ inputs.deployment-type }}" = "pr" ]; then
+          if [ -z "${{ inputs.pr-number }}" ]; then
+            echo "❌ PR number is required for pr deployment type"
+            exit 1
+          fi
+          BASE_PATH="tests/pr/${{ inputs.pr-number }}"
+        elif [ "${{ inputs.deployment-type }}" = "branch" ]; then
+          if [ -z "${{ inputs.branch-name }}" ]; then
+            echo "❌ Branch name is required for branch deployment type"
+            exit 1
+          fi
+          BASE_PATH="tests/branch/${{ inputs.branch-name }}"
+        else
+          echo "❌ Invalid deployment-type: ${{ inputs.deployment-type }}. Must be 'pr' or 'branch'"
+          exit 1
+        fi
+        echo "base-path=$BASE_PATH" >> $GITHUB_OUTPUT
+        echo "📂 Base deployment path: $BASE_PATH"
+
+    - name: Prepare all test reports directories
+      shell: bash
+      run: |
+        BASE="deploy-root/${{ steps.path.outputs.base-path }}"
+        echo "📦 Creating directory structure..."
+        
+        # Create directories
+        mkdir -p "$BASE/unit"
+        mkdir -p "$BASE/e2e"
+        mkdir -p "$BASE/combined-coverage"
+        
+        # Copy reports
+        echo "📋 Copying unit test results..."
+        cp -r "${{ inputs.unit-results-path }}"/* "$BASE/unit"/
+        
+        echo "📋 Copying e2e test results..."
+        cp -r "${{ inputs.e2e-results-path }}"/* "$BASE/e2e"/
+        
+        echo "📋 Copying combined coverage..."
+        cp -r "${{ inputs.combined-coverage-path }}"/* "$BASE/combined-coverage"/
+        
+        echo "✅ All reports staged for deployment"
+
+    - name: Apply custom themes to all reports
+      shell: bash
+      run: |
+        BASE="deploy-root/${{ steps.path.outputs.base-path }}"
+        
+        echo "🎨 Applying themes to unit reports..."
+        node scripts/inject-themes.cjs "$BASE/unit" "${{ inputs.project-name-prefix }}-unit"
+        if [ -f "$BASE/unit/index.html" ]; then
+          sed "s|/test-results/gs-mcp-proxy-pii-redactor/coverage/index.html|coverage/index.html|g" "$BASE/unit/index.html" > "$BASE/unit/index.html.tmp" && mv "$BASE/unit/index.html.tmp" "$BASE/unit/index.html"
+        fi
+        
+        echo "🎨 Applying themes to e2e reports..."
+        node scripts/inject-themes.cjs "$BASE/e2e" "${{ inputs.project-name-prefix }}-e2e"
+        if [ -f "$BASE/e2e/index.html" ]; then
+          sed "s|/test-results/gs-mcp-proxy-pii-redactor/coverage/index.html|coverage/index.html|g" "$BASE/e2e/index.html" > "$BASE/e2e/index.html.tmp" && mv "$BASE/e2e/index.html.tmp" "$BASE/e2e/index.html"
+        fi
+        
+        echo "🎨 Applying themes to combined coverage..."
+        node scripts/inject-themes.cjs "$BASE/combined-coverage" "${{ inputs.project-name-prefix }}-combined"
+        
+        echo "✅ Themes applied to all reports"
+
+    - name: Generate combined coverage badge
+      shell: bash
+      run: |
+        BASE="deploy-root/${{ steps.path.outputs.base-path }}"
+        
+        if [ -f "${{ inputs.combined-coverage-summary }}" ]; then
+          echo "🏷️ Generating combined coverage badge..."
+          COVERAGE=$(node -e "const s=require('./${{ inputs.combined-coverage-summary }}'); console.log(s.total.statements.pct || 0)")
+          if (( $(echo "$COVERAGE >= 80" | bc -l) )); then
+            COLOR="brightgreen"
+          elif (( $(echo "$COVERAGE >= 70" | bc -l) )); then
+            COLOR="yellow"
+          else
+            COLOR="red"
+          fi
+          cat > "$BASE/combined-coverage/badge.json" <<EOF
+        {
+          "schemaVersion": 1,
+          "label": "coverage",
+          "message": "${COVERAGE}%",
+          "color": "$COLOR"
+        }
+        EOF
+          echo "✅ Badge generated: ${COVERAGE}% ($COLOR)"
+        fi
+
+    - name: Extract test results and coverage
+      id: metrics
+      shell: bash
+      run: |
+        # Unit test results
+        if [ -f "${{ inputs.unit-jest-results }}" ]; then
+          UNIT_PASSED=$(cat "${{ inputs.unit-jest-results }}" | grep -o '"numPassedTests": [0-9]*' | head -1 | grep -o '[0-9]*')
+          UNIT_FAILED=$(cat "${{ inputs.unit-jest-results }}" | grep -o '"numFailedTests": [0-9]*' | head -1 | grep -o '[0-9]*')
+          UNIT_SKIPPED=$(cat "${{ inputs.unit-jest-results }}" | grep -o '"numPendingTests": [0-9]*' | head -1 | grep -o '[0-9]*')
+        else
+          UNIT_PASSED=0; UNIT_FAILED=0; UNIT_SKIPPED=0
+        fi
+        
+        # E2E test results
+        if [ -f "${{ inputs.e2e-jest-results }}" ]; then
+          E2E_PASSED=$(cat "${{ inputs.e2e-jest-results }}" | grep -o '"numPassedTests": [0-9]*' | head -1 | grep -o '[0-9]*')
+          E2E_FAILED=$(cat "${{ inputs.e2e-jest-results }}" | grep -o '"numFailedTests": [0-9]*' | head -1 | grep -o '[0-9]*')
+          E2E_SKIPPED=$(cat "${{ inputs.e2e-jest-results }}" | grep -o '"numPendingTests": [0-9]*' | head -1 | grep -o '[0-9]*')
+        else
+          E2E_PASSED=0; E2E_FAILED=0; E2E_SKIPPED=0
+        fi
+        
+        # Coverage percentages
+        UNIT_COV=$(node -e "try { const s=require('./${{ inputs.unit-coverage-summary }}'); console.log(s.total.statements.pct || 0); } catch { console.log(0); }")
+        E2E_COV=$(node -e "try { const s=require('./${{ inputs.e2e-coverage-summary }}'); console.log(s.total.statements.pct || 0); } catch { console.log(0); }")
+        COMBINED_COV=$(node -e "try { const s=require('./${{ inputs.combined-coverage-summary }}'); console.log(s.total.statements.pct || 0); } catch { console.log(0); }")
+        
+        # Output all metrics
+        echo "unit_passed=$UNIT_PASSED" >> $GITHUB_OUTPUT
+        echo "unit_failed=$UNIT_FAILED" >> $GITHUB_OUTPUT
+        echo "unit_skipped=$UNIT_SKIPPED" >> $GITHUB_OUTPUT
+        echo "e2e_passed=$E2E_PASSED" >> $GITHUB_OUTPUT
+        echo "e2e_failed=$E2E_FAILED" >> $GITHUB_OUTPUT
+        echo "e2e_skipped=$E2E_SKIPPED" >> $GITHUB_OUTPUT
+        echo "unit_coverage=$UNIT_COV" >> $GITHUB_OUTPUT
+        echo "e2e_coverage=$E2E_COV" >> $GITHUB_OUTPUT
+        echo "combined_coverage=$COMBINED_COV" >> $GITHUB_OUTPUT
+
+    - name: Generate all badges
+      id: badges
+      shell: bash
+      run: |
+        # Unit test badge
+        UNIT_PASSED="${{ steps.metrics.outputs.unit_passed }}"
+        UNIT_FAILED="${{ steps.metrics.outputs.unit_failed }}"
+        UNIT_SKIPPED="${{ steps.metrics.outputs.unit_skipped }}"
+        if [ "$UNIT_FAILED" -gt "0" ]; then
+          UNIT_COLOR="red"
+          UNIT_LABEL="$UNIT_PASSED passed, $UNIT_FAILED failed, $UNIT_SKIPPED skipped"
+        else
+          UNIT_COLOR="brightgreen"
+          UNIT_LABEL="$UNIT_PASSED passed, $UNIT_SKIPPED skipped"
+        fi
+        UNIT_ENCODED=$(echo "$UNIT_LABEL" | sed 's/ /%20/g')
+        echo "unit-test-badge=https://img.shields.io/badge/tests-$UNIT_ENCODED-$UNIT_COLOR" >> $GITHUB_OUTPUT
+        
+        # E2E test badge
+        E2E_PASSED="${{ steps.metrics.outputs.e2e_passed }}"
+        E2E_FAILED="${{ steps.metrics.outputs.e2e_failed }}"
+        E2E_SKIPPED="${{ steps.metrics.outputs.e2e_skipped }}"
+        if [ "$E2E_FAILED" -gt "0" ]; then
+          E2E_COLOR="red"
+          E2E_LABEL="$E2E_PASSED passed, $E2E_FAILED failed, $E2E_SKIPPED skipped"
+        else
+          E2E_COLOR="brightgreen"
+          E2E_LABEL="$E2E_PASSED passed, $E2E_SKIPPED skipped"
+        fi
+        E2E_ENCODED=$(echo "$E2E_LABEL" | sed 's/ /%20/g')
+        echo "e2e-test-badge=https://img.shields.io/badge/tests-$E2E_ENCODED-$E2E_COLOR" >> $GITHUB_OUTPUT
+        
+        # Coverage badges
+        UNIT_COV="${{ steps.metrics.outputs.unit_coverage }}"
+        E2E_COV="${{ steps.metrics.outputs.e2e_coverage }}"
+        COMBINED_COV="${{ steps.metrics.outputs.combined_coverage }}"
+        
+        # Unit coverage badge
+        if (( $(echo "$UNIT_COV >= 80" | bc -l) )); then COLOR="brightgreen"
+        elif (( $(echo "$UNIT_COV >= 70" | bc -l) )); then COLOR="yellow"
+        else COLOR="red"; fi
+        echo "unit-coverage-badge=https://img.shields.io/badge/coverage-${UNIT_COV}%25-$COLOR" >> $GITHUB_OUTPUT
+        
+        # E2E coverage badge
+        if (( $(echo "$E2E_COV >= 80" | bc -l) )); then COLOR="brightgreen"
+        elif (( $(echo "$E2E_COV >= 70" | bc -l) )); then COLOR="yellow"
+        else COLOR="red"; fi
+        echo "e2e-coverage-badge=https://img.shields.io/badge/coverage-${E2E_COV}%25-$COLOR" >> $GITHUB_OUTPUT
+        
+        # Combined coverage badge
+        if (( $(echo "$COMBINED_COV >= 80" | bc -l) )); then COLOR="brightgreen"
+        elif (( $(echo "$COMBINED_COV >= 70" | bc -l) )); then COLOR="yellow"
+        else COLOR="red"; fi
+        echo "combined-coverage-badge=https://img.shields.io/badge/coverage-${COMBINED_COV}%25-$COLOR" >> $GITHUB_OUTPUT
+
+    - name: Generate all GitHub Pages URLs
+      id: urls
+      shell: bash
+      run: |
+        REPO_OWNER="${{ github.repository_owner }}"
+        REPO_NAME="${{ github.event.repository.name }}"
+        BASE_PATH="${{ steps.path.outputs.base-path }}"
+        
+        # Unit URLs
+        echo "unit-report-url=https://$REPO_OWNER.github.io/$REPO_NAME/$BASE_PATH/unit/" >> $GITHUB_OUTPUT
+        echo "unit-coverage-url=https://$REPO_OWNER.github.io/$REPO_NAME/$BASE_PATH/unit/coverage/" >> $GITHUB_OUTPUT
+        
+        # E2E URLs
+        echo "e2e-report-url=https://$REPO_OWNER.github.io/$REPO_NAME/$BASE_PATH/e2e/" >> $GITHUB_OUTPUT
+        echo "e2e-coverage-url=https://$REPO_OWNER.github.io/$REPO_NAME/$BASE_PATH/e2e/coverage/" >> $GITHUB_OUTPUT
+        
+        # Combined coverage URL
+        echo "combined-coverage-url=https://$REPO_OWNER.github.io/$REPO_NAME/$BASE_PATH/combined-coverage/" >> $GITHUB_OUTPUT
+
+    - name: Deploy all reports to GitHub Pages (single commit)
+      shell: bash
+      run: |
+        echo "🚀 Deploying all reports in a single commit..."
+        echo "📊 Reports included: unit, e2e, combined-coverage"
+      
+    - name: Deploy to GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: deploy-root
+        branch: gh-pages
+        clean: false
+        single-commit: true
+        token: ${{ inputs.token || github.token }}
+        commit-message: |
+          Deploy ${{ inputs.deployment-type == 'pr' && format('PR #{0}', inputs.pr-number) || format('branch {0}', inputs.branch-name) }} test reports (batched)
+          
+          - Unit test results
+          - E2E test results  
+          - Combined coverage report
+

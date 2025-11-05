@@ -135,43 +135,21 @@ jobs:
           name: coverage-report-combined-${{ github.ref_name }}
           path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage
 
-      - name: Deploy unit test reports to GitHub Pages
-        id: deploy-unit
-        uses: ./.github/actions/deploy-github-pages
+      - name: Deploy all test reports to GitHub Pages (batched)
+        id: deploy-reports
+        uses: ./.github/actions/deploy-github-pages-batched
         with:
-          test-results-path: test-results/gs-mcp-proxy-pii-redactor/unit
-          project-name: gs-mcp-proxy-pii-redactor-${{ github.ref_name }}
-          coverage-path: test-results/gs-mcp-proxy-pii-redactor/unit/coverage/coverage-summary.json
-          jest-results-path: test-results/gs-mcp-proxy-pii-redactor/unit/jest-results.json
+          unit-results-path: test-results/gs-mcp-proxy-pii-redactor/unit
+          e2e-results-path: test-results/gs-mcp-proxy-pii-redactor/e2e
+          combined-coverage-path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage
+          unit-coverage-summary: test-results/gs-mcp-proxy-pii-redactor/unit/coverage/coverage-summary.json
+          e2e-coverage-summary: test-results/gs-mcp-proxy-pii-redactor/e2e/coverage/coverage-summary.json
+          combined-coverage-summary: test-results/gs-mcp-proxy-pii-redactor/combined-coverage/coverage-summary.json
+          unit-jest-results: test-results/gs-mcp-proxy-pii-redactor/unit/jest-results.json
+          e2e-jest-results: test-results/gs-mcp-proxy-pii-redactor/e2e/jest-results.json
           deployment-type: branch
           branch-name: ${{ github.ref_name }}
-          subdir: unit
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Deploy e2e test reports to GitHub Pages
-        id: deploy-e2e
-        uses: ./.github/actions/deploy-github-pages
-        with:
-          test-results-path: test-results/gs-mcp-proxy-pii-redactor/e2e
-          project-name: gs-mcp-proxy-pii-redactor-${{ github.ref_name }}
-          coverage-path: test-results/gs-mcp-proxy-pii-redactor/e2e/coverage/coverage-summary.json
-          jest-results-path: test-results/gs-mcp-proxy-pii-redactor/e2e/jest-results.json
-          deployment-type: branch
-          branch-name: ${{ github.ref_name }}
-          subdir: e2e
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Deploy combined coverage to GitHub Pages
-        id: deploy-combined
-        uses: ./.github/actions/deploy-github-pages
-        with:
-          test-results-path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage
-          project-name: gs-mcp-proxy-pii-redactor-${{ github.ref_name }}
-          coverage-path: test-results/gs-mcp-proxy-pii-redactor/combined-coverage/coverage-summary.json
-          jest-results-path: test-results/gs-mcp-proxy-pii-redactor/unit/jest-results.json
-          deployment-type: branch
-          branch-name: ${{ github.ref_name }}
-          subdir: combined-coverage
+          project-name-prefix: gs-mcp-proxy-pii-redactor-${{ github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure npm for GitHub Packages
