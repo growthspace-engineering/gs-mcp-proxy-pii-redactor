@@ -28,5 +28,12 @@
   "jest.jestCommandLine": "npx jest --projects jest.config.ts test/jest-e2e.config.ts",
   "jest.runMode": {
     "type": "on-demand"
+  },
+  // lint with eslint and fix on save
+  "eslint.enable": true,
+  "eslint.run": "onSave",
+  "eslint.format.enable": true,
+  "eslint.format.options": {
+    "fix": true
   }
 }

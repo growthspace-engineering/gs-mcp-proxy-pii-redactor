@@ -58,8 +58,7 @@ An MCP proxy that aggregates multiple MCP servers behind a single HTTP entrypoin
 
 ### Prerequisites
 
-- Node.js >= 22.14.0
-- npm
+- Node.js >= 20 (or equivalent bun or pnpm)
 
 ### Option 1 — Run with stdio (recommended)
 
@@ -181,15 +180,15 @@ When you merge a pull request, our GitHub Actions workflow automatically:
 
 You can also manually add contributors using:
 ```bash
-npm run contributors:add -- <username> <contribution-type>
+npm run contributors:add
 ```
-
-Contribution types include: `code`, `doc`, `test`, `bug`, `ideas`, `review`, and [more](https://allcontributors.org/docs/en/emoji-key).
+and the allcontributors cli will prompt you for the contribution details.
 
 ## Acknowledgments
-
-- This project was inspired by the [TBXark/mcp-proxy](https://github.com/TBXark/mcp-proxy) project, a Go-based MCP proxy server that aggregates multiple MCP servers through a single HTTP endpoint.
+This project was inspired by the following projects:
+- [TBXark/mcp-proxy](https://github.com/TBXark/mcp-proxy): a Go-based MCP proxy server that aggregates multiple MCP servers through a single HTTP endpoint.
+- [nestjs/nest](https://github.com/nestjs/nest): a progressive Node.js framework for building server-side applications.
 
 ## License
 
-MIT
+MIT 2025
