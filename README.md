@@ -22,7 +22,7 @@
 </a>
 <a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg"></a>
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-<a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square" alt="All Contributors"></a>
+<a href="#contributors-"><img src="https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square" alt="All Contributors"></a>
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 </p>
 <p align="center">
@@ -163,6 +163,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="http://www.gla.co.il"><img src="https://avatars.githubusercontent.com/u/23203489?v=4?s=100" width="100px;" alt="Gal Amitai"/><br /><sub><b>Gal Amitai</b></sub></a><br /><a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/pulls?q=is%3Apr+reviewed-by%3AGalAmitai" title="Reviewed Pull Requests">👀</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/yevgenim"><img src="https://avatars.githubusercontent.com/u/29144954?v=4?s=100" width="100px;" alt="Yevgeni Mumblat"/><br /><sub><b>Yevgeni Mumblat</b></sub></a><br /><a href="#ideas-yevgenim" title="Ideas, Planning, & Feedback">🤔</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/Utkarsh9571"><img src="https://avatars.githubusercontent.com/u/205407787?v=4?s=100" width="100px;" alt="Utkarsh9571"/><br /><sub><b>Utkarsh9571</b></sub></a><br /><a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commits?author=Utkarsh9571" title="Code">💻</a> <a href="#example-Utkarsh9571" title="Examples">💡</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/apps/allcontributors"><img src="https://avatars.githubusercontent.com/in/23186?v=4?s=100" width="100px;" alt="allcontributors[bot]"/><br /><sub><b>allcontributors[bot]</b></sub></a><br /><a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/commits?author=allcontributors[bot]" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
