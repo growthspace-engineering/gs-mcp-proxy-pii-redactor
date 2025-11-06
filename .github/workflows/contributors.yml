@@ -48,7 +48,7 @@ jobs:
           const cfg = JSON.parse(fs.readFileSync('.all-contributorsrc', 'utf8'));
           const contributors = Array.isArray(cfg.contributors) ? cfg.contributors : [];
           const entry = contributors.find(c => String(c.login || '').toLowerCase() === login);
-          const isForbidden = ['gr0wth-b0t', 'allcontributors[bot]'].includes(login);
+          const isForbidden = ['gr0wth-b0t', 'allcontributors[bot]', 'allcontributors'].includes(login);
           const found = Boolean(entry) && !isForbidden;
           const hasCode = found && Array.isArray(entry.contributions) && entry.contributions.includes('code');
           fs.appendFileSync(process.env.GITHUB_OUTPUT, `found=${found}\n`);
