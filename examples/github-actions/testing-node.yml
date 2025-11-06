@@ -1,0 +1,30 @@
+name: Node.js Tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo
+        run: git clone https://github.com/growthspace/gs-mcp-proxy-pii-redactor.git
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: |
+          cd gs-mcp-proxy-pii-redactor
+          npm install
+
+      - name: Run unit tests
+        run: |
+          cd gs-mcp-proxy-pii-redactor
+          npm test
+
+      - name: Run e2e tests
+        run: |
+          cd gs-mcp-proxy-pii-redactor
+          npm run e2e
