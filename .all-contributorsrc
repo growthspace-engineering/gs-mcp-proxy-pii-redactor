@@ -74,6 +74,15 @@
         "code",
         "example"
       ]
+    },
+    {
+      "login": "mNarraMine",
+      "name": "Mr. Narra Mine",
+      "avatar_url": "https://avatars.githubusercontent.com/u/45209420?v=4",
+      "profile": "https://github.com/mNarraMine",
+      "contributions": [
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,
