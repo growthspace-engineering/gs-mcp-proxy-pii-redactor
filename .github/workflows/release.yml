@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+    
       matrix:
         suite: [unit, e2e]
     steps:
@@ -101,11 +102,6 @@ jobs:
       packages: write
       pages: write
       id-token: write
-    # 👇 expose data for the docker job
-    outputs:
-      new_release_published: ${{ steps.semantic-release.outputs.new_release_published }}
-      new_release_version: ${{ steps.semantic-release.outputs.new_release_version }}
-      new_release_git_tag: ${{ steps.semantic-release.outputs.new_release_git_tag }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -165,63 +161,22 @@ jobs:
 
       - name: Release
         id: semantic-release
-        uses: cycjimmy/semantic-release-action@v5
-        with:
-          branch: ${{ github.ref_name }}
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
           NPM_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
+        run: npx semantic-release
       
       - name: Trigger Beta Update Workflow
-        if: github.ref == 'refs/heads/main' && steps.semantic-release.outputs.new_release_published == 'true'
+        if: github.ref == 'refs/heads/main' && steps.semantic-release.outcome == 'success'
         run: |
-          NEW_TAG=${{ steps.semantic-release.outputs.new_release_git_tag }}
+          # Extract the tag from the semantic-release output
+          NEW_TAG=$(git describe --tags --abbrev=0)
+          
           echo "Triggering update-beta-after-release workflow for tag: $NEW_TAG"
+          
+          # Trigger repository_dispatch event
           curl -X POST \
             -H "Authorization: token ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/${{ github.repository }}/dispatches \
             -d "{\"event_type\":\"release_created\",\"client_payload\":{\"tag_name\":\"$NEW_TAG\"}}"
-
-  build_and_push_docker:
-    name: Build & push Docker image to GHCR
-    runs-on: ubuntu-latest
-    needs: deploy_reports_and_release
-    # only if we actually released AND we're on main
-    if: needs.deploy_reports_and_release.outputs.new_release_published == 'true' && github.ref == 'refs/heads/main'
-    permissions:
-      contents: read
-      packages: write   # 👈 needed to push to ghcr.io
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set image vars
-        id: vars
-        run: |
-          # ghcr wants lower-case
-          OWNER="${GITHUB_REPOSITORY_OWNER,,}"
-          REPO_NAME="${GITHUB_REPOSITORY#*/}"
-          echo "owner=${OWNER}" >> $GITHUB_OUTPUT
-          echo "repo=${REPO_NAME}" >> $GITHUB_OUTPUT
-
-      - name: Log in to GHCR
-        run: |
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and push multi-arch to GHCR
-        run: |
-          VERSION=${{ needs.deploy_reports_and_release.outputs.new_release_version }}
-          IMAGE=ghcr.io/${{ steps.vars.outputs.owner }}/${{ steps.vars.outputs.repo }}
-          docker buildx build \
-            --platform linux/amd64,linux/arm64 \
-            -t ${IMAGE}:${VERSION} \
-            -t ${IMAGE}:latest \
-            --push \
-            .
