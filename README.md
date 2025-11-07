@@ -52,7 +52,8 @@ An MCP proxy that aggregates multiple MCP servers behind a single HTTP entrypoin
 - [Configuration](docs/configuration.md) - Configuration reference and examples
 - [Usage](docs/usage.md) - CLI options, endpoints, authentication, and tool filtering
 - [PII Redaction](docs/redaction.md) - Redaction setup and configuration
-- [Deployment](docs/deployment.md) - Docker and production deployment
+- [Deployment](docs/deployment.md) - Production deployment
+- [Docker Usage](docs/docker.md) - Build, run, and configure the Docker image
 
 ## Quick Start
 

@@ -1,0 +1,16 @@
+{
+  "mcpProxy": {
+    "baseURL": "http://0.0.0.0:8084",
+    "addr": ":8084",
+    "name": "MCP Proxy with PII Redaction (Docker)",
+    "version": "1.0.0",
+    "type": "sse",
+    "options": {
+      "panicIfInvalid": false,
+      "logEnabled": true
+    }
+  },
+  "mcpServers": {}
+}
+
+
