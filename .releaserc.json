@@ -28,7 +28,8 @@
       "@semantic-release/npm",
       {
         "npmPublish": true,
-        "pkgRoot": "."
+        "pkgRoot": ".",
+        "npmPublishRegistry": "https://registry.npmjs.org"
       }
     ],
     [

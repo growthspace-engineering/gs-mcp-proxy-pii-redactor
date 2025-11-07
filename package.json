@@ -123,7 +123,7 @@
   "bugs": "https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor.git"
+    "url": "git+https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor.git"
   },
   "engines": {
     "node": ">=20"
