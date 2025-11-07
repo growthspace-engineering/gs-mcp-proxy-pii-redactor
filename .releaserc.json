@@ -27,7 +27,7 @@
     [
       "@semantic-release/exec",
       {
-        "publishCmd": "sh -lc 'if [ -f .npmrc ]; then sed -i \"/^[[:space:]]*@growthspace-engineering:registry=/d\" .npmrc; fi; npm publish --registry https://registry.npmjs.org --tag ${nextRelease.channel || 'latest'} --access public'"
+        "publishCmd": "sh -lc 'echo BEFORE: $(npm config get @growthspace-engineering:registry || echo unset); if [ -f .npmrc ]; then grep -v "^[[:space:]]*@growthspace-engineering:registry=" .npmrc > .npmrc.tmp && mv .npmrc.tmp .npmrc; fi; echo AFTER: $(npm config get @growthspace-engineering:registry || echo unset); npm publish --userconfig $(pwd)/.npmrc --registry https://registry.npmjs.org --tag ${nextRelease.channel || 'latest'} --access public'"
       }
     ],
     [
