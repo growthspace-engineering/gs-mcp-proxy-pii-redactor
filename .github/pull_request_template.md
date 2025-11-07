@@ -3,9 +3,6 @@
 
 ## Related Issues
 <!-- Link related issues using keywords like "Closes #", "Fixes #", "Resolves #" -->
-<!-- Example: Closes #42 -->
-
-
 
 ## Checklist
 - Code follows project style guidelines

@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "vsls-contrib.codetour",
+    "vivaxy.vscode-conventional-commits",
+    "orta.vscode-jest"
+  ]
+}

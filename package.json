@@ -1,20 +1,9 @@
 {
   "name": "@growthspace-engineering/gs-mcp-proxy-pii-redactor",
-  "version": "1.4.0",
-  "author": "Growthspace Engineering",
+  "version": "2.0.0-beta.1",
+  "description": "MCP Proxy with PII Redaction & Tool Filtering",
+  "author": "thatkookooguy <neilkalman@gmail.com>",
   "license": "MIT",
-  "description": "MCP Proxy with PII Redaction - TypeScript/NestJS implementation",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
-    "access": "public"
-  },
-  "engines": {
-    "node": ">=22.14.0"
-  },
   "main": "dist/main.js",
   "bin": {
     "gs-mcp-proxy": "dist/main.js"
@@ -27,6 +16,7 @@
     "config.json"
   ],
   "scripts": {
+    "prune-merged": "kb-prune-merged",
     "build": "nest build",
     "prepublishOnly": "npm run build",
     "start": "nest start",
@@ -47,11 +37,11 @@
     "posttest:cov": "npm run inject",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "pretest:e2e": "rimraf test-results",
-    "test:e2e": "jest --config ./test/jest-e2e.config.ts --runInBand",
-    "test:e2e:cov": "jest --config ./test/jest-e2e.config.ts --coverage --runInBand",
+    "test:e2e": "jest --config ./e2e/jest-e2e.config.ts --runInBand",
+    "test:e2e:cov": "jest --config ./e2e/jest-e2e.config.ts --coverage --runInBand",
     "posttest:e2e": "npm run inject",
     "posttest:e2e:cov": "npm run inject",
-    "test:e2e:watch": "jest --config ./test/jest-e2e.config.ts --watch --runInBand",
+    "test:e2e:watch": "jest --config ./e2e/jest-e2e.config.ts --watch --runInBand",
     "coverage:merge": "node scripts/build-combined-coverage.cjs",
     "test:unit:cov": "jest --coverage --cache --passWithNoTests --coverageDirectory ./test-results/gs-mcp-proxy-pii-redactor/unit/coverage",
     "pretest:all:cov": "rimraf test-results",
@@ -87,6 +77,7 @@
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
+    "@kibibit/dev-tools": "^1.1.1",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
@@ -109,14 +100,14 @@
     "commitizen": "^4.3.1",
     "concurrently": "^9.2.1",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.42.0",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-unused-imports": "^4.3.0",
+    "eslint": "^8.42.0",
     "husky": "^9.1.7",
-    "jest": "^30.2.0",
     "jest-junit": "^16.0.0",
     "jest-stare": "^2.5.2",
+    "jest": "^30.2.0",
     "lint-staged": "^16.2.6",
     "rimraf": "^5.0.5",
     "semantic-release": "^25.0.1",
@@ -127,6 +118,39 @@
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
+  },
+  "homepage": "https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor",
+  "bugs": "https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor.git"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "mcp",
+    "mcp-proxy",
+    "pii-redactor",
+    "pii-filter",
+    "redaction",
+    "data-privacy",
+    "security",
+    "compliance",
+    "proxy",
+    "sse",
+    "server-sent-events",
+    "http-proxy",
+    "typescript",
+    "nodejs",
+    "growthspace",
+    "ai-gateway",
+    "ai-agent",
+    "mcp-aggregator",
+    "middleware"
+  ],
+  "publishConfig": {
+    "access": "public"
   },
   "lint-staged": {
     "*.{ts,tsx}": "eslint --fix"

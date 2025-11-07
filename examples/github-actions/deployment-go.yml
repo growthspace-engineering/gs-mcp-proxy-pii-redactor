@@ -1,0 +1,29 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    name: Deployment Job
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build project
+        run: |
+          echo "Building project..."
+          # Replace with actual build commands
+          go build -o app ./...
+
+      - name: Deploy via SSH
+        run: |
+          echo "Deploying to server..."
+          # Replace with actual SSH deployment logic
+          # Example:
+          # scp app user@your-server:/path/to/deploy
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}

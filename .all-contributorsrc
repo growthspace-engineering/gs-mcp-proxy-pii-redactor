@@ -16,7 +16,14 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/10427304?v=4",
       "profile": "http://thatkookooguy.kibibit.io/",
       "contributions": [
-        "code"
+        "code",
+        "question",
+        "blog",
+        "doc",
+        "ideas",
+        "infra",
+        "maintenance",
+        "research"
       ]
     },
     {
@@ -27,7 +34,8 @@
       "contributions": [
         "ideas",
         "maintenance",
-        "research"
+        "research",
+        "question"
       ]
     },
     {
@@ -40,15 +48,6 @@
       ]
     },
     {
-      "login": "allcontributors[bot]",
-      "name": "allcontributors[bot]",
-      "avatar_url": "https://avatars.githubusercontent.com/in/23186?v=4",
-      "profile": "https://github.com/apps/allcontributors",
-      "contributions": [
-        "code"
-      ]
-    },
-    {
       "login": "GalAmitai",
       "name": "Gal Amitai",
       "avatar_url": "https://avatars.githubusercontent.com/u/23203489?v=4",
@@ -58,10 +57,38 @@
       ]
     },
     {
-      "login": "gr0wth-b0t",
-      "name": "gr0wth-b0t",
-      "avatar_url": "https://avatars.githubusercontent.com/u/94817429?v=4",
-      "profile": "https://github.com/gr0wth-b0t",
+      "login": "yevgenim",
+      "name": "Yevgeni Mumblat",
+      "avatar_url": "https://avatars.githubusercontent.com/u/29144954?v=4",
+      "profile": "https://github.com/yevgenim",
+      "contributions": [
+        "ideas"
+      ]
+    },
+    {
+      "login": "Utkarsh9571",
+      "name": "Utkarsh9571",
+      "avatar_url": "https://avatars.githubusercontent.com/u/205407787?v=4",
+      "profile": "https://github.com/Utkarsh9571",
+      "contributions": [
+        "code",
+        "example"
+      ]
+    },
+    {
+      "login": "mNarraMine",
+      "name": "Mr. Narra Mine",
+      "avatar_url": "https://avatars.githubusercontent.com/u/45209420?v=4",
+      "profile": "https://github.com/mNarraMine",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "login": "allcontributors[bot]",
+      "name": "allcontributors[bot]",
+      "avatar_url": "https://avatars.githubusercontent.com/in/23186?v=4",
+      "profile": "https://github.com/apps/allcontributors",
       "contributions": [
         "code"
       ]
