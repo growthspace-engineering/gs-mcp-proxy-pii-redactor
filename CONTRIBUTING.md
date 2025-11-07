@@ -289,4 +289,3 @@ npm run contributors:add -- <username> <contribution-type>
 ```
 
 Contribution types: `code`, `doc`, `test`, `bug`, `ideas`, `review`, `infra`, `tool`, `maintenance`, `projectManagement`, etc. See [all-contributors emoji key](https://allcontributors.org/docs/en/emoji-key) for full list.
-
