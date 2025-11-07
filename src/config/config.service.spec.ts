@@ -62,7 +62,7 @@ describe('ConfigService', () => {
       expect(result).toEqual(mockConfig);
     });
 
-    it('should set default type to sse if not provided', async () => {
+    it('should set default type to streamable-http if not provided', async () => {
       const mockConfig = {
         mcpProxy: {
           options: {}
@@ -76,7 +76,7 @@ describe('ConfigService', () => {
 
       const result = await service.load('config.json');
 
-      expect(result.mcpProxy.type).toBe('sse');
+      expect(result.mcpProxy.type).toBe('streamable-http');
     });
 
     it('should throw error if mcpProxy is missing', async () => {
