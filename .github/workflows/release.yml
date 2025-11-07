@@ -157,12 +157,14 @@ jobs:
           PUBLIC_RELEASE_BOT_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          # Configure GitHub Packages authentication
-          echo "@growthspace-engineering:registry=https://npm.pkg.github.com" >> .npmrc
-          echo "//npm.pkg.github.com/:_authToken=${PUBLIC_RELEASE_BOT_TOKEN}" >> .npmrc
-          
-          # Configure public npm registry authentication
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+          # GitHub Packages npmrc
+          echo "@growthspace-engineering:registry=https://npm.pkg.github.com" > .npmrc.gh
+          echo "//npm.pkg.github.com/:_authToken=${PUBLIC_RELEASE_BOT_TOKEN}" >> .npmrc.gh
+
+          # Public npm registry npmrc
+          echo "registry=https://registry.npmjs.org/" > .npmrc.npmjs
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc.npmjs
+          echo "access=public" >> .npmrc.npmjs
 
       - name: 🚀 Semantic Release
         id: semrel

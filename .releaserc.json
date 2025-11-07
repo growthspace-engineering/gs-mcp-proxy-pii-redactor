@@ -18,16 +18,20 @@
     [
       "@semantic-release/npm",
       {
-        "npmPublish": true,
-        "pkgRoot": ".",
-        "registry": "https://npm.pkg.github.com",
-        "npmPublishRegistry": "https://npm.pkg.github.com"
+        "npmPublish": false,
+        "pkgRoot": "."
       }
     ],
     [
       "@semantic-release/exec",
       {
-        "publishCmd": "sh -lc 'echo BEFORE: $(npm config get @growthspace-engineering:registry || echo unset); if [ -f .npmrc ]; then grep -v "^[[:space:]]*@growthspace-engineering:registry=" .npmrc > .npmrc.tmp && mv .npmrc.tmp .npmrc; fi; echo AFTER: $(npm config get @growthspace-engineering:registry || echo unset); npm publish --userconfig $(pwd)/.npmrc --registry https://registry.npmjs.org --tag ${nextRelease.channel || 'latest'} --access public'"
+        "publishCmd": "npm publish --userconfig ./.npmrc.gh --tag ${nextRelease.channel || 'latest'}"
+      }
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        "publishCmd": "npm publish --userconfig ./.npmrc.npmjs --registry https://registry.npmjs.org --tag ${nextRelease.channel || 'latest'} --access public"
       }
     ],
     [
