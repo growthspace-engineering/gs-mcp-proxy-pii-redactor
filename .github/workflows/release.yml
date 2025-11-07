@@ -251,7 +251,6 @@ jobs:
         # don't fail the workflow if the Slack API call fails
         continue-on-error: true
         with:
-          webhook: ${{ secrets.SLACK_RELEASES_WORKFLOW_WEBHOOK_URL }}
           payload: |
             {
               "ref": "${{ github.ref_name }}",
@@ -261,3 +260,5 @@ jobs:
               "docker_url": "https://github.com/orgs/${{ github.repository_owner }}/packages/container/package/${{ github.event.repository.name }}",
               "npm_url": "https://www.npmjs.com/package/${{ steps.pkg.outputs.name }}/v/${{ steps.semrel.outputs.new_release_version }}"
             }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_RELEASES_WORKFLOW_WEBHOOK_URL }}
