@@ -27,7 +27,7 @@
     [
       "@semantic-release/exec",
       {
-        "publishCmd": "npm config delete @growthspace-engineering:registry && npm publish --registry https://registry.npmjs.org --tag ${nextRelease.channel || 'latest'} --access public"
+        "publishCmd": "sh -lc 'if [ -f .npmrc ]; then sed -i \"/^[[:space:]]*@growthspace-engineering:registry=/d\" .npmrc; fi; npm publish --registry https://registry.npmjs.org --tag ${nextRelease.channel || 'latest'} --access public'"
       }
     ],
     [
