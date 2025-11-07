@@ -248,8 +248,10 @@ jobs:
       - name: "Slack: Send to Slack"
         if: steps.semrel.outputs.new_release_published == 'true'
         uses: slackapi/slack-github-action@v2.1.1
+        # don't fail the workflow if the Slack API call fails
+        continue-on-error: true
         with:
-          webhook-url: ${{ secrets.SLACK_RELEASES_WORKFLOW_WEBHOOK_URL }}
+          webhook: ${{ secrets.SLACK_RELEASES_WORKFLOW_WEBHOOK_URL }}
           payload: |
             {
               "ref": "${{ github.ref_name }}",
