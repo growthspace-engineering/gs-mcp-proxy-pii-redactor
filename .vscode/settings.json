@@ -25,18 +25,21 @@
   },
   "gitlens.ai.generateCommitMessage.customInstructions": ".vscode/commit-message-instructions.md",
   "peacock.color": "#750687",
+  "jest.useJest30": true,
   "jest.virtualFolders": [
     {
       "name": "unit-tests",
-      "path": "src"
+      "rootPath": "src"
     },
     {
       "name": "e2e-tests",
-      "path": "e2e"
-    },
+      "jestCommandLine": "npm test -- --config ./e2e/jest-e2e.config.ts --runInBand",
+      "rootPath": "e2e"
+    }
   ],
   "jest.runMode": {
     "type": "on-save",
+    // coverage shows only one test type at a time
     "coverage": false,
     "runAllTestsOnStartup": true
   },
