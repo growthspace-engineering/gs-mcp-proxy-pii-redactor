@@ -25,11 +25,9 @@
       }
     ],
     [
-      "@semantic-release/npm",
+      "@semantic-release/exec",
       {
-        "npmPublish": true,
-        "pkgRoot": ".",
-        "npmPublishRegistry": "https://registry.npmjs.org"
+        "publishCmd": "npm config delete @growthspace-engineering:registry && npm publish --registry https://registry.npmjs.org --tag ${nextRelease.channel || 'latest'} --access public"
       }
     ],
     [
