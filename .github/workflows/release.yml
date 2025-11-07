@@ -232,8 +232,10 @@ jobs:
       - name: 🔧 Read package name
         id: pkg
         if: steps.semrel.outputs.new_release_published == 'true'
+        shell: bash
         run: |
-          echo "name=$(node -p \"require('./package.json').name\")" >> "$GITHUB_OUTPUT"
+          NAME=$(node -p "require('./package.json').name")
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
 
       - name: 🔧 Prepare Slack changelog
         id: notes
