@@ -231,20 +231,20 @@ jobs:
       # Send a notification to Slack Workflow Builder for latest (main) releases
       - name: 🔧 Read package name
         id: pkg
-        if: steps.semrel.outputs.new_release_published == 'true' && github.ref == 'refs/heads/main'
+        if: steps.semrel.outputs.new_release_published == 'true'
         run: |
           echo "name=$(node -p \"require('./package.json').name\")" >> "$GITHUB_OUTPUT"
 
       - name: 🔧 Prepare Slack changelog
         id: notes
-        if: steps.semrel.outputs.new_release_published == 'true' && github.ref == 'refs/heads/main'
+        if: steps.semrel.outputs.new_release_published == 'true'
         env:
           NOTES: ${{ steps.semrel.outputs.new_release_notes }}
         run: |
           node -e "const n=process.env.NOTES||''; const lines=n.split(/\r?\n/); const bullets=lines.filter(l=>/^(?:\*|-)\s+/.test(l)).map(l=>l.replace(/^(?:\*|-)\s+/, '• ')); const text=bullets.join('\n'); console.log('changelog<<EOF'); console.log(text); console.log('EOF');" >> "$GITHUB_OUTPUT"
 
       - name: Slack: Send to Slack
-        if: steps.semrel.outputs.new_release_published == 'true' && github.ref == 'refs/heads/main'
+        if: steps.semrel.outputs.new_release_published == 'true'
         uses: slackapi/slack-github-action@v2.1.1
         with:
           webhook-url: ${{ secrets.SLACK_RELEASES_WORKFLOW_WEBHOOK_URL }}
