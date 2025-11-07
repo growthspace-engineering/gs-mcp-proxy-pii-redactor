@@ -159,22 +159,62 @@ jobs:
           echo "@growthspace-engineering:registry=https://npm.pkg.github.com" >> .npmrc
           echo "//npm.pkg.github.com/:_authToken=${PUBLIC_RELEASE_BOT_TOKEN}" >> .npmrc
 
-      - name: Release
-        id: semantic-release
+      - name: Semantic Release
+        id: semrel
+        uses: cycjimmy/semantic-release-action@v5
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
           NPM_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
-        run: npx semantic-release
-      
-      - name: Trigger Beta Update Workflow
-        if: github.ref == 'refs/heads/main' && steps.semantic-release.outcome == 'success'
+
+      # decide the channel tag (beta vs latest)
+      - name: Decide Docker channel tag
+        id: channel
+        if: steps.semrel.outputs.new_release_published == 'true'
         run: |
-          # Extract the tag from the semantic-release output
-          NEW_TAG=$(git describe --tags --abbrev=0)
-          
+          if [ "${GITHUB_REF_NAME}" = "beta" ]; then
+            echo "channel=beta" >> "$GITHUB_OUTPUT"
+          else
+            echo "channel=latest" >> "$GITHUB_OUTPUT"
+          fi
+
+      # set up buildx + qemu only if we actually released
+      - name: Set up QEMU
+        if: steps.semrel.outputs.new_release_published == 'true'
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        if: steps.semrel.outputs.new_release_published == 'true'
+        uses: docker/setup-buildx-action@v3
+
+      # login to GHCR (you can switch this to Docker Hub if you prefer)
+      - name: Log in to GHCR
+        if: steps.semrel.outputs.new_release_published == 'true'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push multi-arch image
+        if: steps.semrel.outputs.new_release_published == 'true'
+        run: |
+          VERSION="${{ steps.semrel.outputs.new_release_version }}"
+          CHANNEL="${{ steps.channel.outputs.channel }}"
+          IMAGE="ghcr.io/${{ github.repository }}"
+
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            -t "$IMAGE:$VERSION" \
+            -t "$IMAGE:$CHANNEL" \
+            --push \
+            .
+
+      - name: Trigger Beta Update Workflow
+        if: steps.semrel.outputs.new_release_published == 'true' && github.ref == 'refs/heads/main'
+        run: |
+          NEW_TAG="${{ steps.semrel.outputs.new_release_git_tag }}"
           echo "Triggering update-beta-after-release workflow for tag: $NEW_TAG"
-          
-          # Trigger repository_dispatch event
+
           curl -X POST \
             -H "Authorization: token ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
