@@ -152,19 +152,24 @@ jobs:
           project-name-prefix: gs-mcp-proxy-pii-redactor-${{ github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🔧 Configure npm for GitHub Packages
+      - name: 🔧 Configure npm for dual registry publishing
         env:
           PUBLIC_RELEASE_BOT_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
+          # Configure GitHub Packages authentication
           echo "@growthspace-engineering:registry=https://npm.pkg.github.com" >> .npmrc
           echo "//npm.pkg.github.com/:_authToken=${PUBLIC_RELEASE_BOT_TOKEN}" >> .npmrc
+          
+          # Configure public npm registry authentication
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
 
       - name: 🚀 Semantic Release
         id: semrel
         uses: cycjimmy/semantic-release-action@v5
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
-          NPM_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       # decide the channel tag (beta vs latest)
       - name: 🔧 Decide Docker channel tag

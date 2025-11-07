@@ -25,9 +25,16 @@
       }
     ],
     [
+      "@semantic-release/npm",
+      {
+        "npmPublish": true,
+        "pkgRoot": "."
+      }
+    ],
+    [
       "@semantic-release/github",
       {
-        "successComment": "This PR is included in version ${nextRelease.version} 🎉\n\nThe release is available on:\n- [GitHub Releases](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/releases/tag/${nextRelease.gitTag})\n- [npm package](https://www.npmjs.com/package/@growthspace-engineering/gs-mcp-proxy-pii-redactor/v/${nextRelease.version})",
+        "successComment": "This PR is included in version ${nextRelease.version} 🎉\n\nThe release is available on:\n- [GitHub Releases](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/releases/tag/${nextRelease.gitTag})\n- [npm package](https://www.npmjs.com/package/@growthspace-engineering/gs-mcp-proxy-pii-redactor/v/${nextRelease.version})\n- [GitHub Packages](https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/packages)",
         "releasedLabels": false,
         "assets": []
       }
