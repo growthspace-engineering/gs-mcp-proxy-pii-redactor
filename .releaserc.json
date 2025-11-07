@@ -18,17 +18,20 @@
     [
       "@semantic-release/npm",
       {
-        "npmPublish": true,
-        "pkgRoot": ".",
-        "registry": "https://npm.pkg.github.com",
-        "npmPublishRegistry": "https://npm.pkg.github.com"
+        "npmPublish": false,
+        "pkgRoot": "."
       }
     ],
     [
-      "@semantic-release/npm",
+      "@semantic-release/exec",
       {
-        "npmPublish": true,
-        "pkgRoot": "."
+        "publishCmd": "npm publish --userconfig ./.npmrc.gh --tag ${nextRelease.channel || 'latest'}"
+      }
+    ],
+    [
+      "@semantic-release/exec",
+      {
+        "publishCmd": "npm publish --userconfig ./.npmrc.npmjs --registry https://registry.npmjs.org --tag ${nextRelease.channel || 'latest'} --access public"
       }
     ],
     [
