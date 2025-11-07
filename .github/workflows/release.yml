@@ -243,7 +243,7 @@ jobs:
         run: |
           node -e "const n=process.env.NOTES||''; const lines=n.split(/\r?\n/); const bullets=lines.filter(l=>/^(?:\*|-)\s+/.test(l)).map(l=>l.replace(/^(?:\*|-)\s+/, '• ')); const text=bullets.join('\n'); console.log('changelog<<EOF'); console.log(text); console.log('EOF');" >> "$GITHUB_OUTPUT"
 
-      - name: Slack: Send to Slack
+      - name: "Slack: Send to Slack"
         if: steps.semrel.outputs.new_release_published == 'true'
         uses: slackapi/slack-github-action@v2.1.1
         with:
