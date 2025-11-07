@@ -67,9 +67,9 @@ export class ConfigService {
       }
     }
 
-    // Set default server type
+    // Set default server type to streamable-http (modern MCP standard)
     if (!fullConfig.mcpProxy.type) {
-      fullConfig.mcpProxy.type = 'sse';
+      fullConfig.mcpProxy.type = 'streamable-http';
     }
 
     this.config = {

@@ -77,7 +77,7 @@ services:
 
 - Environment variables inside config headers (e.g., `${GITHUB_TOKEN}`) are expanded inside the container. Pass them with `-e VAR=value` or via Compose `environment:`.
 - The listener is set by `mcpProxy.addr` in your config (default `:8084`). If you change it, update your `-p` mapping accordingly.
-- Supported server modes: set `mcpProxy.type` to `sse`, `streamable-http`, or `stdio`.
+- Supported server modes: set `mcpProxy.type` to `streamable-http` (default, recommended), `sse`, or `stdio`.
 
 ## Minimal example config
 
@@ -88,7 +88,7 @@ services:
     "addr": ":8084",
     "name": "MCP Proxy",
     "version": "1.0.0",
-    "type": "sse",
+    "type": "streamable-http",
     "options": { "logEnabled": true }
   },
   "mcpServers": {

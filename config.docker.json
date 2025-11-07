@@ -4,13 +4,75 @@
     "addr": ":8084",
     "name": "MCP Proxy with PII Redaction (Docker)",
     "version": "1.0.0",
-    "type": "sse",
+    "type": "streamable-http",
     "options": {
       "panicIfInvalid": false,
       "logEnabled": true
     }
   },
-  "mcpServers": {}
+  "mcpServers": {
+    "github": {
+      "transportType": "streamable-http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_TOKEN}"
+      },
+      "options": {
+        "toolFilter": {
+          "mode": "block",
+          "list": [
+            "create_repository",
+            "create_or_update_file"
+          ]
+        }
+      }
+    },
+    "github-allow": {
+      "transportType": "streamable-http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_TOKEN}"
+      },
+      "options": {
+        "toolFilter": {
+          "mode": "allow",
+          "list": [
+            "list_issues",
+            "search_repositories"
+          ]
+        }
+      }
+    },
+    "atlassian": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote@0.1.17",
+        "https://mcp.atlassian.com/v1/sse",
+        "51328"
+      ],
+      "options": {
+        "toolFilter": {
+          "mode": "block",
+          "list": [
+            "transitionJiraIssue"
+          ]
+        },
+        "redaction": {
+          "enabled": true,
+          "keys": ["description", "text", "href"]
+        }
+      }
+    },
+    "gcp": {
+      "command": "sh",
+      "args": ["-c", "npx -y gcp-mcp"],
+      "options": {
+        "redaction": {
+          "enabled": true,
+          "keys": ["message", "url", "textPayload", "stackTrace"]
+        }
+      }
+    }
+  }
 }
-
-
