@@ -53,30 +53,30 @@ jobs:
     runs-on: ubuntu-latest
     needs: tests
     steps:
-      - name: 📥 Checkout code
+      - name: 🪾 Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: 🔧 Setup Node.js
+      - name: 🧧 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
 
-      - name: 📥 Download unit results to base
+      - name: 📥 Download unit results
         uses: actions/download-artifact@v4
         with:
           name: test-results-unit
           path: test-results/gs-mcp-proxy-pii-redactor
 
-      - name: 📥 Download e2e results to base
+      - name: 📥 Download e2e results
         uses: actions/download-artifact@v4
         with:
           name: test-results-e2e
           path: test-results/gs-mcp-proxy-pii-redactor
 
-      - name: 🔗 Build combined coverage (unit + e2e)
+      - name: 🔗 Build combined coverage
         run: node scripts/build-combined-coverage.cjs
 
       - name: 📤 Upload combined coverage artifact
@@ -97,12 +97,12 @@ jobs:
       id-token: write
       pull-requests: write
     steps:
-      - name: 📥 Checkout code
+      - name: 🪾 Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: 🔧 Setup Node.js
+      - name: 🧧 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'

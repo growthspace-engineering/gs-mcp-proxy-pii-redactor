@@ -16,7 +16,7 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - name: 📥 Checkout beta branch
+      - name: 🪾 Checkout beta branch
         uses: actions/checkout@v4
         with:
           ref: beta

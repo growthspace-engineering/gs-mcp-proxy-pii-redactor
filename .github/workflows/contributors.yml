@@ -18,28 +18,28 @@ jobs:
       pull-requests: write
     
     steps:
-      - name: Checkout repository
+      - name: 🪾 Checkout repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ github.event.pull_request.base.ref }}
           token: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
       
-      - name: Setup Node.js
+      - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: 'npm'
       
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: npm ci
       
-      - name: Configure git
+      - name: 🔧 Configure git
         run: |
           git config --local user.email "gsBot@growthspace.com"
           git config --local user.name "gr0wth-b0t"
       
-      - name: Determine contributor status
+      - name: 📊 Determine contributor status
         id: contrib_status
         run: |
           node - <<'NODE'
@@ -57,7 +57,7 @@ jobs:
         env:
           PR_AUTHOR: ${{ github.event.pull_request.user.login }}
       
-      - name: Add contributor
+      - name: 🚀 Add contributor
         if: steps.contrib_status.outputs.found != 'true' || steps.contrib_status.outputs.has_code != 'true'
         run: |
           # Add the PR author as a code contributor
@@ -75,7 +75,7 @@ jobs:
           fi
         id: add_contributor
       
-      - name: Commit and push changes
+      - name: 🚀 Commit and push changes
         if: steps.add_contributor.outputs.contributor_added == 'true'
         run: |
           git add .all-contributorsrc README.md

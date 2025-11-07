@@ -25,7 +25,7 @@ jobs:
       pull-requests: write
       checks: write
     steps:
-      - name: 📥 Checkout code
+      - name: 🪾 Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
