@@ -45,7 +45,8 @@ async function bootstrap() {
     .option('-h, --help', 'print help and exit', false)
     .option('--init', 'initialize a default config in the user directory and exit', false)
     .option('--init-dest <dir>', 'destination directory for --init (overrides default)')
-    .option('--stdio-target <name>', 'target downstream server name when running in stdio mode');
+    .option('--stdio-target <name>', 'target downstream server name when running in stdio mode')
+    .option('--group <name>', 'group name to filter MCP servers (only servers in this group will expose tools)');
 
   program.parse(process.argv);
   const options = program.opts();
@@ -91,6 +92,13 @@ async function bootstrap() {
   try {
     await configService.load(options.config, options.insecure);
     logger.log('Configuration loaded successfully');
+
+    // Set the active group if provided via CLI flag
+    const groupName = options.group as string | undefined;
+    if (groupName) {
+      configService.setActiveGroup(groupName);
+      logger.log(`Active group set to: ${ groupName }`);
+    }
   } catch (error) {
     logger.error(`Failed to load config: ${ error }`);
     process.exit(1);

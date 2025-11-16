@@ -54,7 +54,13 @@ export class MCPServerService implements OnModuleInit, OnModuleDestroy {
       try {
         this.logger.log(`<${ name }> Initializing client...`);
 
-        const clientWrapper = new MCPClientWrapper(name, clientConfig, this.redactionService);
+        const isInGroup = this.configService.isServerInActiveGroup(name);
+        const clientWrapper = new MCPClientWrapper(
+          name,
+          clientConfig,
+          this.redactionService,
+          isInGroup
+        );
         await clientWrapper.initialize();
 
         const server = await clientWrapper.getServer();

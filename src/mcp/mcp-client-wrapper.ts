@@ -33,14 +33,17 @@ export class MCPClientWrapper {
   private toolsCache: { data: any[]; expiresAt: number } | null = null;
   private promptsCache: { data: any[]; expiresAt: number } | null = null;
   private resourcesCache: { data: any[]; expiresAt: number } | null = null;
+  private isInGroup: boolean;
 
   constructor(
     name: string,
     config: MCPClientConfigV2,
-    private redactionService: RedactionService
+    private redactionService: RedactionService,
+    isInGroup = true
   ) {
     this.name = name;
     this.config = config;
+    this.isInGroup = isInGroup;
   }
 
   async initialize(): Promise<void> {
@@ -222,6 +225,14 @@ export class MCPClientWrapper {
       throw new Error('Client not initialized');
     }
 
+    // If server is not in the active group, return empty tool list
+    if (!this.isInGroup) {
+      this.logger.log(
+        `<${ this.name }> Server not in active group, returning empty tool list`
+      );
+      return [];
+    }
+
     if (this.toolsCache && this.toolsCache.expiresAt > Date.now()) {
       return this.toolsCache.data;
     }
@@ -247,6 +258,14 @@ export class MCPClientWrapper {
       throw new Error('Client not initialized');
     }
 
+    // If server is not in the active group, return empty prompt list
+    if (!this.isInGroup) {
+      this.logger.log(
+        `<${ this.name }> Server not in active group, returning empty prompt list`
+      );
+      return [];
+    }
+
     try {
       if (this.promptsCache && this.promptsCache.expiresAt > Date.now()) {
         return this.promptsCache.data;
@@ -269,6 +288,14 @@ export class MCPClientWrapper {
   async listResources(): Promise<any[]> {
     if (!this.client) {
       throw new Error('Client not initialized');
+    }
+
+    // If server is not in the active group, return empty resource list
+    if (!this.isInGroup) {
+      this.logger.log(
+        `<${ this.name }> Server not in active group, returning empty resource list`
+      );
+      return [];
     }
 
     try {
