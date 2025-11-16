@@ -10,6 +10,11 @@
       "logEnabled": true
     }
   },
+  "groups": {
+    "frontend-engineer": [
+      "proxied-github"
+    ]
+  },
   "mcpServers": {
     "github": {
       "transportType": "streamable-http",

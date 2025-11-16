@@ -12,6 +12,7 @@ import { Config, FullConfig, OptionsV2 } from './types';
 export class ConfigService {
   private readonly logger = new Logger(ConfigService.name);
   private config: Config | null = null;
+  private activeGroup: string | null = null;
 
   async load(configPath: string, insecure = false): Promise<Config> {
     let fullConfig: FullConfig;
@@ -74,7 +75,8 @@ export class ConfigService {
 
     this.config = {
       mcpProxy: fullConfig.mcpProxy,
-      mcpServers: fullConfig.mcpServers || {}
+      mcpServers: fullConfig.mcpServers || {},
+      groups: fullConfig.groups || {}
     };
 
     return this.config;
@@ -85,6 +87,41 @@ export class ConfigService {
       throw new Error('Config not loaded');
     }
     return this.config;
+  }
+
+  setActiveGroup(groupName: string): void {
+    const config = this.getConfig();
+    if (!config.groups || !(groupName in config.groups)) {
+      this.logger.warn(
+        `Group "${ groupName }" not found in configuration. ` +
+        'Treating as if no group was specified (all servers enabled).'
+      );
+      // Don't set activeGroup if the group doesn't exist
+      this.activeGroup = null;
+    } else {
+      this.activeGroup = groupName;
+    }
+  }
+
+  getActiveGroup(): string | null {
+    return this.activeGroup;
+  }
+
+  isServerInActiveGroup(serverName: string): boolean {
+    if (!this.activeGroup) {
+      // If no group is specified, all servers are enabled
+      return true;
+    }
+
+    const config = this.getConfig();
+    if (!config.groups || !(this.activeGroup in config.groups)) {
+      // Group not found in config, treat as if no group was specified
+      // (show all tools for backward compatibility)
+      return true;
+    }
+
+    const groupServers = config.groups[this.activeGroup];
+    return groupServers.includes(serverName);
   }
 
   private expandEnvVarsInHeaders(headers: Record<string, string>): void {
