@@ -34,80 +34,25 @@ export class MCPClientWrapper {
   private promptsCache: { data: any[]; expiresAt: number } | null = null;
   private resourcesCache: { data: any[]; expiresAt: number } | null = null;
   private isInGroup: boolean;
+  private initialized = false;
+  private initPromise: Promise<void> | null = null;
+  private isStdioMode = false;
 
   constructor(
     name: string,
     config: MCPClientConfigV2,
     private redactionService: RedactionService,
-    isInGroup = true
+    isInGroup = true,
+    isStdioMode = false
   ) {
     this.name = name;
     this.config = config;
     this.isInGroup = isInGroup;
+    this.isStdioMode = isStdioMode;
   }
 
   async initialize(): Promise<void> {
-    const transportType =
-      this.config.transportType || this.inferTransportType();
-
-    this.logger.log(
-      `<${ this.name }> Initializing ${ transportType } transport...`
-    );
-
-    // Check if redaction is enabled and service can initialize
-    if (this.config.options?.redaction?.enabled) {
-      try {
-        await this.redactionService.initialize();
-        const keys = this.config.options.redaction.keys || [];
-        this.logger.log(
-          `<${ this.name }> Redaction enabled with ${ keys.length } keys`
-        );
-      } catch (error) {
-        this.logger.error(
-          `<${ this.name }> Redaction service unavailable: ${ error }`
-        );
-        throw new Error(
-          `Redaction service unavailable for client with redaction enabled: ${ error }`
-        );
-      }
-    }
-
-    switch (transportType) {
-      case 'stdio':
-        await this.initializeStdio();
-        break;
-      case 'sse':
-        await this.initializeSSE();
-        break;
-      case 'streamable-http':
-        await this.initializeStreamableHTTP();
-        break;
-      default:
-        throw new Error(`Unknown transport type: ${ transportType }`);
-    }
-
-    // Initialize MCP client
-    this.client = new Client(
-      {
-        name: 'mcp-proxy',
-        version: '1.0.0'
-      },
-      {
-        capabilities: {
-          experimental: {},
-          roots: {
-            listChanged: false
-          }
-        }
-      }
-    );
-
-    await this.client.connect(this.transport!);
-    this.logger.log(`<${ this.name }> Successfully initialized MCP client`);
-
-    if (this.needPing) {
-      this.startPingTask();
-    }
+    await this.ensureInitialized();
   }
 
   private inferTransportType(): MCPClientType {
@@ -118,6 +63,97 @@ export class MCPClientWrapper {
       return 'sse';
     }
     throw new Error('Cannot infer transport type');
+  }
+
+  /**
+   * Ensure the downstream MCP client is initialized.
+   *
+   * This is intentionally lazy so that in stdio mode we can:
+   *   - Start the proxy process quickly
+   *   - Complete the MCP initialize handshake with the caller
+   *   - Only incur downstream startup cost on first real request
+   *
+   * This avoids Codex timing out while we initialize downstream servers.
+   */
+  private async ensureInitialized(): Promise<void> {
+    if (this.initialized) {
+      return;
+    }
+    if (this.initPromise) {
+      return this.initPromise;
+    }
+
+    this.initPromise = (async () => {
+      const transportType =
+        this.config.transportType || this.inferTransportType();
+
+      this.logger.log(
+        `<${ this.name }> Initializing ${ transportType } transport...`
+      );
+
+      // Check if redaction is enabled and service can initialize
+      if (this.config.options?.redaction?.enabled) {
+        try {
+          await this.redactionService.initialize();
+          const keys = this.config.options.redaction.keys || [];
+          this.logger.log(
+            `<${ this.name }> Redaction enabled with ${ keys.length } keys`
+          );
+        } catch (error) {
+          this.logger.error(
+            `<${ this.name }> Redaction service unavailable: ${ error }`
+          );
+          throw new Error(
+            `Redaction service unavailable for client with redaction enabled: ${ error }`
+          );
+        }
+      }
+
+      switch (transportType) {
+        case 'stdio':
+          await this.initializeStdio();
+          break;
+        case 'sse':
+          await this.initializeSSE();
+          break;
+        case 'streamable-http':
+          await this.initializeStreamableHTTP();
+          break;
+        default:
+          throw new Error(`Unknown transport type: ${ transportType }`);
+      }
+
+      // Initialize MCP client
+      this.client = new Client(
+        {
+          name: 'mcp-proxy',
+          version: '1.0.0'
+        },
+        {
+          capabilities: {
+            experimental: {},
+            roots: {
+              listChanged: false
+            }
+          }
+        }
+      );
+
+      await this.client.connect(this.transport!);
+      this.logger.log(`<${ this.name }> Successfully initialized MCP client`);
+
+      if (this.needPing) {
+        this.startPingTask();
+      }
+
+      this.initialized = true;
+    })();
+
+    try {
+      await this.initPromise;
+    } finally {
+      this.initPromise = null;
+    }
   }
 
   private async initializeStdio(): Promise<void> {
@@ -221,6 +257,7 @@ export class MCPClientWrapper {
   }
 
   async listTools(): Promise<any[]> {
+    await this.ensureInitialized();
     if (!this.client) {
       throw new Error('Client not initialized');
     }
@@ -254,6 +291,7 @@ export class MCPClientWrapper {
   }
 
   async listPrompts(): Promise<any[]> {
+    await this.ensureInitialized();
     if (!this.client) {
       throw new Error('Client not initialized');
     }
@@ -286,6 +324,7 @@ export class MCPClientWrapper {
   }
 
   async listResources(): Promise<any[]> {
+    await this.ensureInitialized();
     if (!this.client) {
       throw new Error('Client not initialized');
     }
@@ -324,6 +363,7 @@ export class MCPClientWrapper {
     args: Record<string, string> | undefined,
     redactionConfig?: RedactionOptions
   ): Promise<any> {
+    await this.ensureInitialized();
     if (!this.client) {
       throw new Error('Client not initialized');
     }
@@ -396,6 +436,7 @@ export class MCPClientWrapper {
     args: Record<string, string> | undefined,
     redactionConfig?: RedactionOptions
   ): Promise<any> {
+    await this.ensureInitialized();
     if (!this.client) {
       throw new Error('Client not initialized');
     }
@@ -439,6 +480,7 @@ export class MCPClientWrapper {
     uri: string,
     redactionConfig?: RedactionOptions
   ): Promise<any> {
+    await this.ensureInitialized();
     if (!this.client) {
       throw new Error('Client not initialized');
     }
@@ -524,10 +566,6 @@ export class MCPClientWrapper {
   }
 
   async getServer(fresh = false): Promise<Server> {
-    if (!this.client) {
-      throw new Error('Client not initialized');
-    }
-
     // Import schemas
     const {
       CallToolRequestSchema,
@@ -554,13 +592,28 @@ export class MCPClientWrapper {
       }
     );
 
-    // Register tools from client lazily to avoid slow startup
+    // Register tools from client
     server.setRequestHandler(ListToolsRequestSchema, async () => {
+      // In stdio mode only: use lazy initialization to avoid blocking the handshake
+      if (this.isStdioMode && !this.initialized && !this.initPromise) {
+        this.logger.debug(
+          `<${ this.name }> ListTools called in stdio mode, triggering background initialization`
+        );
+        // Start initialization in background, but return empty for now
+        this.ensureInitialized().catch((err) => {
+          this.logger.error(`<${ this.name }> Background initialization failed: ${ err }`);
+        });
+        return { tools: [] } as any;
+      }
+
+      // For HTTP/SSE mode or if already initializing: wait for initialization
+      await this.ensureInitialized();
       const tools = await this.listTools();
       return { tools } as any;
     });
     // Single dispatching handler for tool calls
     server.setRequestHandler(CallToolRequestSchema, async (request) => {
+      await this.ensureInitialized();
       const requestedName = request.params.name;
       const tools = await this.listTools();
       const tool = tools.find((t) => t.name === requestedName);
@@ -575,13 +628,24 @@ export class MCPClientWrapper {
       );
     });
 
-    // Register prompts from client lazily
+    // Register prompts from client
     server.setRequestHandler(ListPromptsRequestSchema, async () => {
+      // In stdio mode only: return empty list if not yet initialized
+      if (this.isStdioMode && !this.initialized) {
+        this.logger.debug(
+          `<${ this.name }> ListPrompts called in stdio mode before initialization, ` +
+          `returning empty list`
+        );
+        return { prompts: [] } as any;
+      }
+      // For HTTP/SSE mode: wait for initialization
+      await this.ensureInitialized();
       const prompts = await this.listPrompts();
       return { prompts } as any;
     });
     // Single dispatching handler for prompt calls
     server.setRequestHandler(GetPromptRequestSchema, async (request) => {
+      await this.ensureInitialized();
       const requestedName = request.params.name;
       const prompts = await this.listPrompts();
       const prompt = prompts.find((p) => p.name === requestedName);
@@ -596,13 +660,24 @@ export class MCPClientWrapper {
       );
     });
 
-    // Register resources from client lazily
+    // Register resources from client
     server.setRequestHandler(ListResourcesRequestSchema, async () => {
+      // In stdio mode only: return empty list if not yet initialized
+      if (this.isStdioMode && !this.initialized) {
+        this.logger.debug(
+          `<${ this.name }> ListResources called in stdio mode before initialization, ` +
+          `returning empty list`
+        );
+        return { resources: [] };
+      }
+      // For HTTP/SSE mode: wait for initialization
+      await this.ensureInitialized();
       const resources = await this.listResources();
       return { resources };
     });
 
     server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
+      await this.ensureInitialized();
       return await this.readResource(
         request.params.uri,
         this.config.options?.redaction
