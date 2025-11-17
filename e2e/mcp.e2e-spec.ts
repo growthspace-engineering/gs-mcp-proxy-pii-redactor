@@ -37,6 +37,8 @@ describe('MCP Proxy (e2e)', () => {
     const cfgSrcPath = path.join(__dirname, '..', 'config.json');
     const cfg = JSON.parse(fs.readFileSync(cfgSrcPath, 'utf-8'));
     cfg.mcpProxy.addr = ':0';
+    // Use streamable-http for these tests
+    cfg.mcpProxy.type = 'streamable-http';
     // Restrict to only required MCP servers to avoid noisy externals
     const originalServers = (cfg.mcpServers ?? {}) as Record<string, any>;
     const mcpServers: Record<string, any> = {};
@@ -108,14 +110,18 @@ describe('MCP Proxy (e2e)', () => {
   };
 
   it('github client blocks specified tools', async () => {
-    const names = await connectAndListTools('github');
+    const names = await connectAndListTools(
+      'github'
+    );
     expect(names.length).toBeGreaterThan(0);
     expect(names).not.toContain('create_repository');
     expect(names).not.toContain('create_or_update_file');
   }, 60000);
 
   it('github-allow client only exposes allow-listed tools', async () => {
-    const names = await connectAndListTools('github-allow');
+    const names = await connectAndListTools(
+      'github-allow'
+    );
     expect(names).toEqual([ 'list_issues', 'search_repositories' ]);
   }, 60000);
 

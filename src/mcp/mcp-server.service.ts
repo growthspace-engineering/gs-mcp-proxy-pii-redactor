@@ -33,36 +33,74 @@ export class MCPServerService implements OnModuleInit, OnModuleDestroy {
   async onModuleInit() {
     const config = this.configService.getConfig();
 
-    // In stdio mode, initialize only the selected downstream target to avoid slow startup
+    // In stdio mode, we avoid eager downstream initialization so that the
+    // proxy can start quickly and complete the MCP initialize handshake.
+    // Downstream servers are initialized lazily on first use.
     const proxyType = config.mcpProxy.type || 'sse';
     const argv = process.argv;
     const targetFlagIdx = argv.indexOf('--stdio-target');
     const targetFromArg = targetFlagIdx >= 0 ? argv[targetFlagIdx + 1] : undefined;
     const allEntries = Object.entries(config.mcpServers);
-    const entriesToInit = proxyType === 'stdio' ?
-      (() => {
-        if (targetFromArg) {
-          return allEntries.filter(([ n ]) => n === targetFromArg);
-        }
-        // If no explicit target, initialize all. main.ts enforces correctness when running in stdio mode.
-        return allEntries;
-      })() :
-      allEntries;
+    const entriesToInit =
+      proxyType === 'stdio' ?
+        (() => {
+          if (targetFromArg) {
+            return allEntries.filter(([ n ]) => n === targetFromArg);
+          }
+          // If no explicit target, initialize all. main.ts enforces correctness when running in stdio mode.
+          return allEntries;
+        })() :
+        allEntries;
 
-    // Initialize MCP clients and create proxy servers
+    // Create proxy servers for each configured downstream.
+    // For non-stdio modes, we keep eager initialization (backwards compatible):
+    //   - If initialization fails and panicIfInvalid is false, we skip that server.
+    //   - If panicIfInvalid is true, we rethrow.
+    // For stdio mode, MCPClientWrapper lazily initializes downstream clients
+    // on first request so Codex/other MCP callers don't time out on startup.
     for (const [ name, clientConfig ] of entriesToInit) {
-      try {
-        this.logger.log(`<${ name }> Initializing client...`);
+      const isInGroup = this.configService.isServerInActiveGroup(name);
+      const isStdioMode = proxyType === 'stdio';
+      const clientWrapper = new MCPClientWrapper(
+        name,
+        clientConfig,
+        this.redactionService,
+        isInGroup,
+        isStdioMode
+      );
 
-        const isInGroup = this.configService.isServerInActiveGroup(name);
-        const clientWrapper = new MCPClientWrapper(
-          name,
-          clientConfig,
-          this.redactionService,
-          isInGroup
-        );
-        await clientWrapper.initialize();
+      if (proxyType !== 'stdio') {
+        try {
+          this.logger.log(`<${ name }> Initializing client...`);
+          await clientWrapper.initialize();
+          this.logger.log(`<${ name }> Client initialized successfully`);
 
+          const server = await clientWrapper.getServer();
+
+          this.servers.set(name, {
+            name,
+            server,
+            clientWrapper,
+            transports: new Map(),
+            serverType: config.mcpProxy.type || 'sse'
+          });
+        } catch (error) {
+          this.logger.error(
+            [
+              '<',
+              name,
+              '> Failed to initialize client: ',
+              String(error)
+            ].join('')
+          );
+
+          if (clientConfig.options?.panicIfInvalid) {
+            throw error;
+          }
+        }
+      } else {
+        // stdio mode: register the server immediately; downstream client will
+        // be initialized lazily by MCPClientWrapper on first request.
         const server = await clientWrapper.getServer();
 
         this.servers.set(name, {
@@ -72,19 +110,6 @@ export class MCPServerService implements OnModuleInit, OnModuleDestroy {
           transports: new Map(),
           serverType: config.mcpProxy.type || 'sse'
         });
-
-        this.logger.log(`<${ name }> Client initialized successfully`);
-      } catch (error) {
-        this.logger.error([
-          '<',
-          name,
-          '> Failed to initialize client: ',
-          String(error)
-        ].join(''));
-
-        if (clientConfig.options?.panicIfInvalid) {
-          throw error;
-        }
       }
     }
   }

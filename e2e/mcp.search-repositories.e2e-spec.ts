@@ -32,6 +32,7 @@ describe('MCP Proxy search_repositories (e2e)', () => {
     const cfgSrcPath = path.join(__dirname, '..', 'config.json');
     const cfg = JSON.parse(fs.readFileSync(cfgSrcPath, 'utf-8'));
     cfg.mcpProxy.addr = ':0';
+    cfg.mcpProxy.type = 'streamable-http'; // Use streamable-http for these tests
 
     const originalServers = (cfg.mcpServers ?? {}) as Record<string, any>;
     const mcpServers: Record<string, any> = {};
