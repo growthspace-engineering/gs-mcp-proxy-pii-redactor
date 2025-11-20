@@ -101,7 +101,7 @@ jobs:
       pull-requests: write
       packages: write
       pages: write
-      id-token: write
+      id-token: write  # Required for npm provenance
     steps:
       - name: 🪾 Checkout code
         uses: actions/checkout@v4
@@ -155,16 +155,14 @@ jobs:
       - name: 🔧 Configure npm for dual registry publishing
         env:
           PUBLIC_RELEASE_BOT_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           # GitHub Packages npmrc
           echo "@growthspace-engineering:registry=https://npm.pkg.github.com" > .npmrc.gh
           echo "//npm.pkg.github.com/:_authToken=${PUBLIC_RELEASE_BOT_TOKEN}" >> .npmrc.gh
 
-          # Public npm registry npmrc
+          # Public npm registry npmrc (no token needed with provenance)
           echo "registry=https://registry.npmjs.org/" > .npmrc.npmjs
           echo "@growthspace-engineering:registry=https://registry.npmjs.org/" >> .npmrc.npmjs
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc.npmjs
           echo "access=public" >> .npmrc.npmjs
 
       - name: 🚀 Semantic Release
@@ -172,7 +170,7 @@ jobs:
         uses: cycjimmy/semantic-release-action@v5
         env:
           GITHUB_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # NPM_TOKEN not needed - using provenance (OIDC) for npmjs publishing
 
       # decide the channel tag (beta vs latest)
       - name: 🔧 Decide Docker channel tag
