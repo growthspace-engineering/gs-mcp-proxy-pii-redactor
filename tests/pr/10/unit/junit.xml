@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="104" failures="0" errors="0" time="9.391">
+  <testsuite name="scanner-generic" errors="0" failures="0" skipped="0" timestamp="2025-11-02T02:39:31" time="7.786" tests="32">
+    <testcase classname="scanner-generic redactGeneric email redaction should redact a simple email address" name="scanner-generic redactGeneric email redaction should redact a simple email address" time="0.009">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should redact multiple email addresses" name="scanner-generic redactGeneric email redaction should redact multiple email addresses" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should redact email with plus sign in local part" name="scanner-generic redactGeneric email redaction should redact email with plus sign in local part" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should redact email with hyphen in local part" name="scanner-generic redactGeneric email redaction should redact email with hyphen in local part" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should redact email with numbers" name="scanner-generic redactGeneric email redaction should redact email with numbers" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should not redact invalid emails without dot in domain" name="scanner-generic redactGeneric email redaction should not redact invalid emails without dot in domain" time="0.002">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should not redact email with leading dot in local part" name="scanner-generic redactGeneric email redaction should not redact email with leading dot in local part" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should not redact email with trailing dot in local part" name="scanner-generic redactGeneric email redaction should not redact email with trailing dot in local part" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should not redact email with consecutive dots in local part" name="scanner-generic redactGeneric email redaction should not redact email with consecutive dots in local part" time="0.002">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should handle empty string" name="scanner-generic redactGeneric email redaction should handle empty string" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should return original string if no PII found" name="scanner-generic redactGeneric email redaction should return original string if no PII found" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should redact US phone number with separators" name="scanner-generic redactGeneric phone number redaction should redact US phone number with separators" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should redact phone number with spaces" name="scanner-generic redactGeneric phone number redaction should redact phone number with spaces" time="0.004">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should redact phone number with dots" name="scanner-generic redactGeneric phone number redaction should redact phone number with dots" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should redact formatted phone numbers" name="scanner-generic redactGeneric phone number redaction should redact formatted phone numbers" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should redact international phone with plus" name="scanner-generic redactGeneric phone number redaction should redact international phone with plus" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should redact phone number with country code" name="scanner-generic redactGeneric phone number redaction should redact phone number with country code" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should redact 10-digit phone number (minimum digits)" name="scanner-generic redactGeneric phone number redaction should redact 10-digit phone number (minimum digits)" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should not redact numbers with too few digits" name="scanner-generic redactGeneric phone number redaction should not redact numbers with too few digits" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should redact 15-digit phone number with separator" name="scanner-generic redactGeneric phone number redaction should redact 15-digit phone number with separator" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should handle international phone numbers" name="scanner-generic redactGeneric phone number redaction should handle international phone numbers" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should handle phone with parentheses properly" name="scanner-generic redactGeneric phone number redaction should handle phone with parentheses properly" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should not redact phone starting with letter" name="scanner-generic redactGeneric phone number redaction should not redact phone starting with letter" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric mixed PII redaction should redact both email and phone in same text" name="scanner-generic redactGeneric mixed PII redaction should redact both email and phone in same text" time="0.003">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric mixed PII redaction should redact multiple emails and phones" name="scanner-generic redactGeneric mixed PII redaction should redact multiple emails and phones" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric mixed PII redaction should handle complex text with multiple PII types" name="scanner-generic redactGeneric mixed PII redaction should handle complex text with multiple PII types" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric edge cases should handle text with @ symbol but not email" name="scanner-generic redactGeneric edge cases should handle text with @ symbol but not email" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric edge cases should handle text with + symbol but not phone" name="scanner-generic redactGeneric edge cases should handle text with + symbol but not phone" time="0.003">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric edge cases should preserve surrounding whitespace" name="scanner-generic redactGeneric edge cases should preserve surrounding whitespace" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric edge cases should handle PII at start of string" name="scanner-generic redactGeneric edge cases should handle PII at start of string" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric edge cases should handle PII at end of string" name="scanner-generic redactGeneric edge cases should handle PII at end of string" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric edge cases should handle very long strings efficiently" name="scanner-generic redactGeneric edge cases should handle very long strings efficiently" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Matcher" errors="0" failures="0" skipped="0" timestamp="2025-11-02T02:39:39" time="0.621" tests="23">
+    <testcase classname="Matcher build should create a matcher with valid dictionary" name="Matcher build should create a matcher with valid dictionary" time="0.001">
+    </testcase>
+    <testcase classname="Matcher build should throw error with empty dictionary" name="Matcher build should throw error with empty dictionary" time="0.03">
+    </testcase>
+    <testcase classname="Matcher redact should redact a single matching term" name="Matcher redact should redact a single matching term" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should redact multiple matching terms" name="Matcher redact should redact multiple matching terms" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should perform case-insensitive matching" name="Matcher redact should perform case-insensitive matching" time="0.002">
+    </testcase>
+    <testcase classname="Matcher redact should match whole words only" name="Matcher redact should match whole words only" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should handle word boundaries correctly with punctuation" name="Matcher redact should handle word boundaries correctly with punctuation" time="0.002">
+    </testcase>
+    <testcase classname="Matcher redact should handle word boundaries with hyphens and spaces" name="Matcher redact should handle word boundaries with hyphens and spaces" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should redact multiple occurrences of same term" name="Matcher redact should redact multiple occurrences of same term" time="0">
+    </testcase>
+    <testcase classname="Matcher redact should handle overlapping matches by merging intervals" name="Matcher redact should handle overlapping matches by merging intervals" time="0">
+    </testcase>
+    <testcase classname="Matcher redact should return original text if no matches found" name="Matcher redact should return original text if no matches found" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should handle empty string" name="Matcher redact should handle empty string" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should handle text with only the matching term" name="Matcher redact should handle text with only the matching term" time="0">
+    </testcase>
+    <testcase classname="Matcher redact should handle text starting with matching term" name="Matcher redact should handle text starting with matching term" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should handle text ending with matching term" name="Matcher redact should handle text ending with matching term" time="0">
+    </testcase>
+    <testcase classname="Matcher redact should handle multi-word terms" name="Matcher redact should handle multi-word terms" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should handle terms with special characters" name="Matcher redact should handle terms with special characters" time="0">
+    </testcase>
+    <testcase classname="Matcher redact should merge adjacent matches" name="Matcher redact should merge adjacent matches" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should handle large dictionary efficiently" name="Matcher redact should handle large dictionary efficiently" time="0.002">
+    </testcase>
+    <testcase classname="Matcher redact should handle long text efficiently" name="Matcher redact should handle long text efficiently" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should handle text with numbers and underscores as word boundaries" name="Matcher redact should handle text with numbers and underscores as word boundaries" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should handle consecutive terms with different cases" name="Matcher redact should handle consecutive terms with different cases" time="0.003">
+    </testcase>
+    <testcase classname="Matcher redact should not match partial words in compound words" name="Matcher redact should not match partial words in compound words" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="ConfigService" errors="0" failures="0" skipped="0" timestamp="2025-11-02T02:39:31" time="8.472" tests="22">
+    <testcase classname="ConfigService load from file should load config from file with absolute path" name="ConfigService load from file should load config from file with absolute path" time="0.038">
+    </testcase>
+    <testcase classname="ConfigService load from file should load config from file with relative path" name="ConfigService load from file should load config from file with relative path" time="0.003">
+    </testcase>
+    <testcase classname="ConfigService load from file should set default type to sse if not provided" name="ConfigService load from file should set default type to sse if not provided" time="0.005">
+    </testcase>
+    <testcase classname="ConfigService load from file should throw error if mcpProxy is missing" name="ConfigService load from file should throw error if mcpProxy is missing" time="0.046">
+    </testcase>
+    <testcase classname="ConfigService load from URL should load config from HTTP URL" name="ConfigService load from URL should load config from HTTP URL" time="0.005">
+    </testcase>
+    <testcase classname="ConfigService load from URL should load config from HTTPS URL" name="ConfigService load from URL should load config from HTTPS URL" time="0.008">
+    </testcase>
+    <testcase classname="ConfigService load from URL should handle insecure flag for HTTPS" name="ConfigService load from URL should handle insecure flag for HTTPS" time="0.004">
+    </testcase>
+    <testcase classname="ConfigService environment variable expansion should expand environment variables in headers" name="ConfigService environment variable expansion should expand environment variables in headers" time="0.004">
+    </testcase>
+    <testcase classname="ConfigService environment variable expansion should throw error if referenced environment variable is not set" name="ConfigService environment variable expansion should throw error if referenced environment variable is not set" time="0.005">
+    </testcase>
+    <testcase classname="ConfigService environment variable expansion should handle multiple environment variables in same header" name="ConfigService environment variable expansion should handle multiple environment variables in same header" time="0.017">
+    </testcase>
+    <testcase classname="ConfigService environment variable expansion should not expand if no environment variables referenced" name="ConfigService environment variable expansion should not expand if no environment variables referenced" time="0.003">
+    </testcase>
+    <testcase classname="ConfigService options inheritance should inherit authTokens from mcpProxy to mcpServers" name="ConfigService options inheritance should inherit authTokens from mcpProxy to mcpServers" time="0.002">
+    </testcase>
+    <testcase classname="ConfigService options inheritance should inherit panicIfInvalid from mcpProxy to mcpServers" name="ConfigService options inheritance should inherit panicIfInvalid from mcpProxy to mcpServers" time="0.002">
+    </testcase>
+    <testcase classname="ConfigService options inheritance should inherit logEnabled from mcpProxy to mcpServers" name="ConfigService options inheritance should inherit logEnabled from mcpProxy to mcpServers" time="0.002">
+    </testcase>
+    <testcase classname="ConfigService options inheritance should not override existing options in mcpServers" name="ConfigService options inheritance should not override existing options in mcpServers" time="0.002">
+    </testcase>
+    <testcase classname="ConfigService options inheritance should not inherit redaction options from mcpProxy to mcpServers" name="ConfigService options inheritance should not inherit redaction options from mcpProxy to mcpServers" time="0.002">
+    </testcase>
+    <testcase classname="ConfigService options inheritance should handle multiple mcpServers with inheritance" name="ConfigService options inheritance should handle multiple mcpServers with inheritance" time="0.002">
+    </testcase>
+    <testcase classname="ConfigService getConfig should return loaded config" name="ConfigService getConfig should return loaded config" time="0.002">
+    </testcase>
+    <testcase classname="ConfigService getConfig should throw error if config not loaded" name="ConfigService getConfig should throw error if config not loaded" time="0.003">
+    </testcase>
+    <testcase classname="ConfigService edge cases should handle empty mcpServers object" name="ConfigService edge cases should handle empty mcpServers object" time="0.002">
+    </testcase>
+    <testcase classname="ConfigService edge cases should initialize options if not provided in mcpProxy" name="ConfigService edge cases should initialize options if not provided in mcpProxy" time="0.002">
+    </testcase>
+    <testcase classname="ConfigService edge cases should initialize options if not provided in mcpServer" name="ConfigService edge cases should initialize options if not provided in mcpServer" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="RedactionService" errors="0" failures="0" skipped="0" timestamp="2025-11-02T02:39:31" time="8.625" tests="27">
+    <testcase classname="RedactionService initialize should initialize successfully with valid dictionary" name="RedactionService initialize should initialize successfully with valid dictionary" time="0.015">
+    </testcase>
+    <testcase classname="RedactionService initialize should only initialize once" name="RedactionService initialize should only initialize once" time="0.007">
+    </testcase>
+    <testcase classname="RedactionService initialize should throw error if MCP_PROXY_GCS_BUCKET is not set" name="RedactionService initialize should throw error if MCP_PROXY_GCS_BUCKET is not set" time="0.005">
+    </testcase>
+    <testcase classname="RedactionService initialize should throw error if service account is not set" name="RedactionService initialize should throw error if service account is not set" time="0.002">
+    </testcase>
+    <testcase classname="RedactionService getService should auto-initialize if not initialized" name="RedactionService getService should auto-initialize if not initialized" time="0.004">
+    </testcase>
+    <testcase classname="RedactionService getService should return error if initialization failed" name="RedactionService getService should return error if initialization failed" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should return original data if config is null" name="RedactionService redactResponse should return original data if config is null" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should return original data if config is undefined" name="RedactionService redactResponse should return original data if config is undefined" time="0.002">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should return original data if redaction is disabled" name="RedactionService redactResponse should return original data if redaction is disabled" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should return original data if matcher is not initialized" name="RedactionService redactResponse should return original data if matcher is not initialized" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should redact all strings when no keys specified" name="RedactionService redactResponse should redact all strings when no keys specified" time="0.002">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should redact all strings when keys is empty array" name="RedactionService redactResponse should redact all strings when keys is empty array" time="0.001">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should redact only specified keys" name="RedactionService redactResponse should redact only specified keys" time="0.002">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle nested objects when redacting all strings" name="RedactionService redactResponse should handle nested objects when redacting all strings" time="0.002">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle nested objects when redacting by keys" name="RedactionService redactResponse should handle nested objects when redacting by keys" time="0.001">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle arrays when redacting all strings" name="RedactionService redactResponse should handle arrays when redacting all strings" time="0.002">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle arrays when redacting by keys" name="RedactionService redactResponse should handle arrays when redacting by keys" time="0.002">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle arrays of objects when redacting all strings" name="RedactionService redactResponse should handle arrays of objects when redacting all strings" time="0.001">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle arrays of objects when redacting by keys" name="RedactionService redactResponse should handle arrays of objects when redacting by keys" time="0.001">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should redact generic PII (emails, phones) before dictionary terms" name="RedactionService redactResponse should redact generic PII (emails, phones) before dictionary terms" time="0.002">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle non-string values correctly" name="RedactionService redactResponse should handle non-string values correctly" time="0.002">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle deeply nested structures" name="RedactionService redactResponse should handle deeply nested structures" time="0.001">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle mixed arrays and objects" name="RedactionService redactResponse should handle mixed arrays and objects" time="0.002">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle keys at different nesting levels" name="RedactionService redactResponse should handle keys at different nesting levels" time="0.006">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should redact nested values when key matches" name="RedactionService redactResponse should redact nested values when key matches" time="0.001">
+    </testcase>
+    <testcase classname="RedactionService getServiceAccountJSON with base64 should decode base64 service account" name="RedactionService getServiceAccountJSON with base64 should decode base64 service account" time="0.001">
+    </testcase>
+    <testcase classname="RedactionService getServiceAccountJSON with base64 should handle private key with escaped newlines" name="RedactionService getServiceAccountJSON with base64 should handle private key with escaped newlines" time="0.002">
+    </testcase>
+  </testsuite>
+</testsuites>

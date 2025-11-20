@@ -1,0 +1,602 @@
+{
+  "numFailedTestSuites": 0,
+  "numFailedTests": 0,
+  "numPassedTestSuites": 6,
+  "numPassedTests": 19,
+  "numPendingTestSuites": 0,
+  "numPendingTests": 1,
+  "numRuntimeErrorTestSuites": 0,
+  "numTodoTests": 0,
+  "numTotalTestSuites": 6,
+  "numTotalTests": 20,
+  "openHandles": [],
+  "snapshot": {
+    "added": 0,
+    "didUpdate": false,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 5,
+    "total": 5,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0
+  },
+  "startTime": 1762278431500,
+  "success": false,
+  "testResults": [
+    {
+      "leaks": false,
+      "numFailingTests": 0,
+      "numPassingTests": 6,
+      "numPendingTests": 1,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1762278458064,
+        "loadTestEnvironmentEnd": 1762278431746,
+        "loadTestEnvironmentStart": 1762278431714,
+        "runtime": 26317,
+        "setupAfterEnvEnd": 1762278431848,
+        "setupAfterEnvStart": 1762278431848,
+        "setupFilesEnd": 1762278431747,
+        "setupFilesStart": 1762278431747,
+        "slow": true,
+        "start": 1762278431747
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 0,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/home/runner/work/gs-mcp-proxy-pii-redactor/gs-mcp-proxy-pii-redactor/test/mcp.sse.e2e-spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "MCP Proxy SSE Transport (e2e)"
+          ],
+          "duration": 40,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCP Proxy SSE Transport (e2e) health check returns ok",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "startAt": 1762278437602,
+          "status": "passed",
+          "title": "health check returns ok"
+        },
+        {
+          "ancestorTitles": [
+            "MCP Proxy SSE Transport (e2e)"
+          ],
+          "duration": 57,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCP Proxy SSE Transport (e2e) github client blocks specified tools via SSE",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762278437643,
+          "status": "passed",
+          "title": "github client blocks specified tools via SSE"
+        },
+        {
+          "ancestorTitles": [
+            "MCP Proxy SSE Transport (e2e)"
+          ],
+          "duration": 32,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCP Proxy SSE Transport (e2e) github-allow client only exposes allow-listed tools via SSE",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762278437700,
+          "status": "passed",
+          "title": "github-allow client only exposes allow-listed tools via SSE"
+        },
+        {
+          "ancestorTitles": [
+            "MCP Proxy SSE Transport (e2e)"
+          ],
+          "duration": 11,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCP Proxy SSE Transport (e2e) unknown client returns 404 on SSE endpoint",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "startAt": 1762278437732,
+          "status": "passed",
+          "title": "unknown client returns 404 on SSE endpoint"
+        },
+        {
+          "ancestorTitles": [
+            "MCP Proxy SSE Transport (e2e)"
+          ],
+          "duration": 28,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCP Proxy SSE Transport (e2e) SSE transport handles authentication correctly",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762278437743,
+          "status": "passed",
+          "title": "SSE transport handles authentication correctly"
+        },
+        {
+          "ancestorTitles": [
+            "MCP Proxy SSE Transport (e2e)"
+          ],
+          "duration": 281,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCP Proxy SSE Transport (e2e) reconnects cleanly and can list tools again",
+          "invocations": 2,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762278457774,
+          "status": "passed",
+          "title": "reconnects cleanly and can list tools again"
+        },
+        {
+          "ancestorTitles": [
+            "MCP Proxy SSE Transport (e2e)"
+          ],
+          "duration": null,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCP Proxy SSE Transport (e2e) supports two concurrent SSE clients without interference",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "startAt": 1762278457774,
+          "status": "pending",
+          "title": "supports two concurrent SSE clients without interference"
+        }
+      ],
+      "displayName": {
+        "color": "white",
+        "name": "e2e"
+      },
+      "failureMessage": null
+    },
+    {
+      "leaks": false,
+      "numFailingTests": 0,
+      "numPassingTests": 1,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1762278459271,
+        "loadTestEnvironmentEnd": 1762278458130,
+        "loadTestEnvironmentStart": 1762278458124,
+        "runtime": 1141,
+        "setupAfterEnvEnd": 1762278458154,
+        "setupAfterEnvStart": 1762278458154,
+        "setupFilesEnd": 1762278458130,
+        "setupFilesStart": 1762278458130,
+        "slow": false,
+        "start": 1762278458130
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 1,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/home/runner/work/gs-mcp-proxy-pii-redactor/gs-mcp-proxy-pii-redactor/test/mcp.search-repositories.sse.e2e-spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "MCP Proxy search_repositories via SSE (e2e)"
+          ],
+          "duration": 304,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCP Proxy search_repositories via SSE (e2e) exposes search_repositories on github-allow via SSE and executes it",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 9,
+          "retryReasons": [],
+          "startAt": 1762278458956,
+          "status": "passed",
+          "title": "exposes search_repositories on github-allow via SSE and executes it"
+        }
+      ],
+      "displayName": {
+        "color": "white",
+        "name": "e2e"
+      },
+      "failureMessage": null
+    },
+    {
+      "leaks": false,
+      "numFailingTests": 0,
+      "numPassingTests": 1,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1762278460121,
+        "loadTestEnvironmentEnd": 1762278459327,
+        "loadTestEnvironmentStart": 1762278459322,
+        "runtime": 794,
+        "setupAfterEnvEnd": 1762278459345,
+        "setupAfterEnvStart": 1762278459345,
+        "setupFilesEnd": 1762278459327,
+        "setupFilesStart": 1762278459327,
+        "slow": false,
+        "start": 1762278459327
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 1,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/home/runner/work/gs-mcp-proxy-pii-redactor/gs-mcp-proxy-pii-redactor/test/mcp.search-repositories.e2e-spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "MCP Proxy search_repositories (e2e)"
+          ],
+          "duration": 339,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCP Proxy search_repositories (e2e) exposes search_repositories on github-allow and executes it",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 9,
+          "retryReasons": [],
+          "startAt": 1762278459773,
+          "status": "passed",
+          "title": "exposes search_repositories on github-allow and executes it"
+        }
+      ],
+      "displayName": {
+        "color": "white",
+        "name": "e2e"
+      },
+      "failureMessage": null
+    },
+    {
+      "leaks": false,
+      "numFailingTests": 0,
+      "numPassingTests": 5,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1762278460997,
+        "loadTestEnvironmentEnd": 1762278460171,
+        "loadTestEnvironmentStart": 1762278460168,
+        "runtime": 826,
+        "setupAfterEnvEnd": 1762278460195,
+        "setupAfterEnvStart": 1762278460195,
+        "setupFilesEnd": 1762278460171,
+        "setupFilesStart": 1762278460171,
+        "slow": false,
+        "start": 1762278460171
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 0,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/home/runner/work/gs-mcp-proxy-pii-redactor/gs-mcp-proxy-pii-redactor/test/mcp.e2e-spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "MCP Proxy (e2e)"
+          ],
+          "duration": 16,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCP Proxy (e2e) health check returns ok",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "startAt": 1762278460860,
+          "status": "passed",
+          "title": "health check returns ok"
+        },
+        {
+          "ancestorTitles": [
+            "MCP Proxy (e2e)"
+          ],
+          "duration": 35,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCP Proxy (e2e) github client blocks specified tools",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762278460877,
+          "status": "passed",
+          "title": "github client blocks specified tools"
+        },
+        {
+          "ancestorTitles": [
+            "MCP Proxy (e2e)"
+          ],
+          "duration": 32,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCP Proxy (e2e) github-allow client only exposes allow-listed tools",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762278460912,
+          "status": "passed",
+          "title": "github-allow client only exposes allow-listed tools"
+        },
+        {
+          "ancestorTitles": [
+            "MCP Proxy (e2e)"
+          ],
+          "duration": 11,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCP Proxy (e2e) unknown client returns 404",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 0,
+          "retryReasons": [],
+          "startAt": 1762278460944,
+          "status": "passed",
+          "title": "unknown client returns 404"
+        },
+        {
+          "ancestorTitles": [
+            "MCP Proxy (e2e)"
+          ],
+          "duration": 31,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCP Proxy (e2e) reuses streamable-http session across sequential calls",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762278460956,
+          "status": "passed",
+          "title": "reuses streamable-http session across sequential calls"
+        }
+      ],
+      "displayName": {
+        "color": "white",
+        "name": "e2e"
+      },
+      "failureMessage": null
+    },
+    {
+      "leaks": false,
+      "numFailingTests": 0,
+      "numPassingTests": 5,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1762278461174,
+        "loadTestEnvironmentEnd": 1762278461048,
+        "loadTestEnvironmentStart": 1762278461042,
+        "runtime": 126,
+        "setupAfterEnvEnd": 1762278461068,
+        "setupAfterEnvStart": 1762278461068,
+        "setupFilesEnd": 1762278461048,
+        "setupFilesStart": 1762278461048,
+        "slow": false,
+        "start": 1762278461048
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 3,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/home/runner/work/gs-mcp-proxy-pii-redactor/gs-mcp-proxy-pii-redactor/test/redaction.e2e-spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "PII Redaction (e2e-like service tests)"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "PII Redaction (e2e-like service tests) redacts emails and phone numbers generically in plain strings",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762278461157,
+          "status": "passed",
+          "title": "redacts emails and phone numbers generically in plain strings"
+        },
+        {
+          "ancestorTitles": [
+            "PII Redaction (e2e-like service tests)"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "PII Redaction (e2e-like service tests) redacts by configured keys (and recursively traversed strings) using keys [description, text, href]",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762278461161,
+          "status": "passed",
+          "title": "redacts by configured keys (and recursively traversed strings) using keys [description, text, href]"
+        },
+        {
+          "ancestorTitles": [
+            "PII Redaction (e2e-like service tests)"
+          ],
+          "duration": 7,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "PII Redaction (e2e-like service tests) when no keys are configured, redacts all strings",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762278461164,
+          "status": "passed",
+          "title": "when no keys are configured, redacts all strings"
+        },
+        {
+          "ancestorTitles": [
+            "PII Redaction (e2e-like service tests)"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "PII Redaction (e2e-like service tests) returns original data when redaction disabled",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762278461171,
+          "status": "passed",
+          "title": "returns original data when redaction disabled"
+        },
+        {
+          "ancestorTitles": [
+            "PII Redaction (e2e-like service tests)"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "PII Redaction (e2e-like service tests) returns original data when matcher not initialized",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762278461172,
+          "status": "passed",
+          "title": "returns original data when matcher not initialized"
+        }
+      ],
+      "displayName": {
+        "color": "white",
+        "name": "e2e"
+      },
+      "failureMessage": null
+    },
+    {
+      "leaks": false,
+      "numFailingTests": 0,
+      "numPassingTests": 1,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1762278469137,
+        "loadTestEnvironmentEnd": 1762278461205,
+        "loadTestEnvironmentStart": 1762278461200,
+        "runtime": 7932,
+        "setupAfterEnvEnd": 1762278461226,
+        "setupAfterEnvStart": 1762278461226,
+        "setupFilesEnd": 1762278461205,
+        "setupFilesStart": 1762278461205,
+        "slow": true,
+        "start": 1762278461205
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 0,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/home/runner/work/gs-mcp-proxy-pii-redactor/gs-mcp-proxy-pii-redactor/test/mcp.stdio.e2e-spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "MCP Proxy Stdio Mode (e2e)"
+          ],
+          "duration": 7871,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCP Proxy Stdio Mode (e2e) should expose only allow-listed tools via stdio",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762278461264,
+          "status": "passed",
+          "title": "should expose only allow-listed tools via stdio"
+        }
+      ],
+      "displayName": {
+        "color": "white",
+        "name": "e2e"
+      },
+      "failureMessage": null
+    }
+  ],
+  "wasInterrupted": false
+}

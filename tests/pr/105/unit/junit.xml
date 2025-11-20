@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="193" failures="0" errors="0" time="14.285">
+  <testsuite name="ConfigService" errors="0" failures="0" skipped="0" timestamp="2025-11-17T09:14:56" time="8.707" tests="22">
+    <testcase classname="ConfigService load from file should load config from file with absolute path" name="ConfigService load from file should load config from file with absolute path" time="0.049">
+    </testcase>
+    <testcase classname="ConfigService load from file should load config from file with relative path" name="ConfigService load from file should load config from file with relative path" time="0.004">
+    </testcase>
+    <testcase classname="ConfigService load from file should set default type to streamable-http if not provided" name="ConfigService load from file should set default type to streamable-http if not provided" time="0.005">
+    </testcase>
+    <testcase classname="ConfigService load from file should throw error if mcpProxy is missing" name="ConfigService load from file should throw error if mcpProxy is missing" time="0.047">
+    </testcase>
+    <testcase classname="ConfigService load from URL should load config from HTTP URL" name="ConfigService load from URL should load config from HTTP URL" time="0.004">
+    </testcase>
+    <testcase classname="ConfigService load from URL should load config from HTTPS URL" name="ConfigService load from URL should load config from HTTPS URL" time="0.007">
+    </testcase>
+    <testcase classname="ConfigService load from URL should handle insecure flag for HTTPS" name="ConfigService load from URL should handle insecure flag for HTTPS" time="0.007">
+    </testcase>
+    <testcase classname="ConfigService environment variable expansion should expand environment variables in headers" name="ConfigService environment variable expansion should expand environment variables in headers" time="0.003">
+    </testcase>
+    <testcase classname="ConfigService environment variable expansion should throw error if referenced environment variable is not set" name="ConfigService environment variable expansion should throw error if referenced environment variable is not set" time="0.004">
+    </testcase>
+    <testcase classname="ConfigService environment variable expansion should handle multiple environment variables in same header" name="ConfigService environment variable expansion should handle multiple environment variables in same header" time="0.007">
+    </testcase>
+    <testcase classname="ConfigService environment variable expansion should not expand if no environment variables referenced" name="ConfigService environment variable expansion should not expand if no environment variables referenced" time="0.009">
+    </testcase>
+    <testcase classname="ConfigService options inheritance should inherit authTokens from mcpProxy to mcpServers" name="ConfigService options inheritance should inherit authTokens from mcpProxy to mcpServers" time="0.002">
+    </testcase>
+    <testcase classname="ConfigService options inheritance should inherit panicIfInvalid from mcpProxy to mcpServers" name="ConfigService options inheritance should inherit panicIfInvalid from mcpProxy to mcpServers" time="0.004">
+    </testcase>
+    <testcase classname="ConfigService options inheritance should inherit logEnabled from mcpProxy to mcpServers" name="ConfigService options inheritance should inherit logEnabled from mcpProxy to mcpServers" time="0.002">
+    </testcase>
+    <testcase classname="ConfigService options inheritance should not override existing options in mcpServers" name="ConfigService options inheritance should not override existing options in mcpServers" time="0.003">
+    </testcase>
+    <testcase classname="ConfigService options inheritance should not inherit redaction options from mcpProxy to mcpServers" name="ConfigService options inheritance should not inherit redaction options from mcpProxy to mcpServers" time="0.003">
+    </testcase>
+    <testcase classname="ConfigService options inheritance should handle multiple mcpServers with inheritance" name="ConfigService options inheritance should handle multiple mcpServers with inheritance" time="0.002">
+    </testcase>
+    <testcase classname="ConfigService getConfig should return loaded config" name="ConfigService getConfig should return loaded config" time="0.006">
+    </testcase>
+    <testcase classname="ConfigService getConfig should throw error if config not loaded" name="ConfigService getConfig should throw error if config not loaded" time="0.003">
+    </testcase>
+    <testcase classname="ConfigService edge cases should handle empty mcpServers object" name="ConfigService edge cases should handle empty mcpServers object" time="0.002">
+    </testcase>
+    <testcase classname="ConfigService edge cases should initialize options if not provided in mcpProxy" name="ConfigService edge cases should initialize options if not provided in mcpProxy" time="0.006">
+    </testcase>
+    <testcase classname="ConfigService edge cases should initialize options if not provided in mcpServer" name="ConfigService edge cases should initialize options if not provided in mcpServer" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="RedactionService" errors="0" failures="0" skipped="0" timestamp="2025-11-17T09:15:05" time="1.526" tests="27">
+    <testcase classname="RedactionService initialize should initialize successfully with valid dictionary" name="RedactionService initialize should initialize successfully with valid dictionary" time="0.009">
+    </testcase>
+    <testcase classname="RedactionService initialize should only initialize once" name="RedactionService initialize should only initialize once" time="0.019">
+    </testcase>
+    <testcase classname="RedactionService initialize should throw error if MCP_PROXY_GCS_BUCKET is not set" name="RedactionService initialize should throw error if MCP_PROXY_GCS_BUCKET is not set" time="0.01">
+    </testcase>
+    <testcase classname="RedactionService initialize should throw error if service account is not set" name="RedactionService initialize should throw error if service account is not set" time="0.01">
+    </testcase>
+    <testcase classname="RedactionService getService should auto-initialize if not initialized" name="RedactionService getService should auto-initialize if not initialized" time="0.008">
+    </testcase>
+    <testcase classname="RedactionService getService should return error if initialization failed" name="RedactionService getService should return error if initialization failed" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should return original data if config is null" name="RedactionService redactResponse should return original data if config is null" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should return original data if config is undefined" name="RedactionService redactResponse should return original data if config is undefined" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should return original data if redaction is disabled" name="RedactionService redactResponse should return original data if redaction is disabled" time="0.005">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should return original data if matcher is not initialized" name="RedactionService redactResponse should return original data if matcher is not initialized" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should redact all strings when no keys specified" name="RedactionService redactResponse should redact all strings when no keys specified" time="0.002">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should redact all strings when keys is empty array" name="RedactionService redactResponse should redact all strings when keys is empty array" time="0.002">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should redact only specified keys" name="RedactionService redactResponse should redact only specified keys" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle nested objects when redacting all strings" name="RedactionService redactResponse should handle nested objects when redacting all strings" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle nested objects when redacting by keys" name="RedactionService redactResponse should handle nested objects when redacting by keys" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle arrays when redacting all strings" name="RedactionService redactResponse should handle arrays when redacting all strings" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle arrays when redacting by keys" name="RedactionService redactResponse should handle arrays when redacting by keys" time="0.005">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle arrays of objects when redacting all strings" name="RedactionService redactResponse should handle arrays of objects when redacting all strings" time="0.002">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle arrays of objects when redacting by keys" name="RedactionService redactResponse should handle arrays of objects when redacting by keys" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should redact generic PII (emails, phones) before dictionary terms" name="RedactionService redactResponse should redact generic PII (emails, phones) before dictionary terms" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle non-string values correctly" name="RedactionService redactResponse should handle non-string values correctly" time="0.005">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle deeply nested structures" name="RedactionService redactResponse should handle deeply nested structures" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle mixed arrays and objects" name="RedactionService redactResponse should handle mixed arrays and objects" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should handle keys at different nesting levels" name="RedactionService redactResponse should handle keys at different nesting levels" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService redactResponse should redact nested values when key matches" name="RedactionService redactResponse should redact nested values when key matches" time="0.003">
+    </testcase>
+    <testcase classname="RedactionService getServiceAccountJSON with base64 should decode base64 service account" name="RedactionService getServiceAccountJSON with base64 should decode base64 service account" time="0.013">
+    </testcase>
+    <testcase classname="RedactionService getServiceAccountJSON with base64 should handle private key with escaped newlines" name="RedactionService getServiceAccountJSON with base64 should handle private key with escaped newlines" time="0.005">
+    </testcase>
+  </testsuite>
+  <testsuite name="AuditLogger" errors="0" failures="0" skipped="0" timestamp="2025-11-17T09:15:06" time="1.541" tests="18">
+    <testcase classname="AuditLogger constructor should create audit directory on initialization" name="AuditLogger constructor should create audit directory on initialization" time="0.006">
+    </testcase>
+    <testcase classname="AuditLogger constructor should throw error if directory creation fails" name="AuditLogger constructor should throw error if directory creation fails" time="0.029">
+    </testcase>
+    <testcase classname="AuditLogger logOperation should return empty string if config is null" name="AuditLogger logOperation should return empty string if config is null" time="0.003">
+    </testcase>
+    <testcase classname="AuditLogger logOperation should return empty string if config is undefined" name="AuditLogger logOperation should return empty string if config is undefined" time="0.001">
+    </testcase>
+    <testcase classname="AuditLogger logOperation should return empty string if verboseAudit is false" name="AuditLogger logOperation should return empty string if verboseAudit is false" time="0.001">
+    </testcase>
+    <testcase classname="AuditLogger logOperation should write audit files when verboseAudit is enabled" name="AuditLogger logOperation should write audit files when verboseAudit is enabled" time="0.001">
+    </testcase>
+    <testcase classname="AuditLogger logOperation should generate correct file names for pre and post files" name="AuditLogger logOperation should generate correct file names for pre and post files" time="0.002">
+    </testcase>
+    <testcase classname="AuditLogger logOperation should write JSON data with proper formatting" name="AuditLogger logOperation should write JSON data with proper formatting" time="0.001">
+    </testcase>
+    <testcase classname="AuditLogger logOperation should handle different operation types" name="AuditLogger logOperation should handle different operation types" time="0.001">
+    </testcase>
+    <testcase classname="AuditLogger logOperation should handle resource_call operation type" name="AuditLogger logOperation should handle resource_call operation type" time="0.001">
+    </testcase>
+    <testcase classname="AuditLogger logOperation should write files with correct mode" name="AuditLogger logOperation should write files with correct mode" time="0.001">
+    </testcase>
+    <testcase classname="AuditLogger enhanceDataForReadability should parse JSON strings" name="AuditLogger enhanceDataForReadability should parse JSON strings" time="0">
+    </testcase>
+    <testcase classname="AuditLogger enhanceDataForReadability should leave non-JSON strings as-is" name="AuditLogger enhanceDataForReadability should leave non-JSON strings as-is" time="0.001">
+    </testcase>
+    <testcase classname="AuditLogger enhanceDataForReadability should recursively enhance arrays" name="AuditLogger enhanceDataForReadability should recursively enhance arrays" time="0.001">
+    </testcase>
+    <testcase classname="AuditLogger enhanceDataForReadability should recursively enhance objects" name="AuditLogger enhanceDataForReadability should recursively enhance objects" time="0.001">
+    </testcase>
+    <testcase classname="AuditLogger enhanceDataForReadability should handle primitive values" name="AuditLogger enhanceDataForReadability should handle primitive values" time="0.001">
+    </testcase>
+    <testcase classname="AuditLogger error handling should log error but not throw when writeFileSync fails" name="AuditLogger error handling should log error but not throw when writeFileSync fails" time="0.001">
+    </testcase>
+    <testcase classname="AuditLogger error handling should handle write errors gracefully for both files" name="AuditLogger error handling should handle write errors gracefully for both files" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="MCPServerService" errors="0" failures="0" skipped="0" timestamp="2025-11-17T09:14:56" time="12.532" tests="29">
+    <testcase classname="MCPServerService onModuleInit should initialize all MCP clients" name="MCPServerService onModuleInit should initialize all MCP clients" time="0.055">
+    </testcase>
+    <testcase classname="MCPServerService onModuleInit should handle initialization errors gracefully when panicIfInvalid is false" name="MCPServerService onModuleInit should handle initialization errors gracefully when panicIfInvalid is false" time="0.013">
+    </testcase>
+    <testcase classname="MCPServerService onModuleInit should throw error when panicIfInvalid is true" name="MCPServerService onModuleInit should throw error when panicIfInvalid is true" time="0.041">
+    </testcase>
+    <testcase classname="MCPServerService onModuleInit should set server type from config" name="MCPServerService onModuleInit should set server type from config" time="0.007">
+    </testcase>
+    <testcase classname="MCPServerService onModuleInit should default to sse when server type not specified" name="MCPServerService onModuleInit should default to sse when server type not specified" time="0.008">
+    </testcase>
+    <testcase classname="MCPServerService onModuleDestroy should close all transports and client wrappers" name="MCPServerService onModuleDestroy should close all transports and client wrappers" time="0.007">
+    </testcase>
+    <testcase classname="MCPServerService onModuleDestroy should handle shutdown errors gracefully" name="MCPServerService onModuleDestroy should handle shutdown errors gracefully" time="0.004">
+    </testcase>
+    <testcase classname="MCPServerService onModuleDestroy should handle transport close errors" name="MCPServerService onModuleDestroy should handle transport close errors" time="0.005">
+    </testcase>
+    <testcase classname="MCPServerService getServer should return server instance if exists" name="MCPServerService getServer should return server instance if exists" time="0.013">
+    </testcase>
+    <testcase classname="MCPServerService getServer should return undefined if server does not exist" name="MCPServerService getServer should return undefined if server does not exist" time="0.011">
+    </testcase>
+    <testcase classname="MCPServerService getAllServers should return all servers" name="MCPServerService getAllServers should return all servers" time="0.02">
+    </testcase>
+    <testcase classname="MCPServerService handleSSERequest should handle SSE request successfully" name="MCPServerService handleSSERequest should handle SSE request successfully" time="0.007">
+    </testcase>
+    <testcase classname="MCPServerService handleSSERequest should return 404 if server not found" name="MCPServerService handleSSERequest should return 404 if server not found" time="0.004">
+    </testcase>
+    <testcase classname="MCPServerService handleSSERequest should register transport with session ID" name="MCPServerService handleSSERequest should register transport with session ID" time="0.003">
+    </testcase>
+    <testcase classname="MCPServerService handleSSERequest should cleanup transport on request close" name="MCPServerService handleSSERequest should cleanup transport on request close" time="0.004">
+    </testcase>
+    <testcase classname="MCPServerService handleStreamableHTTPRequest should return 404 if server not found" name="MCPServerService handleStreamableHTTPRequest should return 404 if server not found" time="0.004">
+    </testcase>
+    <testcase classname="MCPServerService handleStreamableHTTPRequest should reuse existing transport when session ID provided" name="MCPServerService handleStreamableHTTPRequest should reuse existing transport when session ID provided" time="0.003">
+    </testcase>
+    <testcase classname="MCPServerService handleStreamableHTTPRequest should create new transport when no session ID" name="MCPServerService handleStreamableHTTPRequest should create new transport when no session ID" time="0.004">
+    </testcase>
+    <testcase classname="MCPServerService handleStreamableHTTPRequest should handle session ID from query parameter" name="MCPServerService handleStreamableHTTPRequest should handle session ID from query parameter" time="0.003">
+    </testcase>
+    <testcase classname="MCPServerService handleStreamableHTTPRequest should handle session ID from lowercase header" name="MCPServerService handleStreamableHTTPRequest should handle session ID from lowercase header" time="0.003">
+    </testcase>
+    <testcase classname="MCPServerService handleStreamableHTTPRequest should handle errors and return 500" name="MCPServerService handleStreamableHTTPRequest should handle errors and return 500" time="0.006">
+    </testcase>
+    <testcase classname="MCPServerService handleStreamableHTTPRequest should not send error if headers already sent" name="MCPServerService handleStreamableHTTPRequest should not send error if headers already sent" time="0.004">
+    </testcase>
+    <testcase classname="MCPServerService handleStreamableHTTPRequest should register new transport on session initialized" name="MCPServerService handleStreamableHTTPRequest should register new transport on session initialized" time="0.004">
+    </testcase>
+    <testcase classname="MCPServerService handleStreamableHTTPRequest should remove transport on session closed" name="MCPServerService handleStreamableHTTPRequest should remove transport on session closed" time="0.003">
+    </testcase>
+    <testcase classname="MCPServerService handlePostMessage should return 404 if server not found" name="MCPServerService handlePostMessage should return 404 if server not found" time="0.004">
+    </testcase>
+    <testcase classname="MCPServerService handlePostMessage should handle POST message with existing SSE transport" name="MCPServerService handlePostMessage should handle POST message with existing SSE transport" time="0.005">
+    </testcase>
+    <testcase classname="MCPServerService handlePostMessage should handle POST message with session ID from query" name="MCPServerService handlePostMessage should handle POST message with session ID from query" time="0.003">
+    </testcase>
+    <testcase classname="MCPServerService handlePostMessage should fall back to streamable HTTP if no session ID" name="MCPServerService handlePostMessage should fall back to streamable HTTP if no session ID" time="0.01">
+    </testcase>
+    <testcase classname="MCPServerService handlePostMessage should fall back to streamable HTTP if transport does not support handlePostMessage" name="MCPServerService handlePostMessage should fall back to streamable HTTP if transport does not support handlePostMessage" time="0.003">
+    </testcase>
+  </testsuite>
+  <testsuite name="AppController" errors="0" failures="0" skipped="0" timestamp="2025-11-17T09:14:56" time="12.762" tests="29">
+    <testcase classname="AppController healthCheck should return ok status" name="AppController healthCheck should return ok status" time="0.029">
+    </testcase>
+    <testcase classname="AppController handleSSE should handle SSE request successfully" name="AppController handleSSE should handle SSE request successfully" time="0.007">
+    </testcase>
+    <testcase classname="AppController handleSSE should return 404 if client not found" name="AppController handleSSE should return 404 if client not found" time="0.006">
+    </testcase>
+    <testcase classname="AppController handleSSE should return 401 if no auth header when authTokens configured" name="AppController handleSSE should return 401 if no auth header when authTokens configured" time="0.004">
+    </testcase>
+    <testcase classname="AppController handleSSE should return 401 if invalid token" name="AppController handleSSE should return 401 if invalid token" time="0.028">
+    </testcase>
+    <testcase classname="AppController handleSSE should allow valid token" name="AppController handleSSE should allow valid token" time="0.003">
+    </testcase>
+    <testcase classname="AppController handleSSE should handle token with Bearer prefix correctly" name="AppController handleSSE should handle token with Bearer prefix correctly" time="0.003">
+    </testcase>
+    <testcase classname="AppController handleSSE should handle token without Bearer prefix" name="AppController handleSSE should handle token without Bearer prefix" time="0.004">
+    </testcase>
+    <testcase classname="AppController handleSSE should handle error and return 500 if headers not sent" name="AppController handleSSE should handle error and return 500 if headers not sent" time="0.009">
+    </testcase>
+    <testcase classname="AppController handleSSE should not send error response if headers already sent" name="AppController handleSSE should not send error response if headers already sent" time="0.004">
+    </testcase>
+    <testcase classname="AppController handleSSE should handle empty authTokens array" name="AppController handleSSE should handle empty authTokens array" time="0.002">
+    </testcase>
+    <testcase classname="AppController handlePostMessage should handle POST message successfully" name="AppController handlePostMessage should handle POST message successfully" time="0.003">
+    </testcase>
+    <testcase classname="AppController handlePostMessage should return 404 if client not found" name="AppController handlePostMessage should return 404 if client not found" time="0.003">
+    </testcase>
+    <testcase classname="AppController handlePostMessage should return 401 if no auth header when authTokens configured" name="AppController handlePostMessage should return 401 if no auth header when authTokens configured" time="0.002">
+    </testcase>
+    <testcase classname="AppController handlePostMessage should return 401 if invalid token" name="AppController handlePostMessage should return 401 if invalid token" time="0.002">
+    </testcase>
+    <testcase classname="AppController handlePostMessage should allow valid token" name="AppController handlePostMessage should allow valid token" time="0.005">
+    </testcase>
+    <testcase classname="AppController handlePostMessage should handle error and return 500 if headers not sent" name="AppController handlePostMessage should handle error and return 500 if headers not sent" time="0.003">
+    </testcase>
+    <testcase classname="AppController handlePostMessage should not send error response if headers already sent" name="AppController handlePostMessage should not send error response if headers already sent" time="0.003">
+    </testcase>
+    <testcase classname="AppController handleStreamableHTTP should return 404 if client not found" name="AppController handleStreamableHTTP should return 404 if client not found" time="0.002">
+    </testcase>
+    <testcase classname="AppController handleStreamableHTTP should return 401 if no auth header when authTokens configured" name="AppController handleStreamableHTTP should return 401 if no auth header when authTokens configured" time="0.002">
+    </testcase>
+    <testcase classname="AppController handleStreamableHTTP should return 401 if invalid token" name="AppController handleStreamableHTTP should return 401 if invalid token" time="0.006">
+    </testcase>
+    <testcase classname="AppController handleStreamableHTTP should redirect to SSE endpoint when server type is SSE and method is GET" name="AppController handleStreamableHTTP should redirect to SSE endpoint when server type is SSE and method is GET" time="0.005">
+    </testcase>
+    <testcase classname="AppController handleStreamableHTTP should redirect to POST message endpoint when server type is SSE and method is POST" name="AppController handleStreamableHTTP should redirect to POST message endpoint when server type is SSE and method is POST" time="0.002">
+    </testcase>
+    <testcase classname="AppController handleStreamableHTTP should return 404 for unsupported method when server type is SSE" name="AppController handleStreamableHTTP should return 404 for unsupported method when server type is SSE" time="0.005">
+    </testcase>
+    <testcase classname="AppController handleStreamableHTTP should handle streamable-http request when server type is streamable-http" name="AppController handleStreamableHTTP should handle streamable-http request when server type is streamable-http" time="0.002">
+    </testcase>
+    <testcase classname="AppController handleStreamableHTTP should use default server type sse when not specified" name="AppController handleStreamableHTTP should use default server type sse when not specified" time="0.002">
+    </testcase>
+    <testcase classname="AppController handleStreamableHTTP should handle error and return 500 if headers not sent" name="AppController handleStreamableHTTP should handle error and return 500 if headers not sent" time="0.003">
+    </testcase>
+    <testcase classname="AppController handleStreamableHTTP should not send error response if headers already sent" name="AppController handleStreamableHTTP should not send error response if headers already sent" time="0.003">
+    </testcase>
+    <testcase classname="AppController handleStreamableHTTP should allow valid token for streamable-http" name="AppController handleStreamableHTTP should allow valid token for streamable-http" time="0.002">
+    </testcase>
+  </testsuite>
+  <testsuite name="Matcher" errors="0" failures="0" skipped="0" timestamp="2025-11-17T09:15:09" time="0.483" tests="23">
+    <testcase classname="Matcher build should create a matcher with valid dictionary" name="Matcher build should create a matcher with valid dictionary" time="0.003">
+    </testcase>
+    <testcase classname="Matcher build should throw error with empty dictionary" name="Matcher build should throw error with empty dictionary" time="0.038">
+    </testcase>
+    <testcase classname="Matcher redact should redact a single matching term" name="Matcher redact should redact a single matching term" time="0.003">
+    </testcase>
+    <testcase classname="Matcher redact should redact multiple matching terms" name="Matcher redact should redact multiple matching terms" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should perform case-insensitive matching" name="Matcher redact should perform case-insensitive matching" time="0.002">
+    </testcase>
+    <testcase classname="Matcher redact should match whole words only" name="Matcher redact should match whole words only" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should handle word boundaries correctly with punctuation" name="Matcher redact should handle word boundaries correctly with punctuation" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should handle word boundaries with hyphens and spaces" name="Matcher redact should handle word boundaries with hyphens and spaces" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should redact multiple occurrences of same term" name="Matcher redact should redact multiple occurrences of same term" time="0.006">
+    </testcase>
+    <testcase classname="Matcher redact should handle overlapping matches by merging intervals" name="Matcher redact should handle overlapping matches by merging intervals" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should return original text if no matches found" name="Matcher redact should return original text if no matches found" time="0">
+    </testcase>
+    <testcase classname="Matcher redact should handle empty string" name="Matcher redact should handle empty string" time="0">
+    </testcase>
+    <testcase classname="Matcher redact should handle text with only the matching term" name="Matcher redact should handle text with only the matching term" time="0.008">
+    </testcase>
+    <testcase classname="Matcher redact should handle text starting with matching term" name="Matcher redact should handle text starting with matching term" time="0">
+    </testcase>
+    <testcase classname="Matcher redact should handle text ending with matching term" name="Matcher redact should handle text ending with matching term" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should handle multi-word terms" name="Matcher redact should handle multi-word terms" time="0">
+    </testcase>
+    <testcase classname="Matcher redact should handle terms with special characters" name="Matcher redact should handle terms with special characters" time="0">
+    </testcase>
+    <testcase classname="Matcher redact should merge adjacent matches" name="Matcher redact should merge adjacent matches" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should handle large dictionary efficiently" name="Matcher redact should handle large dictionary efficiently" time="0.003">
+    </testcase>
+    <testcase classname="Matcher redact should handle long text efficiently" name="Matcher redact should handle long text efficiently" time="0.002">
+    </testcase>
+    <testcase classname="Matcher redact should handle text with numbers and underscores as word boundaries" name="Matcher redact should handle text with numbers and underscores as word boundaries" time="0.001">
+    </testcase>
+    <testcase classname="Matcher redact should handle consecutive terms with different cases" name="Matcher redact should handle consecutive terms with different cases" time="0.002">
+    </testcase>
+    <testcase classname="Matcher redact should not match partial words in compound words" name="Matcher redact should not match partial words in compound words" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="MCPClientWrapper" errors="0" failures="0" skipped="0" timestamp="2025-11-17T09:15:09" time="0.447" tests="13">
+    <testcase classname="MCPClientWrapper shouldFilterTool should return false when no tool filter configured" name="MCPClientWrapper shouldFilterTool should return false when no tool filter configured" time="0.001">
+    </testcase>
+    <testcase classname="MCPClientWrapper shouldFilterTool should return false when tool filter list is empty" name="MCPClientWrapper shouldFilterTool should return false when tool filter list is empty" time="0.001">
+    </testcase>
+    <testcase classname="MCPClientWrapper shouldFilterTool should block tool when in block mode and tool is in list" name="MCPClientWrapper shouldFilterTool should block tool when in block mode and tool is in list" time="0.001">
+    </testcase>
+    <testcase classname="MCPClientWrapper shouldFilterTool should allow tool when in block mode and tool is not in list" name="MCPClientWrapper shouldFilterTool should allow tool when in block mode and tool is not in list" time="0.001">
+    </testcase>
+    <testcase classname="MCPClientWrapper shouldFilterTool should allow tool when in allow mode and tool is in list" name="MCPClientWrapper shouldFilterTool should allow tool when in allow mode and tool is in list" time="0.001">
+    </testcase>
+    <testcase classname="MCPClientWrapper shouldFilterTool should block tool when in allow mode and tool is not in list" name="MCPClientWrapper shouldFilterTool should block tool when in allow mode and tool is not in list" time="0.001">
+    </testcase>
+    <testcase classname="MCPClientWrapper shouldFilterTool should default to block mode when mode is not specified" name="MCPClientWrapper shouldFilterTool should default to block mode when mode is not specified" time="0.001">
+    </testcase>
+    <testcase classname="MCPClientWrapper shouldFilterTool should handle unknown filter mode gracefully" name="MCPClientWrapper shouldFilterTool should handle unknown filter mode gracefully" time="0.001">
+    </testcase>
+    <testcase classname="MCPClientWrapper shouldFilterTool should handle case-insensitive mode" name="MCPClientWrapper shouldFilterTool should handle case-insensitive mode" time="0.001">
+    </testcase>
+    <testcase classname="MCPClientWrapper shouldFilterTool should handle multiple tools in filter list" name="MCPClientWrapper shouldFilterTool should handle multiple tools in filter list" time="0.001">
+    </testcase>
+    <testcase classname="MCPClientWrapper inferTransportType should infer stdio when command is present" name="MCPClientWrapper inferTransportType should infer stdio when command is present" time="0.001">
+    </testcase>
+    <testcase classname="MCPClientWrapper inferTransportType should infer sse when url is present" name="MCPClientWrapper inferTransportType should infer sse when url is present" time="0.001">
+    </testcase>
+    <testcase classname="MCPClientWrapper inferTransportType should throw error when neither command nor url is present" name="MCPClientWrapper inferTransportType should throw error when neither command nor url is present" time="0.043">
+    </testcase>
+  </testsuite>
+  <testsuite name="scanner-generic" errors="0" failures="0" skipped="0" timestamp="2025-11-17T09:15:08" time="1.584" tests="32">
+    <testcase classname="scanner-generic redactGeneric email redaction should redact a simple email address" name="scanner-generic redactGeneric email redaction should redact a simple email address" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should redact multiple email addresses" name="scanner-generic redactGeneric email redaction should redact multiple email addresses" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should redact email with plus sign in local part" name="scanner-generic redactGeneric email redaction should redact email with plus sign in local part" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should redact email with hyphen in local part" name="scanner-generic redactGeneric email redaction should redact email with hyphen in local part" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should redact email with numbers" name="scanner-generic redactGeneric email redaction should redact email with numbers" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should not redact invalid emails without dot in domain" name="scanner-generic redactGeneric email redaction should not redact invalid emails without dot in domain" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should not redact email with leading dot in local part" name="scanner-generic redactGeneric email redaction should not redact email with leading dot in local part" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should not redact email with trailing dot in local part" name="scanner-generic redactGeneric email redaction should not redact email with trailing dot in local part" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should not redact email with consecutive dots in local part" name="scanner-generic redactGeneric email redaction should not redact email with consecutive dots in local part" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should handle empty string" name="scanner-generic redactGeneric email redaction should handle empty string" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric email redaction should return original string if no PII found" name="scanner-generic redactGeneric email redaction should return original string if no PII found" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should redact US phone number with separators" name="scanner-generic redactGeneric phone number redaction should redact US phone number with separators" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should redact phone number with spaces" name="scanner-generic redactGeneric phone number redaction should redact phone number with spaces" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should redact phone number with dots" name="scanner-generic redactGeneric phone number redaction should redact phone number with dots" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should redact formatted phone numbers" name="scanner-generic redactGeneric phone number redaction should redact formatted phone numbers" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should redact international phone with plus" name="scanner-generic redactGeneric phone number redaction should redact international phone with plus" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should redact phone number with country code" name="scanner-generic redactGeneric phone number redaction should redact phone number with country code" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should redact 10-digit phone number (minimum digits)" name="scanner-generic redactGeneric phone number redaction should redact 10-digit phone number (minimum digits)" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should not redact numbers with too few digits" name="scanner-generic redactGeneric phone number redaction should not redact numbers with too few digits" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should redact 15-digit phone number with separator" name="scanner-generic redactGeneric phone number redaction should redact 15-digit phone number with separator" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should handle international phone numbers" name="scanner-generic redactGeneric phone number redaction should handle international phone numbers" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should handle phone with parentheses properly" name="scanner-generic redactGeneric phone number redaction should handle phone with parentheses properly" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric phone number redaction should not redact phone starting with letter" name="scanner-generic redactGeneric phone number redaction should not redact phone starting with letter" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric mixed PII redaction should redact both email and phone in same text" name="scanner-generic redactGeneric mixed PII redaction should redact both email and phone in same text" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric mixed PII redaction should redact multiple emails and phones" name="scanner-generic redactGeneric mixed PII redaction should redact multiple emails and phones" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric mixed PII redaction should handle complex text with multiple PII types" name="scanner-generic redactGeneric mixed PII redaction should handle complex text with multiple PII types" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric edge cases should handle text with @ symbol but not email" name="scanner-generic redactGeneric edge cases should handle text with @ symbol but not email" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric edge cases should handle text with + symbol but not phone" name="scanner-generic redactGeneric edge cases should handle text with + symbol but not phone" time="0.001">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric edge cases should preserve surrounding whitespace" name="scanner-generic redactGeneric edge cases should preserve surrounding whitespace" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric edge cases should handle PII at start of string" name="scanner-generic redactGeneric edge cases should handle PII at start of string" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric edge cases should handle PII at end of string" name="scanner-generic redactGeneric edge cases should handle PII at end of string" time="0">
+    </testcase>
+    <testcase classname="scanner-generic redactGeneric edge cases should handle very long strings efficiently" name="scanner-generic redactGeneric edge cases should handle very long strings efficiently" time="0.001">
+    </testcase>
+  </testsuite>
+</testsuites>

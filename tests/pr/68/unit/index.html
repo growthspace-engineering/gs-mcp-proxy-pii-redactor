@@ -1,0 +1,4083 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>jest-stare!</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="css/diff2html.min.css" rel="stylesheet" type="text/css">
+    <link href="css/jest-stare.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/holder.js"></script>
+    <script src="js/diff2html.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/view.js"></script>
+
+
+<link href="https://kibibit.io/kibibit-assets/jest-stare/kb-jest-theme-variables.css" rel="stylesheet">
+<link href="https://kibibit.io/kibibit-assets/jest-stare/kb-jest-coverage-theme.css" rel="stylesheet">
+<link href="https://kibibit.io/kibibit-assets/jest-stare/kb-jest-custom-theme.css" rel="stylesheet"><script src="https://kibibit.io/kibibit-assets/jest-stare/kb-jest-custom-theme.js"></script></head>
+
+<body data-project-name="gs-mcp-proxy-pii-redactor" data-project-name="gs-mcp-proxy-pii-redactor-pr-68-unit">
+    <header>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" id="navbar-title" href="#">jest-stare</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="coverage-link" class="nav-link disabled" href="#">Coverage</a>
+                    </li>
+                    <li class="nav-item">
+                        <div class="onoff-switch mr-sm-2 ml-sm-2">
+                            <input type="checkbox" name="off-switch" class="off-switch-checkbox" id="lab-passoff-switch" checked>
+                            <label class="onoff-switch-label" for="lab-passoff-switch">
+                                <span class="pass off-switch-inner"></span>
+                                <span class="off-switch-switch"></span>
+                            </label>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="onoff-switch mr-sm-2 ml-sm-2">
+                            <input type="checkbox" name="off-switch" class="off-switch-checkbox" id="lab-failoff-switch" checked>
+                            <label class="onoff-switch-label" for="lab-failoff-switch">
+                                <span class="fail off-switch-inner"></span>
+                                <span class="off-switch-switch"></span>
+                            </label>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="onoff-switch mr-sm-2 ml-sm-2">
+                            <input type="checkbox" name="off-switch" class="off-switch-checkbox" id="lab-pendingoff-switch" checked>
+                            <label class="onoff-switch-label" for="lab-pendingoff-switch">
+                                <span class="pending off-switch-inner"></span>
+                                <span class="off-switch-switch"></span>
+                            </label>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="onoff-switch mr-sm-2 ml-sm-2">
+                            <input type="checkbox" name="off-switch" class="off-switch-checkbox" id="lab-todooff-switch" checked>
+                            <label class="onoff-switch-label" for="lab-todooff-switch">
+                                <span class="todo off-switch-inner"></span>
+                                <span class="off-switch-switch"></span>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+                <!-- <form class="form-inline mt-2 mt-md-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" disabled>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" disabled>Search</button>
+                </form> -->
+            </div>
+        </nav>
+    </header>
+
+    <!-- Begin page content -->
+    <main role="main" class="container">
+
+        <h1 class="mt-5"></h1>
+
+        <!-- Three columns of text below the carousel -->
+        <div class="row">
+            <div class="col-lg-4">
+                <canvas id="test-suites-canvas" width="100" height="100"></canvas>
+                <h2>Test Suites</h2>
+                <div class="list-group">
+                    <p id="test-suites-results" class="list-group-item list-group-item-action">8 passed, 8 total</p>
+                </div>
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <canvas id="tests-canvas" width="100" height="100"></canvas>
+                <h2>Tests</h2>
+                <div class="list-group">
+                    <p id="tests-results" class="list-group-item list-group-item-action">193 passed, 193 total</p>
+                </div>
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4" id="snapshots-group">
+                <canvas id="snapshots-canvas" width="100" height="100"></canvas>
+                <h2>Snapshots</h2>
+                <div class="list-group">
+                    <p id="snapshots-results" class="list-group-item list-group-item-action">0 passed, 0 total</p>
+                </div>
+            </div>
+            <!-- /.col-lg-4 -->
+        </div>
+
+        <div id="loading-info" class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+                aria-valuemax="100" style="width: 100%"></div>
+        </div>
+
+        <div class="d-none" id="test-summary"></div>
+        <div class="d-none" id="test-config">{
+  &quot;resultDir&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;test-results&#x2F;gs-mcp-proxy-pii-redactor&#x2F;unit&#x2F;&quot;,
+  &quot;reportTitle&quot;: &quot;gs-mcp-proxy-pii-redactor Test Results&quot;,
+  &quot;reportHeadline&quot;: &quot;gs-mcp-proxy-pii-redactor Test Results&quot;,
+  &quot;additionalResultsProcessors&quot;: [],
+  &quot;coverageLink&quot;: &quot;.&#x2F;coverage&#x2F;index.html&quot;,
+  &quot;resultHtml&quot;: &quot;index.html&quot;,
+  &quot;resultJson&quot;: &quot;jest-results.json&quot;
+}</div>
+        <div id="accordion">
+            <div class="d-none" id="test-results">{
+  &quot;numFailedTestSuites&quot;: 0,
+  &quot;numFailedTests&quot;: 0,
+  &quot;numPassedTestSuites&quot;: 8,
+  &quot;numPassedTests&quot;: 193,
+  &quot;numPendingTestSuites&quot;: 0,
+  &quot;numPendingTests&quot;: 0,
+  &quot;numRuntimeErrorTestSuites&quot;: 0,
+  &quot;numTodoTests&quot;: 0,
+  &quot;numTotalTestSuites&quot;: 8,
+  &quot;numTotalTests&quot;: 193,
+  &quot;openHandles&quot;: [],
+  &quot;snapshot&quot;: {
+    &quot;added&quot;: 0,
+    &quot;didUpdate&quot;: false,
+    &quot;failure&quot;: false,
+    &quot;filesAdded&quot;: 0,
+    &quot;filesRemoved&quot;: 0,
+    &quot;filesRemovedList&quot;: [],
+    &quot;filesUnmatched&quot;: 0,
+    &quot;filesUpdated&quot;: 0,
+    &quot;matched&quot;: 0,
+    &quot;total&quot;: 0,
+    &quot;unchecked&quot;: 0,
+    &quot;uncheckedKeysByFile&quot;: [],
+    &quot;unmatched&quot;: 0,
+    &quot;updated&quot;: 0
+  },
+  &quot;startTime&quot;: 1762309801129,
+  &quot;success&quot;: false,
+  &quot;testResults&quot;: [
+    {
+      &quot;leaks&quot;: false,
+      &quot;numFailingTests&quot;: 0,
+      &quot;numPassingTests&quot;: 22,
+      &quot;numPendingTests&quot;: 0,
+      &quot;numTodoTests&quot;: 0,
+      &quot;openHandles&quot;: [],
+      &quot;perfStats&quot;: {
+        &quot;end&quot;: 1762309810346,
+        &quot;loadTestEnvironmentEnd&quot;: 1762309801851,
+        &quot;loadTestEnvironmentStart&quot;: 1762309801507,
+        &quot;runtime&quot;: 8494,
+        &quot;setupAfterEnvEnd&quot;: 1762309802183,
+        &quot;setupAfterEnvStart&quot;: 1762309802183,
+        &quot;setupFilesEnd&quot;: 1762309801852,
+        &quot;setupFilesStart&quot;: 1762309801852,
+        &quot;slow&quot;: true,
+        &quot;start&quot;: 1762309801852
+      },
+      &quot;skipped&quot;: false,
+      &quot;snapshot&quot;: {
+        &quot;added&quot;: 0,
+        &quot;fileDeleted&quot;: false,
+        &quot;matched&quot;: 0,
+        &quot;unchecked&quot;: 0,
+        &quot;uncheckedKeys&quot;: [],
+        &quot;unmatched&quot;: 0,
+        &quot;updated&quot;: 0
+      },
+      &quot;testFilePath&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;src&#x2F;config&#x2F;config.service.spec.ts&quot;,
+      &quot;testResults&quot;: [
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;load from file&quot;
+          ],
+          &quot;duration&quot;: 23,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService load from file should load config from file with absolute path&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810193,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should load config from file with absolute path&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;load from file&quot;
+          ],
+          &quot;duration&quot;: 8,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService load from file should load config from file with relative path&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810217,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should load config from file with relative path&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;load from file&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService load from file should set default type to sse if not provided&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810226,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should set default type to sse if not provided&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;load from file&quot;
+          ],
+          &quot;duration&quot;: 28,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService load from file should throw error if mcpProxy is missing&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810230,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should throw error if mcpProxy is missing&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;load from URL&quot;
+          ],
+          &quot;duration&quot;: 16,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService load from URL should load config from HTTP URL&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810258,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should load config from HTTP URL&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;load from URL&quot;
+          ],
+          &quot;duration&quot;: 7,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService load from URL should load config from HTTPS URL&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810274,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should load config from HTTPS URL&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;load from URL&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService load from URL should handle insecure flag for HTTPS&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 4,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810284,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle insecure flag for HTTPS&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;environment variable expansion&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService environment variable expansion should expand environment variables in headers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810291,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should expand environment variables in headers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;environment variable expansion&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService environment variable expansion should throw error if referenced environment variable is not set&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810295,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should throw error if referenced environment variable is not set&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;environment variable expansion&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService environment variable expansion should handle multiple environment variables in same header&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810300,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle multiple environment variables in same header&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;environment variable expansion&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService environment variable expansion should not expand if no environment variables referenced&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810306,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not expand if no environment variables referenced&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;options inheritance&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService options inheritance should inherit authTokens from mcpProxy to mcpServers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810312,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should inherit authTokens from mcpProxy to mcpServers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;options inheritance&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService options inheritance should inherit panicIfInvalid from mcpProxy to mcpServers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810314,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should inherit panicIfInvalid from mcpProxy to mcpServers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;options inheritance&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService options inheritance should inherit logEnabled from mcpProxy to mcpServers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810315,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should inherit logEnabled from mcpProxy to mcpServers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;options inheritance&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService options inheritance should not override existing options in mcpServers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810317,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not override existing options in mcpServers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;options inheritance&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService options inheritance should not inherit redaction options from mcpProxy to mcpServers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810319,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not inherit redaction options from mcpProxy to mcpServers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;options inheritance&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService options inheritance should handle multiple mcpServers with inheritance&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 4,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810323,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle multiple mcpServers with inheritance&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;getConfig&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService getConfig should return loaded config&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810325,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return loaded config&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;getConfig&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService getConfig should throw error if config not loaded&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810331,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should throw error if config not loaded&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService edge cases should handle empty mcpServers object&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810337,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle empty mcpServers object&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService edge cases should initialize options if not provided in mcpProxy&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810340,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should initialize options if not provided in mcpProxy&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService edge cases should initialize options if not provided in mcpServer&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309810342,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should initialize options if not provided in mcpServer&quot;
+        }
+      ],
+      &quot;displayName&quot;: {
+        &quot;color&quot;: &quot;white&quot;,
+        &quot;name&quot;: &quot;unit&quot;
+      },
+      &quot;failureMessage&quot;: null
+    },
+    {
+      &quot;leaks&quot;: false,
+      &quot;numFailingTests&quot;: 0,
+      &quot;numPassingTests&quot;: 27,
+      &quot;numPendingTests&quot;: 0,
+      &quot;numTodoTests&quot;: 0,
+      &quot;openHandles&quot;: [],
+      &quot;perfStats&quot;: {
+        &quot;end&quot;: 1762309811804,
+        &quot;loadTestEnvironmentEnd&quot;: 1762309810400,
+        &quot;loadTestEnvironmentStart&quot;: 1762309810389,
+        &quot;runtime&quot;: 1404,
+        &quot;setupAfterEnvEnd&quot;: 1762309810444,
+        &quot;setupAfterEnvStart&quot;: 1762309810444,
+        &quot;setupFilesEnd&quot;: 1762309810400,
+        &quot;setupFilesStart&quot;: 1762309810400,
+        &quot;slow&quot;: false,
+        &quot;start&quot;: 1762309810400
+      },
+      &quot;skipped&quot;: false,
+      &quot;snapshot&quot;: {
+        &quot;added&quot;: 0,
+        &quot;fileDeleted&quot;: false,
+        &quot;matched&quot;: 0,
+        &quot;unchecked&quot;: 0,
+        &quot;uncheckedKeys&quot;: [],
+        &quot;unmatched&quot;: 0,
+        &quot;updated&quot;: 0
+      },
+      &quot;testFilePath&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;src&#x2F;redaction&#x2F;redaction.service.spec.ts&quot;,
+      &quot;testResults&quot;: [
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;initialize&quot;
+          ],
+          &quot;duration&quot;: 10,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService initialize should initialize successfully with valid dictionary&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811650,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should initialize successfully with valid dictionary&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;initialize&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService initialize should only initialize once&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811660,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should only initialize once&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;initialize&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService initialize should throw error if MCP_PROXY_GCS_BUCKET is not set&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811664,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should throw error if MCP_PROXY_GCS_BUCKET is not set&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;initialize&quot;
+          ],
+          &quot;duration&quot;: 25,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService initialize should throw error if service account is not set&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811669,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should throw error if service account is not set&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;getService&quot;
+          ],
+          &quot;duration&quot;: 7,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService getService should auto-initialize if not initialized&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811694,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should auto-initialize if not initialized&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;getService&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService getService should return error if initialization failed&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811701,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return error if initialization failed&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should return original data if config is null&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811707,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return original data if config is null&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should return original data if config is undefined&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811712,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return original data if config is undefined&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should return original data if redaction is disabled&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811718,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return original data if redaction is disabled&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should return original data if matcher is not initialized&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811724,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return original data if matcher is not initialized&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should redact all strings when no keys specified&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811730,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact all strings when no keys specified&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should redact all strings when keys is empty array&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811736,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact all strings when keys is empty array&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should redact only specified keys&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811742,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact only specified keys&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle nested objects when redacting all strings&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811746,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle nested objects when redacting all strings&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle nested objects when redacting by keys&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811749,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle nested objects when redacting by keys&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle arrays when redacting all strings&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811752,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle arrays when redacting all strings&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle arrays when redacting by keys&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811755,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle arrays when redacting by keys&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle arrays of objects when redacting all strings&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811758,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle arrays of objects when redacting all strings&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle arrays of objects when redacting by keys&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811762,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle arrays of objects when redacting by keys&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should redact generic PII (emails, phones) before dictionary terms&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811765,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact generic PII (emails, phones) before dictionary terms&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle non-string values correctly&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 5,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811767,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle non-string values correctly&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle deeply nested structures&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811770,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle deeply nested structures&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle mixed arrays and objects&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811772,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle mixed arrays and objects&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle keys at different nesting levels&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811776,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle keys at different nesting levels&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 7,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should redact nested values when key matches&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811779,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact nested values when key matches&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;getServiceAccountJSON with base64&quot;
+          ],
+          &quot;duration&quot;: 13,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService getServiceAccountJSON with base64 should decode base64 service account&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811786,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should decode base64 service account&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;getServiceAccountJSON with base64&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService getServiceAccountJSON with base64 should handle private key with escaped newlines&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309811799,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle private key with escaped newlines&quot;
+        }
+      ],
+      &quot;displayName&quot;: {
+        &quot;color&quot;: &quot;white&quot;,
+        &quot;name&quot;: &quot;unit&quot;
+      },
+      &quot;failureMessage&quot;: null
+    },
+    {
+      &quot;leaks&quot;: false,
+      &quot;numFailingTests&quot;: 0,
+      &quot;numPassingTests&quot;: 18,
+      &quot;numPendingTests&quot;: 0,
+      &quot;numTodoTests&quot;: 0,
+      &quot;openHandles&quot;: [],
+      &quot;perfStats&quot;: {
+        &quot;end&quot;: 1762309813548,
+        &quot;loadTestEnvironmentEnd&quot;: 1762309811869,
+        &quot;loadTestEnvironmentStart&quot;: 1762309811864,
+        &quot;runtime&quot;: 1679,
+        &quot;setupAfterEnvEnd&quot;: 1762309811907,
+        &quot;setupAfterEnvStart&quot;: 1762309811907,
+        &quot;setupFilesEnd&quot;: 1762309811869,
+        &quot;setupFilesStart&quot;: 1762309811869,
+        &quot;slow&quot;: false,
+        &quot;start&quot;: 1762309811869
+      },
+      &quot;skipped&quot;: false,
+      &quot;snapshot&quot;: {
+        &quot;added&quot;: 0,
+        &quot;fileDeleted&quot;: false,
+        &quot;matched&quot;: 0,
+        &quot;unchecked&quot;: 0,
+        &quot;uncheckedKeys&quot;: [],
+        &quot;unmatched&quot;: 0,
+        &quot;updated&quot;: 0
+      },
+      &quot;testFilePath&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;src&#x2F;redaction&#x2F;audit-logger.spec.ts&quot;,
+      &quot;testResults&quot;: [
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;constructor&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger constructor should create audit directory on initialization&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813455,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should create audit directory on initialization&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;constructor&quot;
+          ],
+          &quot;duration&quot;: 58,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger constructor should throw error if directory creation fails&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813456,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should throw error if directory creation fails&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;logOperation&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger logOperation should return empty string if config is null&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813514,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return empty string if config is null&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;logOperation&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger logOperation should return empty string if config is undefined&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813516,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return empty string if config is undefined&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;logOperation&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger logOperation should return empty string if verboseAudit is false&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813516,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return empty string if verboseAudit is false&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;logOperation&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger logOperation should write audit files when verboseAudit is enabled&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813521,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should write audit files when verboseAudit is enabled&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;logOperation&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger logOperation should generate correct file names for pre and post files&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 5,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813523,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should generate correct file names for pre and post files&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;logOperation&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger logOperation should write JSON data with proper formatting&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 4,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813524,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should write JSON data with proper formatting&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;logOperation&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger logOperation should handle different operation types&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813525,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle different operation types&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;logOperation&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger logOperation should handle resource_call operation type&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813526,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle resource_call operation type&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;logOperation&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger logOperation should write files with correct mode&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813527,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should write files with correct mode&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;enhanceDataForReadability&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger enhanceDataForReadability should parse JSON strings&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813528,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should parse JSON strings&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;enhanceDataForReadability&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger enhanceDataForReadability should leave non-JSON strings as-is&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813529,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should leave non-JSON strings as-is&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;enhanceDataForReadability&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger enhanceDataForReadability should recursively enhance arrays&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813529,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should recursively enhance arrays&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;enhanceDataForReadability&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger enhanceDataForReadability should recursively enhance objects&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813532,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should recursively enhance objects&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;enhanceDataForReadability&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger enhanceDataForReadability should handle primitive values&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813535,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle primitive values&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;error handling&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger error handling should log error but not throw when writeFileSync fails&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813537,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should log error but not throw when writeFileSync fails&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AuditLogger&quot;,
+            &quot;error handling&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AuditLogger error handling should handle write errors gracefully for both files&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309813538,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle write errors gracefully for both files&quot;
+        }
+      ],
+      &quot;displayName&quot;: {
+        &quot;color&quot;: &quot;white&quot;,
+        &quot;name&quot;: &quot;unit&quot;
+      },
+      &quot;failureMessage&quot;: null
+    },
+    {
+      &quot;leaks&quot;: false,
+      &quot;numFailingTests&quot;: 0,
+      &quot;numPassingTests&quot;: 29,
+      &quot;numPendingTests&quot;: 0,
+      &quot;numTodoTests&quot;: 0,
+      &quot;openHandles&quot;: [],
+      &quot;perfStats&quot;: {
+        &quot;end&quot;: 1762309814245,
+        &quot;loadTestEnvironmentEnd&quot;: 1762309801855,
+        &quot;loadTestEnvironmentStart&quot;: 1762309801472,
+        &quot;runtime&quot;: 12390,
+        &quot;setupAfterEnvEnd&quot;: 1762309802151,
+        &quot;setupAfterEnvStart&quot;: 1762309802151,
+        &quot;setupFilesEnd&quot;: 1762309801855,
+        &quot;setupFilesStart&quot;: 1762309801855,
+        &quot;slow&quot;: true,
+        &quot;start&quot;: 1762309801855
+      },
+      &quot;skipped&quot;: false,
+      &quot;snapshot&quot;: {
+        &quot;added&quot;: 0,
+        &quot;fileDeleted&quot;: false,
+        &quot;matched&quot;: 0,
+        &quot;unchecked&quot;: 0,
+        &quot;uncheckedKeys&quot;: [],
+        &quot;unmatched&quot;: 0,
+        &quot;updated&quot;: 0
+      },
+      &quot;testFilePath&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;src&#x2F;app.controller.spec.ts&quot;,
+      &quot;testResults&quot;: [
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;healthCheck&quot;
+          ],
+          &quot;duration&quot;: 26,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController healthCheck should return ok status&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814082,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return ok status&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleSSE&quot;
+          ],
+          &quot;duration&quot;: 16,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleSSE should handle SSE request successfully&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814109,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle SSE request successfully&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleSSE&quot;
+          ],
+          &quot;duration&quot;: 8,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleSSE should return 404 if client not found&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814126,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 404 if client not found&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleSSE&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleSSE should return 401 if no auth header when authTokens configured&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814137,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 401 if no auth header when authTokens configured&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleSSE&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleSSE should return 401 if invalid token&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814142,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 401 if invalid token&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleSSE&quot;
+          ],
+          &quot;duration&quot;: 8,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleSSE should allow valid token&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814147,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should allow valid token&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleSSE&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleSSE should handle token with Bearer prefix correctly&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814155,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle token with Bearer prefix correctly&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleSSE&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleSSE should handle token without Bearer prefix&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814159,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle token without Bearer prefix&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleSSE&quot;
+          ],
+          &quot;duration&quot;: 13,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleSSE should handle error and return 500 if headers not sent&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814164,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle error and return 500 if headers not sent&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleSSE&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleSSE should not send error response if headers already sent&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814177,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not send error response if headers already sent&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleSSE&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleSSE should handle empty authTokens array&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814182,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle empty authTokens array&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handlePostMessage&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handlePostMessage should handle POST message successfully&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814187,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle POST message successfully&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handlePostMessage&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handlePostMessage should return 404 if client not found&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814190,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 404 if client not found&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handlePostMessage&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handlePostMessage should return 401 if no auth header when authTokens configured&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814193,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 401 if no auth header when authTokens configured&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handlePostMessage&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handlePostMessage should return 401 if invalid token&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814196,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 401 if invalid token&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handlePostMessage&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handlePostMessage should allow valid token&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814198,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should allow valid token&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handlePostMessage&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handlePostMessage should handle error and return 500 if headers not sent&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814200,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle error and return 500 if headers not sent&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handlePostMessage&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handlePostMessage should not send error response if headers already sent&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814203,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not send error response if headers already sent&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleStreamableHTTP&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleStreamableHTTP should return 404 if client not found&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814206,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 404 if client not found&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleStreamableHTTP&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleStreamableHTTP should return 401 if no auth header when authTokens configured&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814208,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 401 if no auth header when authTokens configured&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleStreamableHTTP&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleStreamableHTTP should return 401 if invalid token&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814211,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 401 if invalid token&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleStreamableHTTP&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleStreamableHTTP should redirect to SSE endpoint when server type is SSE and method is GET&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814214,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redirect to SSE endpoint when server type is SSE and method is GET&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleStreamableHTTP&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleStreamableHTTP should redirect to POST message endpoint when server type is SSE and method is POST&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814216,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redirect to POST message endpoint when server type is SSE and method is POST&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleStreamableHTTP&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleStreamableHTTP should return 404 for unsupported method when server type is SSE&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814218,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 404 for unsupported method when server type is SSE&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleStreamableHTTP&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleStreamableHTTP should handle streamable-http request when server type is streamable-http&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814220,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle streamable-http request when server type is streamable-http&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleStreamableHTTP&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleStreamableHTTP should use default server type sse when not specified&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814222,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should use default server type sse when not specified&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleStreamableHTTP&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleStreamableHTTP should handle error and return 500 if headers not sent&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814224,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle error and return 500 if headers not sent&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleStreamableHTTP&quot;
+          ],
+          &quot;duration&quot;: 10,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleStreamableHTTP should not send error response if headers already sent&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814227,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not send error response if headers already sent&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;AppController&quot;,
+            &quot;handleStreamableHTTP&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;AppController handleStreamableHTTP should allow valid token for streamable-http&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814237,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should allow valid token for streamable-http&quot;
+        }
+      ],
+      &quot;displayName&quot;: {
+        &quot;color&quot;: &quot;white&quot;,
+        &quot;name&quot;: &quot;unit&quot;
+      },
+      &quot;failureMessage&quot;: null
+    },
+    {
+      &quot;leaks&quot;: false,
+      &quot;numFailingTests&quot;: 0,
+      &quot;numPassingTests&quot;: 29,
+      &quot;numPendingTests&quot;: 0,
+      &quot;numTodoTests&quot;: 0,
+      &quot;openHandles&quot;: [],
+      &quot;perfStats&quot;: {
+        &quot;end&quot;: 1762309814357,
+        &quot;loadTestEnvironmentEnd&quot;: 1762309801843,
+        &quot;loadTestEnvironmentStart&quot;: 1762309801476,
+        &quot;runtime&quot;: 12513,
+        &quot;setupAfterEnvEnd&quot;: 1762309802167,
+        &quot;setupAfterEnvStart&quot;: 1762309802167,
+        &quot;setupFilesEnd&quot;: 1762309801844,
+        &quot;setupFilesStart&quot;: 1762309801844,
+        &quot;slow&quot;: true,
+        &quot;start&quot;: 1762309801844
+      },
+      &quot;skipped&quot;: false,
+      &quot;snapshot&quot;: {
+        &quot;added&quot;: 0,
+        &quot;fileDeleted&quot;: false,
+        &quot;matched&quot;: 0,
+        &quot;unchecked&quot;: 0,
+        &quot;uncheckedKeys&quot;: [],
+        &quot;unmatched&quot;: 0,
+        &quot;updated&quot;: 0
+      },
+      &quot;testFilePath&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;src&#x2F;mcp&#x2F;mcp-server.service.spec.ts&quot;,
+      &quot;testResults&quot;: [
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;onModuleInit&quot;
+          ],
+          &quot;duration&quot;: 23,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService onModuleInit should initialize all MCP clients&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814107,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should initialize all MCP clients&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;onModuleInit&quot;
+          ],
+          &quot;duration&quot;: 9,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService onModuleInit should handle initialization errors gracefully when panicIfInvalid is false&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814130,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle initialization errors gracefully when panicIfInvalid is false&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;onModuleInit&quot;
+          ],
+          &quot;duration&quot;: 40,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService onModuleInit should throw error when panicIfInvalid is true&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814139,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should throw error when panicIfInvalid is true&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;onModuleInit&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService onModuleInit should set server type from config&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814179,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should set server type from config&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;onModuleInit&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService onModuleInit should default to sse when server type not specified&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814185,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should default to sse when server type not specified&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;onModuleDestroy&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService onModuleDestroy should close all transports and client wrappers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814191,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should close all transports and client wrappers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;onModuleDestroy&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService onModuleDestroy should handle shutdown errors gracefully&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814198,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle shutdown errors gracefully&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;onModuleDestroy&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService onModuleDestroy should handle transport close errors&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814204,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle transport close errors&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;getServer&quot;
+          ],
+          &quot;duration&quot;: 12,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService getServer should return server instance if exists&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814210,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return server instance if exists&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;getServer&quot;
+          ],
+          &quot;duration&quot;: 11,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService getServer should return undefined if server does not exist&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814222,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return undefined if server does not exist&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;getAllServers&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService getAllServers should return all servers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814234,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return all servers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handleSSERequest&quot;
+          ],
+          &quot;duration&quot;: 18,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handleSSERequest should handle SSE request successfully&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814238,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle SSE request successfully&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handleSSERequest&quot;
+          ],
+          &quot;duration&quot;: 8,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handleSSERequest should return 404 if server not found&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814256,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 404 if server not found&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handleSSERequest&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handleSSERequest should register transport with session ID&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814265,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should register transport with session ID&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handleSSERequest&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handleSSERequest should cleanup transport on request close&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814268,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should cleanup transport on request close&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handleStreamableHTTPRequest&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handleStreamableHTTPRequest should return 404 if server not found&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814273,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 404 if server not found&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handleStreamableHTTPRequest&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handleStreamableHTTPRequest should reuse existing transport when session ID provided&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814277,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should reuse existing transport when session ID provided&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handleStreamableHTTPRequest&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handleStreamableHTTPRequest should create new transport when no session ID&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814281,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should create new transport when no session ID&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handleStreamableHTTPRequest&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handleStreamableHTTPRequest should handle session ID from query parameter&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814286,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle session ID from query parameter&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handleStreamableHTTPRequest&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handleStreamableHTTPRequest should handle session ID from lowercase header&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814289,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle session ID from lowercase header&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handleStreamableHTTPRequest&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handleStreamableHTTPRequest should handle errors and return 500&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814296,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle errors and return 500&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handleStreamableHTTPRequest&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handleStreamableHTTPRequest should not send error if headers already sent&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814301,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not send error if headers already sent&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handleStreamableHTTPRequest&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handleStreamableHTTPRequest should register new transport on session initialized&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814306,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should register new transport on session initialized&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handleStreamableHTTPRequest&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handleStreamableHTTPRequest should remove transport on session closed&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814312,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should remove transport on session closed&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handlePostMessage&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handlePostMessage should return 404 if server not found&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814317,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return 404 if server not found&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handlePostMessage&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handlePostMessage should handle POST message with existing SSE transport&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814321,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle POST message with existing SSE transport&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handlePostMessage&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handlePostMessage should handle POST message with session ID from query&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814325,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle POST message with session ID from query&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handlePostMessage&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handlePostMessage should fall back to streamable HTTP if no session ID&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814328,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should fall back to streamable HTTP if no session ID&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPServerService&quot;,
+            &quot;handlePostMessage&quot;
+          ],
+          &quot;duration&quot;: 22,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPServerService handlePostMessage should fall back to streamable HTTP if transport does not support handlePostMessage&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814331,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should fall back to streamable HTTP if transport does not support handlePostMessage&quot;
+        }
+      ],
+      &quot;displayName&quot;: {
+        &quot;color&quot;: &quot;white&quot;,
+        &quot;name&quot;: &quot;unit&quot;
+      },
+      &quot;failureMessage&quot;: null
+    },
+    {
+      &quot;leaks&quot;: false,
+      &quot;numFailingTests&quot;: 0,
+      &quot;numPassingTests&quot;: 23,
+      &quot;numPendingTests&quot;: 0,
+      &quot;numTodoTests&quot;: 0,
+      &quot;openHandles&quot;: [],
+      &quot;perfStats&quot;: {
+        &quot;end&quot;: 1762309814855,
+        &quot;loadTestEnvironmentEnd&quot;: 1762309814349,
+        &quot;loadTestEnvironmentStart&quot;: 1762309814334,
+        &quot;runtime&quot;: 506,
+        &quot;setupAfterEnvEnd&quot;: 1762309814385,
+        &quot;setupAfterEnvStart&quot;: 1762309814385,
+        &quot;setupFilesEnd&quot;: 1762309814349,
+        &quot;setupFilesStart&quot;: 1762309814349,
+        &quot;slow&quot;: false,
+        &quot;start&quot;: 1762309814349
+      },
+      &quot;skipped&quot;: false,
+      &quot;snapshot&quot;: {
+        &quot;added&quot;: 0,
+        &quot;fileDeleted&quot;: false,
+        &quot;matched&quot;: 0,
+        &quot;unchecked&quot;: 0,
+        &quot;uncheckedKeys&quot;: [],
+        &quot;unmatched&quot;: 0,
+        &quot;updated&quot;: 0
+      },
+      &quot;testFilePath&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;src&#x2F;redaction&#x2F;matcher.spec.ts&quot;,
+      &quot;testResults&quot;: [
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;build&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher build should create a matcher with valid dictionary&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814763,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should create a matcher with valid dictionary&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;build&quot;
+          ],
+          &quot;duration&quot;: 58,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher build should throw error with empty dictionary&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814766,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should throw error with empty dictionary&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should redact a single matching term&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814824,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact a single matching term&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should redact multiple matching terms&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814826,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact multiple matching terms&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should perform case-insensitive matching&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 4,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814827,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should perform case-insensitive matching&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should match whole words only&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 4,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814830,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should match whole words only&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle word boundaries correctly with punctuation&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 6,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814831,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle word boundaries correctly with punctuation&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle word boundaries with hyphens and spaces&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814832,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle word boundaries with hyphens and spaces&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should redact multiple occurrences of same term&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814833,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact multiple occurrences of same term&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle overlapping matches by merging intervals&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814834,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle overlapping matches by merging intervals&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should return original text if no matches found&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814834,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return original text if no matches found&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle empty string&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814835,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle empty string&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle text with only the matching term&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814836,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle text with only the matching term&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle text starting with matching term&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814836,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle text starting with matching term&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle text ending with matching term&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814837,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle text ending with matching term&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle multi-word terms&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814837,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle multi-word terms&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle terms with special characters&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814838,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle terms with special characters&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should merge adjacent matches&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814839,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should merge adjacent matches&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle large dictionary efficiently&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814840,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle large dictionary efficiently&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle long text efficiently&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814844,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle long text efficiently&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle text with numbers and underscores as word boundaries&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814849,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle text with numbers and underscores as word boundaries&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle consecutive terms with different cases&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814853,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle consecutive terms with different cases&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should not match partial words in compound words&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814853,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not match partial words in compound words&quot;
+        }
+      ],
+      &quot;displayName&quot;: {
+        &quot;color&quot;: &quot;white&quot;,
+        &quot;name&quot;: &quot;unit&quot;
+      },
+      &quot;failureMessage&quot;: null
+    },
+    {
+      &quot;leaks&quot;: false,
+      &quot;numFailingTests&quot;: 0,
+      &quot;numPassingTests&quot;: 13,
+      &quot;numPendingTests&quot;: 0,
+      &quot;numTodoTests&quot;: 0,
+      &quot;openHandles&quot;: [],
+      &quot;perfStats&quot;: {
+        &quot;end&quot;: 1762309814988,
+        &quot;loadTestEnvironmentEnd&quot;: 1762309814487,
+        &quot;loadTestEnvironmentStart&quot;: 1762309814480,
+        &quot;runtime&quot;: 501,
+        &quot;setupAfterEnvEnd&quot;: 1762309814534,
+        &quot;setupAfterEnvStart&quot;: 1762309814534,
+        &quot;setupFilesEnd&quot;: 1762309814487,
+        &quot;setupFilesStart&quot;: 1762309814487,
+        &quot;slow&quot;: false,
+        &quot;start&quot;: 1762309814487
+      },
+      &quot;skipped&quot;: false,
+      &quot;snapshot&quot;: {
+        &quot;added&quot;: 0,
+        &quot;fileDeleted&quot;: false,
+        &quot;matched&quot;: 0,
+        &quot;unchecked&quot;: 0,
+        &quot;uncheckedKeys&quot;: [],
+        &quot;unmatched&quot;: 0,
+        &quot;updated&quot;: 0
+      },
+      &quot;testFilePath&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;src&#x2F;mcp&#x2F;mcp-client-wrapper.spec.ts&quot;,
+      &quot;testResults&quot;: [
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPClientWrapper&quot;,
+            &quot;shouldFilterTool&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPClientWrapper shouldFilterTool should return false when no tool filter configured&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814942,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return false when no tool filter configured&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPClientWrapper&quot;,
+            &quot;shouldFilterTool&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPClientWrapper shouldFilterTool should return false when tool filter list is empty&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814943,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return false when tool filter list is empty&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPClientWrapper&quot;,
+            &quot;shouldFilterTool&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPClientWrapper shouldFilterTool should block tool when in block mode and tool is in list&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814944,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should block tool when in block mode and tool is in list&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPClientWrapper&quot;,
+            &quot;shouldFilterTool&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPClientWrapper shouldFilterTool should allow tool when in block mode and tool is not in list&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814945,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should allow tool when in block mode and tool is not in list&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPClientWrapper&quot;,
+            &quot;shouldFilterTool&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPClientWrapper shouldFilterTool should allow tool when in allow mode and tool is in list&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814946,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should allow tool when in allow mode and tool is in list&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPClientWrapper&quot;,
+            &quot;shouldFilterTool&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPClientWrapper shouldFilterTool should block tool when in allow mode and tool is not in list&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814946,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should block tool when in allow mode and tool is not in list&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPClientWrapper&quot;,
+            &quot;shouldFilterTool&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPClientWrapper shouldFilterTool should default to block mode when mode is not specified&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814947,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should default to block mode when mode is not specified&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPClientWrapper&quot;,
+            &quot;shouldFilterTool&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPClientWrapper shouldFilterTool should handle unknown filter mode gracefully&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814948,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle unknown filter mode gracefully&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPClientWrapper&quot;,
+            &quot;shouldFilterTool&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPClientWrapper shouldFilterTool should handle case-insensitive mode&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814949,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle case-insensitive mode&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPClientWrapper&quot;,
+            &quot;shouldFilterTool&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPClientWrapper shouldFilterTool should handle multiple tools in filter list&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 4,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814955,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle multiple tools in filter list&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPClientWrapper&quot;,
+            &quot;inferTransportType&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPClientWrapper inferTransportType should infer stdio when command is present&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814956,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should infer stdio when command is present&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPClientWrapper&quot;,
+            &quot;inferTransportType&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPClientWrapper inferTransportType should infer sse when url is present&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814957,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should infer sse when url is present&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;MCPClientWrapper&quot;,
+            &quot;inferTransportType&quot;
+          ],
+          &quot;duration&quot;: 29,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;MCPClientWrapper inferTransportType should throw error when neither command nor url is present&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309814958,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should throw error when neither command nor url is present&quot;
+        }
+      ],
+      &quot;displayName&quot;: {
+        &quot;color&quot;: &quot;white&quot;,
+        &quot;name&quot;: &quot;unit&quot;
+      },
+      &quot;failureMessage&quot;: null
+    },
+    {
+      &quot;leaks&quot;: false,
+      &quot;numFailingTests&quot;: 0,
+      &quot;numPassingTests&quot;: 32,
+      &quot;numPendingTests&quot;: 0,
+      &quot;numTodoTests&quot;: 0,
+      &quot;openHandles&quot;: [],
+      &quot;perfStats&quot;: {
+        &quot;end&quot;: 1762309815114,
+        &quot;loadTestEnvironmentEnd&quot;: 1762309813624,
+        &quot;loadTestEnvironmentStart&quot;: 1762309813614,
+        &quot;runtime&quot;: 1490,
+        &quot;setupAfterEnvEnd&quot;: 1762309813711,
+        &quot;setupAfterEnvStart&quot;: 1762309813711,
+        &quot;setupFilesEnd&quot;: 1762309813624,
+        &quot;setupFilesStart&quot;: 1762309813624,
+        &quot;slow&quot;: false,
+        &quot;start&quot;: 1762309813624
+      },
+      &quot;skipped&quot;: false,
+      &quot;snapshot&quot;: {
+        &quot;added&quot;: 0,
+        &quot;fileDeleted&quot;: false,
+        &quot;matched&quot;: 0,
+        &quot;unchecked&quot;: 0,
+        &quot;uncheckedKeys&quot;: [],
+        &quot;unmatched&quot;: 0,
+        &quot;updated&quot;: 0
+      },
+      &quot;testFilePath&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;src&#x2F;redaction&#x2F;scanner-generic.spec.ts&quot;,
+      &quot;testResults&quot;: [
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should redact a simple email address&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815096,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact a simple email address&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should redact multiple email addresses&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815098,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact multiple email addresses&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should redact email with plus sign in local part&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815098,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact email with plus sign in local part&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should redact email with hyphen in local part&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815099,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact email with hyphen in local part&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should redact email with numbers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815100,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact email with numbers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should not redact invalid emails without dot in domain&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815101,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not redact invalid emails without dot in domain&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should not redact email with leading dot in local part&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815101,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not redact email with leading dot in local part&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should not redact email with trailing dot in local part&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815102,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not redact email with trailing dot in local part&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should not redact email with consecutive dots in local part&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815103,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not redact email with consecutive dots in local part&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should handle empty string&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815104,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle empty string&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should return original string if no PII found&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815104,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return original string if no PII found&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should redact US phone number with separators&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815105,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact US phone number with separators&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should redact phone number with spaces&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815106,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact phone number with spaces&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should redact phone number with dots&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815106,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact phone number with dots&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should redact formatted phone numbers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815106,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact formatted phone numbers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should redact international phone with plus&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815107,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact international phone with plus&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should redact phone number with country code&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815107,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact phone number with country code&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should redact 10-digit phone number (minimum digits)&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815107,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact 10-digit phone number (minimum digits)&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should not redact numbers with too few digits&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815108,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not redact numbers with too few digits&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should redact 15-digit phone number with separator&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815108,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact 15-digit phone number with separator&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should handle international phone numbers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815108,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle international phone numbers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should handle phone with parentheses properly&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815109,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle phone with parentheses properly&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should not redact phone starting with letter&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815109,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not redact phone starting with letter&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;mixed PII redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric mixed PII redaction should redact both email and phone in same text&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815109,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact both email and phone in same text&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;mixed PII redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric mixed PII redaction should redact multiple emails and phones&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815110,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact multiple emails and phones&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;mixed PII redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric mixed PII redaction should handle complex text with multiple PII types&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815111,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle complex text with multiple PII types&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric edge cases should handle text with @ symbol but not email&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815111,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle text with @ symbol but not email&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric edge cases should handle text with + symbol but not phone&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815111,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle text with + symbol but not phone&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric edge cases should preserve surrounding whitespace&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815111,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should preserve surrounding whitespace&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric edge cases should handle PII at start of string&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815112,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle PII at start of string&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric edge cases should handle PII at end of string&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815112,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle PII at end of string&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric edge cases should handle very long strings efficiently&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762309815112,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle very long strings efficiently&quot;
+        }
+      ],
+      &quot;displayName&quot;: {
+        &quot;color&quot;: &quot;white&quot;,
+        &quot;name&quot;: &quot;unit&quot;
+      },
+      &quot;failureMessage&quot;: null
+    }
+  ],
+  &quot;wasInterrupted&quot;: false
+}</div>
+        </div>
+        <div class="d-none" id="test-global-config">{
+  &quot;bail&quot;: 0,
+  &quot;changedFilesWithAncestor&quot;: false,
+  &quot;ci&quot;: true,
+  &quot;collectCoverage&quot;: true,
+  &quot;collectCoverageFrom&quot;: [
+    &quot;src&#x2F;**&#x2F;*.ts&quot;,
+    &quot;!src&#x2F;**&#x2F;*.d.ts&quot;,
+    &quot;!src&#x2F;**&#x2F;*.spec.ts&quot;,
+    &quot;!src&#x2F;**&#x2F;*.test.ts&quot;,
+    &quot;!src&#x2F;**&#x2F;*.module.ts&quot;,
+    &quot;!src&#x2F;main.ts&quot;
+  ],
+  &quot;coverageDirectory&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;test-results&#x2F;gs-mcp-proxy-pii-redactor&#x2F;unit&#x2F;coverage&quot;,
+  &quot;coverageProvider&quot;: &quot;babel&quot;,
+  &quot;coverageReporters&quot;: [
+    &quot;json&quot;,
+    &quot;text&quot;,
+    &quot;lcov&quot;,
+    &quot;clover&quot;,
+    &quot;json-summary&quot;,
+    &quot;html&quot;
+  ],
+  &quot;detectLeaks&quot;: false,
+  &quot;detectOpenHandles&quot;: false,
+  &quot;errorOnDeprecated&quot;: false,
+  &quot;expand&quot;: false,
+  &quot;findRelatedTests&quot;: false,
+  &quot;forceExit&quot;: false,
+  &quot;json&quot;: false,
+  &quot;lastCommit&quot;: false,
+  &quot;listTests&quot;: false,
+  &quot;logHeapUsage&quot;: false,
+  &quot;maxConcurrency&quot;: 5,
+  &quot;maxWorkers&quot;: 3,
+  &quot;noStackTrace&quot;: false,
+  &quot;nonFlagArgs&quot;: [],
+  &quot;notify&quot;: false,
+  &quot;notifyMode&quot;: &quot;failure-change&quot;,
+  &quot;onlyChanged&quot;: false,
+  &quot;onlyFailures&quot;: false,
+  &quot;openHandlesTimeout&quot;: 1000,
+  &quot;passWithNoTests&quot;: false,
+  &quot;projects&quot;: [],
+  &quot;reporters&quot;: [
+    [
+      &quot;default&quot;,
+      {}
+    ],
+    [
+      &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;node_modules&#x2F;jest-stare&#x2F;lib&#x2F;index.js&quot;,
+      {
+        &quot;resultDir&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;test-results&#x2F;gs-mcp-proxy-pii-redactor&#x2F;unit&#x2F;&quot;,
+        &quot;reportTitle&quot;: &quot;gs-mcp-proxy-pii-redactor Test Results&quot;,
+        &quot;reportHeadline&quot;: &quot;gs-mcp-proxy-pii-redactor Test Results&quot;,
+        &quot;additionalResultsProcessors&quot;: [],
+        &quot;coverageLink&quot;: &quot;.&#x2F;coverage&#x2F;index.html&quot;,
+        &quot;resultHtml&quot;: &quot;index.html&quot;,
+        &quot;resultJson&quot;: &quot;jest-results.json&quot;
+      }
+    ],
+    [
+      &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;node_modules&#x2F;jest-junit&#x2F;index.js&quot;,
+      {
+        &quot;outputDirectory&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;test-results&#x2F;gs-mcp-proxy-pii-redactor&#x2F;unit&quot;,
+        &quot;outputName&quot;: &quot;junit.xml&quot;
+      }
+    ]
+  ],
+  &quot;rootDir&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&quot;,
+  &quot;runInBand&quot;: false,
+  &quot;runTestsByPath&quot;: false,
+  &quot;seed&quot;: -320315345,
+  &quot;skipFilter&quot;: false,
+  &quot;snapshotFormat&quot;: {
+    &quot;escapeString&quot;: false,
+    &quot;printBasicPrototype&quot;: false
+  },
+  &quot;testFailureExitCode&quot;: 1,
+  &quot;testPathPatterns&quot;: {
+    &quot;patterns&quot;: [],
+    &quot;type&quot;: &quot;TestPathPatterns&quot;
+  },
+  &quot;testSequencer&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;node_modules&#x2F;@jest&#x2F;test-sequencer&#x2F;build&#x2F;index.js&quot;,
+  &quot;updateSnapshot&quot;: &quot;none&quot;,
+  &quot;useStderr&quot;: false,
+  &quot;verbose&quot;: true,
+  &quot;waitForUnhandledRejections&quot;: false,
+  &quot;watch&quot;: false,
+  &quot;watchAll&quot;: false,
+  &quot;watchman&quot;: true,
+  &quot;workerThreads&quot;: false
+}</div>
+
+    </main>
+    <hr>
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">jest-stare 2022</span>
+        </div>
+    </footer>
+</body>
+
+</html>
+

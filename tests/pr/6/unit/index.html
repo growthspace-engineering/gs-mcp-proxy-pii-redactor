@@ -1,0 +1,2312 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>jest-stare!</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="css/diff2html.min.css" rel="stylesheet" type="text/css">
+    <link href="css/jest-stare.css" rel="stylesheet" type="text/css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/holder.js"></script>
+    <script src="js/diff2html.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/view.js"></script>
+
+
+<link href="https://kibibit.io/kibibit-assets/jest-stare/kb-jest-theme-variables.css" rel="stylesheet">
+<link href="https://kibibit.io/kibibit-assets/jest-stare/kb-jest-coverage-theme.css" rel="stylesheet">
+<link href="https://kibibit.io/kibibit-assets/jest-stare/kb-jest-custom-theme.css" rel="stylesheet"><script src="https://kibibit.io/kibibit-assets/jest-stare/kb-jest-custom-theme.js"></script></head>
+
+<body data-project-name="gs-mcp-proxy-pii-redactor" data-project-name="gs-mcp-proxy-pii-redactor-pr-6-unit">
+    <header>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" id="navbar-title" href="#">jest-stare</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a id="coverage-link" class="nav-link disabled" href="#">Coverage</a>
+                    </li>
+                    <li class="nav-item">
+                        <div class="onoff-switch mr-sm-2 ml-sm-2">
+                            <input type="checkbox" name="off-switch" class="off-switch-checkbox" id="lab-passoff-switch" checked>
+                            <label class="onoff-switch-label" for="lab-passoff-switch">
+                                <span class="pass off-switch-inner"></span>
+                                <span class="off-switch-switch"></span>
+                            </label>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="onoff-switch mr-sm-2 ml-sm-2">
+                            <input type="checkbox" name="off-switch" class="off-switch-checkbox" id="lab-failoff-switch" checked>
+                            <label class="onoff-switch-label" for="lab-failoff-switch">
+                                <span class="fail off-switch-inner"></span>
+                                <span class="off-switch-switch"></span>
+                            </label>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="onoff-switch mr-sm-2 ml-sm-2">
+                            <input type="checkbox" name="off-switch" class="off-switch-checkbox" id="lab-pendingoff-switch" checked>
+                            <label class="onoff-switch-label" for="lab-pendingoff-switch">
+                                <span class="pending off-switch-inner"></span>
+                                <span class="off-switch-switch"></span>
+                            </label>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="onoff-switch mr-sm-2 ml-sm-2">
+                            <input type="checkbox" name="off-switch" class="off-switch-checkbox" id="lab-todooff-switch" checked>
+                            <label class="onoff-switch-label" for="lab-todooff-switch">
+                                <span class="todo off-switch-inner"></span>
+                                <span class="off-switch-switch"></span>
+                            </label>
+                        </div>
+                    </li>
+                </ul>
+                <!-- <form class="form-inline mt-2 mt-md-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" disabled>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" disabled>Search</button>
+                </form> -->
+            </div>
+        </nav>
+    </header>
+
+    <!-- Begin page content -->
+    <main role="main" class="container">
+
+        <h1 class="mt-5"></h1>
+
+        <!-- Three columns of text below the carousel -->
+        <div class="row">
+            <div class="col-lg-4">
+                <canvas id="test-suites-canvas" width="100" height="100"></canvas>
+                <h2>Test Suites</h2>
+                <div class="list-group">
+                    <p id="test-suites-results" class="list-group-item list-group-item-action">4 passed, 4 total</p>
+                </div>
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <canvas id="tests-canvas" width="100" height="100"></canvas>
+                <h2>Tests</h2>
+                <div class="list-group">
+                    <p id="tests-results" class="list-group-item list-group-item-action">104 passed, 104 total</p>
+                </div>
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4" id="snapshots-group">
+                <canvas id="snapshots-canvas" width="100" height="100"></canvas>
+                <h2>Snapshots</h2>
+                <div class="list-group">
+                    <p id="snapshots-results" class="list-group-item list-group-item-action">0 passed, 0 total</p>
+                </div>
+            </div>
+            <!-- /.col-lg-4 -->
+        </div>
+
+        <div id="loading-info" class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+                aria-valuemax="100" style="width: 100%"></div>
+        </div>
+
+        <div class="d-none" id="test-summary"></div>
+        <div class="d-none" id="test-config">{
+  &quot;resultDir&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;test-results&#x2F;gs-mcp-proxy-pii-redactor&#x2F;unit&#x2F;&quot;,
+  &quot;reportTitle&quot;: &quot;gs-mcp-proxy-pii-redactor Test Results&quot;,
+  &quot;reportHeadline&quot;: &quot;gs-mcp-proxy-pii-redactor Test Results&quot;,
+  &quot;additionalResultsProcessors&quot;: [],
+  &quot;coverageLink&quot;: &quot;.&#x2F;coverage&#x2F;index.html&quot;,
+  &quot;resultHtml&quot;: &quot;index.html&quot;,
+  &quot;resultJson&quot;: &quot;jest-results.json&quot;
+}</div>
+        <div id="accordion">
+            <div class="d-none" id="test-results">{
+  &quot;numFailedTestSuites&quot;: 0,
+  &quot;numFailedTests&quot;: 0,
+  &quot;numPassedTestSuites&quot;: 4,
+  &quot;numPassedTests&quot;: 104,
+  &quot;numPendingTestSuites&quot;: 0,
+  &quot;numPendingTests&quot;: 0,
+  &quot;numRuntimeErrorTestSuites&quot;: 0,
+  &quot;numTodoTests&quot;: 0,
+  &quot;numTotalTestSuites&quot;: 4,
+  &quot;numTotalTests&quot;: 104,
+  &quot;openHandles&quot;: [],
+  &quot;snapshot&quot;: {
+    &quot;added&quot;: 0,
+    &quot;didUpdate&quot;: false,
+    &quot;failure&quot;: false,
+    &quot;filesAdded&quot;: 0,
+    &quot;filesRemoved&quot;: 0,
+    &quot;filesRemovedList&quot;: [],
+    &quot;filesUnmatched&quot;: 0,
+    &quot;filesUpdated&quot;: 0,
+    &quot;matched&quot;: 0,
+    &quot;total&quot;: 0,
+    &quot;unchecked&quot;: 0,
+    &quot;uncheckedKeysByFile&quot;: [],
+    &quot;unmatched&quot;: 0,
+    &quot;updated&quot;: 0
+  },
+  &quot;startTime&quot;: 1762048977478,
+  &quot;success&quot;: false,
+  &quot;testResults&quot;: [
+    {
+      &quot;leaks&quot;: false,
+      &quot;numFailingTests&quot;: 0,
+      &quot;numPassingTests&quot;: 32,
+      &quot;numPendingTests&quot;: 0,
+      &quot;numTodoTests&quot;: 0,
+      &quot;openHandles&quot;: [],
+      &quot;perfStats&quot;: {
+        &quot;end&quot;: 1762048985778,
+        &quot;loadTestEnvironmentEnd&quot;: 1762048978041,
+        &quot;loadTestEnvironmentStart&quot;: 1762048977779,
+        &quot;runtime&quot;: 7736,
+        &quot;setupAfterEnvEnd&quot;: 1762048978357,
+        &quot;setupAfterEnvStart&quot;: 1762048978357,
+        &quot;setupFilesEnd&quot;: 1762048978042,
+        &quot;setupFilesStart&quot;: 1762048978042,
+        &quot;slow&quot;: true,
+        &quot;start&quot;: 1762048978042
+      },
+      &quot;skipped&quot;: false,
+      &quot;snapshot&quot;: {
+        &quot;added&quot;: 0,
+        &quot;fileDeleted&quot;: false,
+        &quot;matched&quot;: 0,
+        &quot;unchecked&quot;: 0,
+        &quot;uncheckedKeys&quot;: [],
+        &quot;unmatched&quot;: 0,
+        &quot;updated&quot;: 0
+      },
+      &quot;testFilePath&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;src&#x2F;redaction&#x2F;scanner-generic.spec.ts&quot;,
+      &quot;testResults&quot;: [
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 8,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should redact a simple email address&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985724,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact a simple email address&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should redact multiple email addresses&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985732,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact multiple email addresses&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should redact email with plus sign in local part&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985734,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact email with plus sign in local part&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should redact email with hyphen in local part&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985735,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact email with hyphen in local part&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should redact email with numbers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985737,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact email with numbers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should not redact invalid emails without dot in domain&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985739,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not redact invalid emails without dot in domain&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should not redact email with leading dot in local part&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985740,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not redact email with leading dot in local part&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should not redact email with trailing dot in local part&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985741,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not redact email with trailing dot in local part&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should not redact email with consecutive dots in local part&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985742,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not redact email with consecutive dots in local part&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should handle empty string&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985743,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle empty string&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;email redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric email redaction should return original string if no PII found&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985745,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return original string if no PII found&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should redact US phone number with separators&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985746,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact US phone number with separators&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should redact phone number with spaces&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985747,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact phone number with spaces&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should redact phone number with dots&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985748,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact phone number with dots&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should redact formatted phone numbers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985748,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact formatted phone numbers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should redact international phone with plus&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985752,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact international phone with plus&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should redact phone number with country code&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985756,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact phone number with country code&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should redact 10-digit phone number (minimum digits)&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985756,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact 10-digit phone number (minimum digits)&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should not redact numbers with too few digits&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985757,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not redact numbers with too few digits&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should redact 15-digit phone number with separator&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985758,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact 15-digit phone number with separator&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should handle international phone numbers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985760,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle international phone numbers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should handle phone with parentheses properly&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985760,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle phone with parentheses properly&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;phone number redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric phone number redaction should not redact phone starting with letter&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985761,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not redact phone starting with letter&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;mixed PII redaction&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric mixed PII redaction should redact both email and phone in same text&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985762,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact both email and phone in same text&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;mixed PII redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric mixed PII redaction should redact multiple emails and phones&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985766,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact multiple emails and phones&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;mixed PII redaction&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric mixed PII redaction should handle complex text with multiple PII types&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985769,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle complex text with multiple PII types&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric edge cases should handle text with @ symbol but not email&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985770,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle text with @ symbol but not email&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric edge cases should handle text with + symbol but not phone&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985771,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle text with + symbol but not phone&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric edge cases should preserve surrounding whitespace&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985771,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should preserve surrounding whitespace&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric edge cases should handle PII at start of string&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985772,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle PII at start of string&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric edge cases should handle PII at end of string&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985773,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle PII at end of string&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;scanner-generic&quot;,
+            &quot;redactGeneric&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;scanner-generic redactGeneric edge cases should handle very long strings efficiently&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048985774,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle very long strings efficiently&quot;
+        }
+      ],
+      &quot;failureMessage&quot;: null
+    },
+    {
+      &quot;leaks&quot;: false,
+      &quot;numFailingTests&quot;: 0,
+      &quot;numPassingTests&quot;: 23,
+      &quot;numPendingTests&quot;: 0,
+      &quot;numTodoTests&quot;: 0,
+      &quot;openHandles&quot;: [],
+      &quot;perfStats&quot;: {
+        &quot;end&quot;: 1762048986474,
+        &quot;loadTestEnvironmentEnd&quot;: 1762048985823,
+        &quot;loadTestEnvironmentStart&quot;: 1762048985817,
+        &quot;runtime&quot;: 651,
+        &quot;setupAfterEnvEnd&quot;: 1762048985881,
+        &quot;setupAfterEnvStart&quot;: 1762048985881,
+        &quot;setupFilesEnd&quot;: 1762048985823,
+        &quot;setupFilesStart&quot;: 1762048985823,
+        &quot;slow&quot;: false,
+        &quot;start&quot;: 1762048985823
+      },
+      &quot;skipped&quot;: false,
+      &quot;snapshot&quot;: {
+        &quot;added&quot;: 0,
+        &quot;fileDeleted&quot;: false,
+        &quot;matched&quot;: 0,
+        &quot;unchecked&quot;: 0,
+        &quot;uncheckedKeys&quot;: [],
+        &quot;unmatched&quot;: 0,
+        &quot;updated&quot;: 0
+      },
+      &quot;testFilePath&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;src&#x2F;redaction&#x2F;matcher.spec.ts&quot;,
+      &quot;testResults&quot;: [
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;build&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher build should create a matcher with valid dictionary&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986389,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should create a matcher with valid dictionary&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;build&quot;
+          ],
+          &quot;duration&quot;: 41,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher build should throw error with empty dictionary&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986394,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should throw error with empty dictionary&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should redact a single matching term&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986436,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact a single matching term&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should redact multiple matching terms&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986437,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact multiple matching terms&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should perform case-insensitive matching&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 4,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986438,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should perform case-insensitive matching&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should match whole words only&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 4,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986440,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should match whole words only&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle word boundaries correctly with punctuation&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 6,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986441,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle word boundaries correctly with punctuation&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle word boundaries with hyphens and spaces&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986443,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle word boundaries with hyphens and spaces&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should redact multiple occurrences of same term&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986446,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact multiple occurrences of same term&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle overlapping matches by merging intervals&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986447,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle overlapping matches by merging intervals&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should return original text if no matches found&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986447,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return original text if no matches found&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle empty string&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986452,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle empty string&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle text with only the matching term&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986452,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle text with only the matching term&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle text starting with matching term&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986454,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle text starting with matching term&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle text ending with matching term&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986455,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle text ending with matching term&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle multi-word terms&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986455,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle multi-word terms&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle terms with special characters&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986456,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle terms with special characters&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should merge adjacent matches&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986457,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should merge adjacent matches&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle large dictionary efficiently&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986458,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle large dictionary efficiently&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle long text efficiently&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986464,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle long text efficiently&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle text with numbers and underscores as word boundaries&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986465,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle text with numbers and underscores as word boundaries&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 0,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should handle consecutive terms with different cases&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986466,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle consecutive terms with different cases&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;Matcher&quot;,
+            &quot;redact&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;Matcher redact should not match partial words in compound words&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986467,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not match partial words in compound words&quot;
+        }
+      ],
+      &quot;failureMessage&quot;: null
+    },
+    {
+      &quot;leaks&quot;: false,
+      &quot;numFailingTests&quot;: 0,
+      &quot;numPassingTests&quot;: 22,
+      &quot;numPendingTests&quot;: 0,
+      &quot;numTodoTests&quot;: 0,
+      &quot;openHandles&quot;: [],
+      &quot;perfStats&quot;: {
+        &quot;end&quot;: 1762048986624,
+        &quot;loadTestEnvironmentEnd&quot;: 1762048978079,
+        &quot;loadTestEnvironmentStart&quot;: 1762048977776,
+        &quot;runtime&quot;: 8545,
+        &quot;setupAfterEnvEnd&quot;: 1762048978329,
+        &quot;setupAfterEnvStart&quot;: 1762048978329,
+        &quot;setupFilesEnd&quot;: 1762048978079,
+        &quot;setupFilesStart&quot;: 1762048978079,
+        &quot;slow&quot;: true,
+        &quot;start&quot;: 1762048978079
+      },
+      &quot;skipped&quot;: false,
+      &quot;snapshot&quot;: {
+        &quot;added&quot;: 0,
+        &quot;fileDeleted&quot;: false,
+        &quot;matched&quot;: 0,
+        &quot;unchecked&quot;: 0,
+        &quot;uncheckedKeys&quot;: [],
+        &quot;unmatched&quot;: 0,
+        &quot;updated&quot;: 0
+      },
+      &quot;testFilePath&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;src&#x2F;config&#x2F;config.service.spec.ts&quot;,
+      &quot;testResults&quot;: [
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;load from file&quot;
+          ],
+          &quot;duration&quot;: 28,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService load from file should load config from file with absolute path&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986515,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should load config from file with absolute path&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;load from file&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService load from file should load config from file with relative path&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986544,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should load config from file with relative path&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;load from file&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService load from file should set default type to sse if not provided&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986546,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should set default type to sse if not provided&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;load from file&quot;
+          ],
+          &quot;duration&quot;: 26,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService load from file should throw error if mcpProxy is missing&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986549,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should throw error if mcpProxy is missing&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;load from URL&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService load from URL should load config from HTTP URL&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986575,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should load config from HTTP URL&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;load from URL&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService load from URL should load config from HTTPS URL&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986581,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should load config from HTTPS URL&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;load from URL&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService load from URL should handle insecure flag for HTTPS&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 4,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986587,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle insecure flag for HTTPS&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;environment variable expansion&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService environment variable expansion should expand environment variables in headers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986590,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should expand environment variables in headers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;environment variable expansion&quot;
+          ],
+          &quot;duration&quot;: 5,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService environment variable expansion should throw error if referenced environment variable is not set&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986593,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should throw error if referenced environment variable is not set&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;environment variable expansion&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService environment variable expansion should handle multiple environment variables in same header&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986598,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle multiple environment variables in same header&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;environment variable expansion&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService environment variable expansion should not expand if no environment variables referenced&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986602,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not expand if no environment variables referenced&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;options inheritance&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService options inheritance should inherit authTokens from mcpProxy to mcpServers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986605,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should inherit authTokens from mcpProxy to mcpServers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;options inheritance&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService options inheritance should inherit panicIfInvalid from mcpProxy to mcpServers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986607,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should inherit panicIfInvalid from mcpProxy to mcpServers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;options inheritance&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService options inheritance should inherit logEnabled from mcpProxy to mcpServers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986608,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should inherit logEnabled from mcpProxy to mcpServers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;options inheritance&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService options inheritance should not override existing options in mcpServers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986609,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not override existing options in mcpServers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;options inheritance&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService options inheritance should not inherit redaction options from mcpProxy to mcpServers&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986611,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should not inherit redaction options from mcpProxy to mcpServers&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;options inheritance&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService options inheritance should handle multiple mcpServers with inheritance&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 4,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986612,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle multiple mcpServers with inheritance&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;getConfig&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService getConfig should return loaded config&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986614,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return loaded config&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;getConfig&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService getConfig should throw error if config not loaded&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986616,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should throw error if config not loaded&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService edge cases should handle empty mcpServers object&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986618,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle empty mcpServers object&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService edge cases should initialize options if not provided in mcpProxy&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986620,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should initialize options if not provided in mcpProxy&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;ConfigService&quot;,
+            &quot;edge cases&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;ConfigService edge cases should initialize options if not provided in mcpServer&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986621,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should initialize options if not provided in mcpServer&quot;
+        }
+      ],
+      &quot;failureMessage&quot;: null
+    },
+    {
+      &quot;leaks&quot;: false,
+      &quot;numFailingTests&quot;: 0,
+      &quot;numPassingTests&quot;: 27,
+      &quot;numPendingTests&quot;: 0,
+      &quot;numTodoTests&quot;: 0,
+      &quot;openHandles&quot;: [],
+      &quot;perfStats&quot;: {
+        &quot;end&quot;: 1762048986633,
+        &quot;loadTestEnvironmentEnd&quot;: 1762048978096,
+        &quot;loadTestEnvironmentStart&quot;: 1762048977759,
+        &quot;runtime&quot;: 8536,
+        &quot;setupAfterEnvEnd&quot;: 1762048978403,
+        &quot;setupAfterEnvStart&quot;: 1762048978403,
+        &quot;setupFilesEnd&quot;: 1762048978097,
+        &quot;setupFilesStart&quot;: 1762048978097,
+        &quot;slow&quot;: true,
+        &quot;start&quot;: 1762048978097
+      },
+      &quot;skipped&quot;: false,
+      &quot;snapshot&quot;: {
+        &quot;added&quot;: 0,
+        &quot;fileDeleted&quot;: false,
+        &quot;matched&quot;: 0,
+        &quot;unchecked&quot;: 0,
+        &quot;uncheckedKeys&quot;: [],
+        &quot;unmatched&quot;: 0,
+        &quot;updated&quot;: 0
+      },
+      &quot;testFilePath&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;src&#x2F;redaction&#x2F;redaction.service.spec.ts&quot;,
+      &quot;testResults&quot;: [
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;initialize&quot;
+          ],
+          &quot;duration&quot;: 18,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService initialize should initialize successfully with valid dictionary&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986534,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should initialize successfully with valid dictionary&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;initialize&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService initialize should only initialize once&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986552,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should only initialize once&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;initialize&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService initialize should throw error if MCP_PROXY_GCS_BUCKET is not set&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986556,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should throw error if MCP_PROXY_GCS_BUCKET is not set&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;initialize&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService initialize should throw error if service account is not set&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986562,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should throw error if service account is not set&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;getService&quot;
+          ],
+          &quot;duration&quot;: 6,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService getService should auto-initialize if not initialized&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986566,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should auto-initialize if not initialized&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;getService&quot;
+          ],
+          &quot;duration&quot;: 11,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService getService should return error if initialization failed&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986572,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return error if initialization failed&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 4,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should return original data if config is null&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986584,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return original data if config is null&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should return original data if config is undefined&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986588,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return original data if config is undefined&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should return original data if redaction is disabled&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986590,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return original data if redaction is disabled&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should return original data if matcher is not initialized&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986594,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should return original data if matcher is not initialized&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should redact all strings when no keys specified&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986598,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact all strings when no keys specified&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should redact all strings when keys is empty array&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986600,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact all strings when keys is empty array&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 3,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should redact only specified keys&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986603,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact only specified keys&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle nested objects when redacting all strings&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986606,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle nested objects when redacting all strings&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle nested objects when redacting by keys&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986608,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle nested objects when redacting by keys&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle arrays when redacting all strings&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986610,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle arrays when redacting all strings&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle arrays when redacting by keys&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986611,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle arrays when redacting by keys&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle arrays of objects when redacting all strings&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986613,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle arrays of objects when redacting all strings&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle arrays of objects when redacting by keys&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986615,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle arrays of objects when redacting by keys&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should redact generic PII (emails, phones) before dictionary terms&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986616,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact generic PII (emails, phones) before dictionary terms&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle non-string values correctly&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 5,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986618,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle non-string values correctly&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle deeply nested structures&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986620,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle deeply nested structures&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle mixed arrays and objects&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986622,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle mixed arrays and objects&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should handle keys at different nesting levels&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 3,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986624,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle keys at different nesting levels&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;redactResponse&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService redactResponse should redact nested values when key matches&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 2,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986625,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should redact nested values when key matches&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;getServiceAccountJSON with base64&quot;
+          ],
+          &quot;duration&quot;: 2,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService getServiceAccountJSON with base64 should decode base64 service account&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986628,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should decode base64 service account&quot;
+        },
+        {
+          &quot;ancestorTitles&quot;: [
+            &quot;RedactionService&quot;,
+            &quot;getServiceAccountJSON with base64&quot;
+          ],
+          &quot;duration&quot;: 1,
+          &quot;failing&quot;: false,
+          &quot;failureDetails&quot;: [],
+          &quot;failureMessages&quot;: [],
+          &quot;fullName&quot;: &quot;RedactionService getServiceAccountJSON with base64 should handle private key with escaped newlines&quot;,
+          &quot;invocations&quot;: 1,
+          &quot;location&quot;: null,
+          &quot;numPassingAsserts&quot;: 1,
+          &quot;retryReasons&quot;: [],
+          &quot;startAt&quot;: 1762048986630,
+          &quot;status&quot;: &quot;passed&quot;,
+          &quot;title&quot;: &quot;should handle private key with escaped newlines&quot;
+        }
+      ],
+      &quot;failureMessage&quot;: null
+    }
+  ],
+  &quot;wasInterrupted&quot;: false
+}</div>
+        </div>
+        <div class="d-none" id="test-global-config">{
+  &quot;bail&quot;: 0,
+  &quot;changedFilesWithAncestor&quot;: false,
+  &quot;ci&quot;: true,
+  &quot;collectCoverage&quot;: true,
+  &quot;collectCoverageFrom&quot;: [
+    &quot;src&#x2F;**&#x2F;*.ts&quot;,
+    &quot;!src&#x2F;**&#x2F;*.d.ts&quot;,
+    &quot;!src&#x2F;**&#x2F;*.spec.ts&quot;,
+    &quot;!src&#x2F;**&#x2F;*.test.ts&quot;,
+    &quot;!src&#x2F;**&#x2F;*.module.ts&quot;,
+    &quot;!src&#x2F;main.ts&quot;
+  ],
+  &quot;coverageDirectory&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;test-results&#x2F;gs-mcp-proxy-pii-redactor&#x2F;unit&#x2F;coverage&quot;,
+  &quot;coverageProvider&quot;: &quot;babel&quot;,
+  &quot;coverageReporters&quot;: [
+    &quot;json&quot;,
+    &quot;text&quot;,
+    &quot;lcov&quot;,
+    &quot;clover&quot;,
+    &quot;json-summary&quot;,
+    &quot;html&quot;
+  ],
+  &quot;detectLeaks&quot;: false,
+  &quot;detectOpenHandles&quot;: false,
+  &quot;errorOnDeprecated&quot;: false,
+  &quot;expand&quot;: false,
+  &quot;findRelatedTests&quot;: false,
+  &quot;forceExit&quot;: false,
+  &quot;json&quot;: false,
+  &quot;lastCommit&quot;: false,
+  &quot;listTests&quot;: false,
+  &quot;logHeapUsage&quot;: false,
+  &quot;maxConcurrency&quot;: 5,
+  &quot;maxWorkers&quot;: 3,
+  &quot;noStackTrace&quot;: false,
+  &quot;nonFlagArgs&quot;: [],
+  &quot;notify&quot;: false,
+  &quot;notifyMode&quot;: &quot;failure-change&quot;,
+  &quot;onlyChanged&quot;: false,
+  &quot;onlyFailures&quot;: false,
+  &quot;openHandlesTimeout&quot;: 1000,
+  &quot;passWithNoTests&quot;: true,
+  &quot;projects&quot;: [],
+  &quot;reporters&quot;: [
+    [
+      &quot;default&quot;,
+      {}
+    ],
+    [
+      &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;node_modules&#x2F;jest-stare&#x2F;lib&#x2F;index.js&quot;,
+      {
+        &quot;resultDir&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;test-results&#x2F;gs-mcp-proxy-pii-redactor&#x2F;unit&#x2F;&quot;,
+        &quot;reportTitle&quot;: &quot;gs-mcp-proxy-pii-redactor Test Results&quot;,
+        &quot;reportHeadline&quot;: &quot;gs-mcp-proxy-pii-redactor Test Results&quot;,
+        &quot;additionalResultsProcessors&quot;: [],
+        &quot;coverageLink&quot;: &quot;.&#x2F;coverage&#x2F;index.html&quot;,
+        &quot;resultHtml&quot;: &quot;index.html&quot;,
+        &quot;resultJson&quot;: &quot;jest-results.json&quot;
+      }
+    ],
+    [
+      &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;node_modules&#x2F;jest-junit&#x2F;index.js&quot;,
+      {
+        &quot;outputDirectory&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;test-results&#x2F;gs-mcp-proxy-pii-redactor&#x2F;unit&quot;,
+        &quot;outputName&quot;: &quot;junit.xml&quot;
+      }
+    ]
+  ],
+  &quot;rootDir&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&quot;,
+  &quot;runInBand&quot;: false,
+  &quot;runTestsByPath&quot;: false,
+  &quot;seed&quot;: -1869164582,
+  &quot;skipFilter&quot;: false,
+  &quot;snapshotFormat&quot;: {
+    &quot;escapeString&quot;: false,
+    &quot;printBasicPrototype&quot;: false
+  },
+  &quot;testFailureExitCode&quot;: 1,
+  &quot;testPathPatterns&quot;: {
+    &quot;patterns&quot;: [],
+    &quot;type&quot;: &quot;TestPathPatterns&quot;
+  },
+  &quot;testSequencer&quot;: &quot;&#x2F;home&#x2F;runner&#x2F;work&#x2F;gs-mcp-proxy-pii-redactor&#x2F;gs-mcp-proxy-pii-redactor&#x2F;node_modules&#x2F;@jest&#x2F;test-sequencer&#x2F;build&#x2F;index.js&quot;,
+  &quot;updateSnapshot&quot;: &quot;none&quot;,
+  &quot;useStderr&quot;: false,
+  &quot;waitForUnhandledRejections&quot;: false,
+  &quot;watch&quot;: false,
+  &quot;watchAll&quot;: false,
+  &quot;watchman&quot;: true,
+  &quot;workerThreads&quot;: false
+}</div>
+
+    </main>
+    <hr>
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">jest-stare 2022</span>
+        </div>
+    </footer>
+</body>
+
+</html>
+
