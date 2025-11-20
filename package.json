@@ -1,6 +1,6 @@
 {
   "name": "@growthspace-engineering/gs-mcp-proxy-pii-redactor",
-  "version": "2.1.0-beta.8",
+  "version": "2.1.0-beta.9",
   "description": "MCP Proxy with PII Redaction & Tool Filtering",
   "author": "thatkookooguy <neilkalman@gmail.com>",
   "license": "MIT",
