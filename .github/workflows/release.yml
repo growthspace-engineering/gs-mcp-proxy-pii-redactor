@@ -156,14 +156,14 @@ jobs:
         env:
           PUBLIC_RELEASE_BOT_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
         run: |
-          # GitHub Packages npmrc
+          # GitHub Packages npmrc (for first publish)
           echo "@growthspace-engineering:registry=https://npm.pkg.github.com" > .npmrc.gh
           echo "//npm.pkg.github.com/:_authToken=${PUBLIC_RELEASE_BOT_TOKEN}" >> .npmrc.gh
-
-          # Public npm registry npmrc (no token needed with provenance)
-          echo "registry=https://registry.npmjs.org/" > .npmrc.npmjs
-          echo "@growthspace-engineering:registry=https://registry.npmjs.org/" >> .npmrc.npmjs
-          echo "access=public" >> .npmrc.npmjs
+          
+          # For npmjs provenance publish, we need the default npm config
+          # to allow OIDC authentication. Configure scope in default .npmrc
+          echo "@growthspace-engineering:registry=https://registry.npmjs.org/" >> ~/.npmrc
+          echo "access=public" >> ~/.npmrc
 
       - name: 🚀 Semantic Release
         id: semrel
