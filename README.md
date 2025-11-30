@@ -5,7 +5,6 @@
     @growthspace-engineering/gs-mcp-proxy-pii-redactor
   </h2>
 </p>
-
 <p align="center">
   <a href="https://github.com/growthspace-engineering/gs-mcp-proxy-pii-redactor/releases">
   <img src="https://img.shields.io/github/v/release/growthspace-engineering/gs-mcp-proxy-pii-redactor?display_name=tag&label=latest&logo=npm&color=CB3837&style=for-the-badge">
