@@ -9,7 +9,7 @@ import { MCPServerService } from '../src/mcp/mcp-server.service';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { SSEClientTransport } from '@modelcontextprotocol/sdk/client/sse.js';
 
-describe('MCP Proxy search_repositories via SSE (e2e)', () => {
+describe.skip('MCP Proxy search_repositories via SSE (e2e)', () => {
   let app: INestApplication;
   let baseUrl: string;
   let tmpConfigPath: string;

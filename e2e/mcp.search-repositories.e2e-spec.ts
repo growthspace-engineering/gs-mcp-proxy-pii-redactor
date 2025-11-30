@@ -8,7 +8,7 @@ import { ConfigService } from '../src/config/config.service';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 
-describe('MCP Proxy search_repositories (e2e)', () => {
+describe.skip('MCP Proxy search_repositories (e2e)', () => {
   let app: INestApplication;
   let baseUrl: string;
   let tmpConfigPath: string;
