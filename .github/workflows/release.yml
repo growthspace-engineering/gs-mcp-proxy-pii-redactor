@@ -70,6 +70,9 @@ jobs:
           cache: 'npm'
           registry-url: 'https://registry.npmjs.org'
 
+      - name: 🔧 Upgrade npm for trusted publishing
+        run: npm install -g npm@latest
+
       - name: 📥 Download unit results to base
         uses: actions/download-artifact@v4
         with:
