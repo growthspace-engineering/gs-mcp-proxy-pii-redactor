@@ -153,6 +153,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🔧 Configure npm for dual registry publishing
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # GitHub Packages npmrc (for first publish)
           echo "@growthspace-engineering:registry=https://npm.pkg.github.com" > .npmrc.gh
@@ -166,8 +168,8 @@ jobs:
       - name: 🚀 Semantic Release
         id: semrel
         uses: cycjimmy/semantic-release-action@v5
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         # NPM_TOKEN not needed - using provenance (OIDC) for npmjs publishing
 
       # decide the channel tag (beta vs latest)
