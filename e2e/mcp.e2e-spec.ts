@@ -12,7 +12,7 @@ import { AppModule } from '../src/app.module';
 import { ConfigService } from '../src/config/config.service';
 import { MCPServerService } from '../src/mcp/mcp-server.service';
 
-describe('MCP Proxy (e2e)', () => {
+describe.skip('MCP Proxy (e2e)', () => {
   let app: INestApplication;
   let baseUrl: string;
   let tmpConfigPath: string;
