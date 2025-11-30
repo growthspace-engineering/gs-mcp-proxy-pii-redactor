@@ -68,6 +68,7 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: 📥 Download unit results to base
         uses: actions/download-artifact@v4
@@ -156,14 +157,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # GitHub Packages npmrc (for first publish)
+          # GitHub Packages npmrc (for first publish, PAT-style using short-lived GitHub token)
           echo "@growthspace-engineering:registry=https://npm.pkg.github.com" > .npmrc.gh
           echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc.gh
-          
-          # For npmjs provenance publish, we need the default npm config
-          # to allow OIDC authentication. Configure scope in default .npmrc
-          echo "@growthspace-engineering:registry=https://registry.npmjs.org/" >> ~/.npmrc
-          echo "access=public" >> ~/.npmrc
 
       - name: 🚀 Semantic Release
         id: semrel

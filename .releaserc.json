@@ -31,7 +31,7 @@
     [
       "@semantic-release/exec",
       {
-        "publishCmd": "npm publish --registry https://registry.npmjs.org --tag ${nextRelease.channel || 'latest'} --access public --provenance"
+        "publishCmd": "npm publish --tag ${nextRelease.channel || 'latest'} --access public --provenance"
       }
     ],
     [
