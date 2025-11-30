@@ -16,22 +16,12 @@
       }
     ],
     [
-      "@semantic-release/npm",
-      {
-        "npmPublish": false,
-        "pkgRoot": "."
-      }
+      "@semantic-release/npm"
     ],
     [
       "@semantic-release/exec",
       {
         "publishCmd": "npm publish --userconfig ./.npmrc.gh --tag ${nextRelease.channel || 'latest'}"
-      }
-    ],
-    [
-      "@semantic-release/exec",
-      {
-        "publishCmd": "npm publish --tag ${nextRelease.channel || 'latest'} --access public --provenance"
       }
     ],
     [
