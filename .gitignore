@@ -4,6 +4,9 @@ dist/
 config.json
 .env*
 
+# Codex local config (contains sensitive tokens)
+.codex/
+
 # macOS
 .DS_Store
 

@@ -43,7 +43,7 @@ jobs:
       - name: Run e2e tests with coverage
         if: matrix.suite == 'e2e'
         env:
-          GITHUB_TOKEN: ${{ secrets.PUBLIC_E2E_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run test:e2e:cov
 
       - name: Upload ${{ matrix.suite }} test results
@@ -68,6 +68,10 @@ jobs:
         with:
           node-version: '22'
           cache: 'npm'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: 🔧 Upgrade npm for trusted publishing
+        run: npm install -g npm@latest
 
       - name: 📥 Download unit results to base
         uses: actions/download-artifact@v4
@@ -101,7 +105,7 @@ jobs:
       pull-requests: write
       packages: write
       pages: write
-      id-token: write
+      id-token: write  # Required for npm provenance
     steps:
       - name: 🪾 Checkout code
         uses: actions/checkout@v4
@@ -116,6 +120,9 @@ jobs:
 
       - name: 📦 Install dependencies
         run: npm ci
+
+      - name: 🔧 Upgrade npm for trusted publishing
+        run: npm install -g npm@latest
 
       - name: 📥 Download unit results
         uses: actions/download-artifact@v4
@@ -154,24 +161,18 @@ jobs:
 
       - name: 🔧 Configure npm for dual registry publishing
         env:
-          PUBLIC_RELEASE_BOT_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # GitHub Packages npmrc
+          # GitHub Packages npmrc (for first publish, PAT-style using short-lived GitHub token)
           echo "@growthspace-engineering:registry=https://npm.pkg.github.com" > .npmrc.gh
-          echo "//npm.pkg.github.com/:_authToken=${PUBLIC_RELEASE_BOT_TOKEN}" >> .npmrc.gh
-
-          # Public npm registry npmrc
-          echo "registry=https://registry.npmjs.org/" > .npmrc.npmjs
-          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc.npmjs
-          echo "access=public" >> .npmrc.npmjs
+          echo "//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}" >> .npmrc.gh
 
       - name: 🚀 Semantic Release
         id: semrel
         uses: cycjimmy/semantic-release-action@v5
         env:
-          GITHUB_TOKEN: ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # NPM_TOKEN not needed - using provenance (OIDC) for npmjs publishing
 
       # decide the channel tag (beta vs latest)
       - name: 🔧 Decide Docker channel tag
@@ -223,7 +224,42 @@ jobs:
           echo "Triggering update-beta-after-release workflow for tag: $NEW_TAG"
 
           curl -X POST \
-            -H "Authorization: token ${{ secrets.PUBLIC_RELEASE_BOT_TOKEN }}" \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/${{ github.repository }}/dispatches \
             -d "{\"event_type\":\"release_created\",\"client_payload\":{\"tag_name\":\"$NEW_TAG\"}}"
+
+      # Send a notification to Slack Workflow Builder for latest (main) releases
+      - name: 🔧 Read package name
+        id: pkg
+        if: steps.semrel.outputs.new_release_published == 'true'
+        shell: bash
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+
+      - name: 🔧 Prepare Slack changelog
+        id: notes
+        if: steps.semrel.outputs.new_release_published == 'true'
+        env:
+          NOTES: ${{ steps.semrel.outputs.new_release_notes }}
+        run: |
+          node -e "const n=process.env.NOTES||''; const lines=n.split(/\r?\n/); const bullets=lines.filter(l=>/^(?:\*|-)\s+/.test(l)).map(l=>l.replace(/^(?:\*|-)\s+/, '• ')); const text=bullets.join('\n'); console.log('changelog<<EOF'); console.log(text); console.log('EOF');" >> "$GITHUB_OUTPUT"
+
+      - name: "Slack: Send to Slack"
+        if: steps.semrel.outputs.new_release_published == 'true'
+        uses: slackapi/slack-github-action@v2.1.1
+        # don't fail the workflow if the Slack API call fails
+        continue-on-error: true
+        with:
+          payload: |
+            {
+              "ref": "${{ github.ref_name }}",
+              "version": "${{ steps.semrel.outputs.new_release_version }}",
+              "changelog": ${{ toJson(steps.notes.outputs.changelog) }},
+              "repo": "${{ github.repository }}",
+              "docker_url": "https://github.com/orgs/${{ github.repository_owner }}/packages/container/package/${{ github.event.repository.name }}",
+              "npm_url": "https://www.npmjs.com/package/${{ steps.pkg.outputs.name }}/v/${{ steps.semrel.outputs.new_release_version }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_RELEASES_WORKFLOW_WEBHOOK_URL }}

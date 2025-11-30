@@ -23,6 +23,23 @@
         "--stdio-target",
         "github"
       ]
+    },
+    "dogfooding-proxy-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "ts-node",
+        "--require",
+        "tsconfig-paths/register",
+        "src/main.ts",
+        "--config",
+        "./.cursor/config.json",
+        "--stdio-target",
+        "github",
+        "--group",
+        "frontend-engineer"
+      ],
+      "workingDirectory": "."
     }
   }
 }

@@ -101,6 +101,24 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "rshachor-gs",
+      "name": "Riki Shachor",
+      "avatar_url": "https://avatars.githubusercontent.com/u/113505106?v=4",
+      "profile": "https://github.com/rshachor-gs",
+      "contributions": [
+        "review"
+      ]
+    },
+    {
+      "login": "katerina-semikina",
+      "name": "katerina-semikina",
+      "avatar_url": "https://avatars.githubusercontent.com/u/26429062?v=4",
+      "profile": "https://github.com/katerina-semikina",
+      "contributions": [
+        "review"
+      ]
     }
   ],
   "contributorsPerLine": 7,

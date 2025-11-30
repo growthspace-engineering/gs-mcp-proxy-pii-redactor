@@ -29,7 +29,8 @@ describe('ConfigService', () => {
           type: 'sse' as const,
           options: {}
         },
-        mcpServers: {}
+        mcpServers: {},
+        groups: {}
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(
@@ -48,7 +49,8 @@ describe('ConfigService', () => {
           type: 'sse' as const,
           options: {}
         },
-        mcpServers: {}
+        mcpServers: {},
+        groups: {}
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(
@@ -99,7 +101,8 @@ describe('ConfigService', () => {
           type: 'sse' as const,
           options: {}
         },
-        mcpServers: {}
+        mcpServers: {},
+        groups: {}
       };
 
       (axios.get as jest.Mock).mockResolvedValue({ data: mockConfig });
@@ -119,7 +122,8 @@ describe('ConfigService', () => {
           type: 'sse' as const,
           options: {}
         },
-        mcpServers: {}
+        mcpServers: {},
+        groups: {}
       };
 
       (axios.get as jest.Mock).mockResolvedValue({ data: mockConfig });
@@ -139,7 +143,8 @@ describe('ConfigService', () => {
           type: 'sse' as const,
           options: {}
         },
-        mcpServers: {}
+        mcpServers: {},
+        groups: {}
       };
 
       (axios.get as jest.Mock).mockResolvedValue({ data: mockConfig });
@@ -462,7 +467,8 @@ describe('ConfigService', () => {
           type: 'sse' as const,
           options: {}
         },
-        mcpServers: {}
+        mcpServers: {},
+        groups: {}
       };
 
       (fs.readFileSync as jest.Mock).mockReturnValue(

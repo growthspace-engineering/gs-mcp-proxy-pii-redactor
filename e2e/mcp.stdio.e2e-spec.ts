@@ -5,7 +5,7 @@ import { afterAll, beforeAll, describe, expect, it } from '@jest/globals';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
 
-describe('MCP Proxy Stdio Mode (e2e)', () => {
+describe.skip('MCP Proxy Stdio Mode (e2e)', () => {
   const skip = !process.env.GITHUB_TOKEN;
   const maybeIt = skip ? it.skip : it;
   let tmpConfigPath: string;

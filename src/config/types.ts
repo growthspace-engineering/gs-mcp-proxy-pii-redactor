@@ -49,11 +49,6 @@ export interface IMCPClientConfigV2 {
 }
 export type MCPClientConfigV2 = IMCPClientConfigV2;
 
-export interface IConfig {
-  mcpProxy: MCPProxyConfigV2;
-  mcpServers: Record<string, MCPClientConfigV2>;
-}
-export type Config = IConfig;
 
 export interface IFullConfig {
   // Deprecated V1
@@ -62,6 +57,14 @@ export interface IFullConfig {
   clients?: any;
   mcpProxy?: MCPProxyConfigV2;
   mcpServers?: Record<string, MCPClientConfigV2>;
+  groups?: Record<string, string[]>;
 }
 export type FullConfig = IFullConfig;
+
+export interface IConfig {
+  mcpProxy: MCPProxyConfigV2;
+  mcpServers: Record<string, MCPClientConfigV2>;
+  groups?: Record<string, string[]>;
+}
+export type Config = IConfig;
 

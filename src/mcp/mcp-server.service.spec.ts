@@ -42,7 +42,8 @@ describe('MCPServerService', () => {
           panicIfInvalid: true
         }
       }
-    }
+    },
+    groups: {}
   };
 
   beforeEach(async () => {
@@ -68,7 +69,8 @@ describe('MCPServerService', () => {
         {
           provide: ConfigService,
           useValue: {
-            getConfig: jest.fn().mockReturnValue(mockConfig)
+            getConfig: jest.fn().mockReturnValue(mockConfig),
+            isServerInActiveGroup: jest.fn().mockReturnValue(true)
           }
         },
         {
