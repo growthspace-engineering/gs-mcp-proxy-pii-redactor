@@ -78,7 +78,7 @@
     "@commitlint/cli": "20.1.0",
     "@commitlint/config-conventional": "20.0.0",
     "@kibibit/dev-tools": "1.1.1",
-    "@nestjs/cli": "10.4.9",
+    "@nestjs/cli": "11.0.16",
     "@nestjs/schematics": "10.2.3",
     "@nestjs/testing": "10.4.20",
     "@semantic-release/changelog": "6.0.3",
