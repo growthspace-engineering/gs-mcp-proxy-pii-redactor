@@ -65,7 +65,7 @@
     "@nestjs/platform-express": "10.4.20",
     "@types/eventsource": "1.1.15",
     "ahocorasick": "1.0.2",
-    "axios": "1.13.1",
+    "axios": "1.13.5",
     "commander": "11.1.0",
     "eventsource": "4.0.0",
     "fs-extra": "11.3.2",
