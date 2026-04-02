@@ -1,0 +1,3812 @@
+{
+  "numFailedTestSuites": 0,
+  "numFailedTests": 0,
+  "numPassedTestSuites": 8,
+  "numPassedTests": 193,
+  "numPendingTestSuites": 0,
+  "numPendingTests": 0,
+  "numRuntimeErrorTestSuites": 0,
+  "numTodoTests": 0,
+  "numTotalTestSuites": 8,
+  "numTotalTests": 193,
+  "openHandles": [],
+  "snapshot": {
+    "added": 0,
+    "didUpdate": false,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0
+  },
+  "startTime": 1762270996800,
+  "success": false,
+  "testResults": [
+    {
+      "leaks": false,
+      "numFailingTests": 0,
+      "numPassingTests": 22,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1762271006197,
+        "loadTestEnvironmentEnd": 1762270997342,
+        "loadTestEnvironmentStart": 1762270997098,
+        "runtime": 8854,
+        "setupAfterEnvEnd": 1762270997589,
+        "setupAfterEnvStart": 1762270997589,
+        "setupFilesEnd": 1762270997343,
+        "setupFilesStart": 1762270997343,
+        "slow": true,
+        "start": 1762270997343
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 0,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/home/runner/work/gs-mcp-proxy-pii-redactor/gs-mcp-proxy-pii-redactor/src/config/config.service.spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "load from file"
+          ],
+          "duration": 25,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService load from file should load config from file with absolute path",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271006021,
+          "status": "passed",
+          "title": "should load config from file with absolute path"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "load from file"
+          ],
+          "duration": 5,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService load from file should load config from file with relative path",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271006047,
+          "status": "passed",
+          "title": "should load config from file with relative path"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "load from file"
+          ],
+          "duration": 7,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService load from file should set default type to sse if not provided",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271006052,
+          "status": "passed",
+          "title": "should set default type to sse if not provided"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "load from file"
+          ],
+          "duration": 56,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService load from file should throw error if mcpProxy is missing",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271006059,
+          "status": "passed",
+          "title": "should throw error if mcpProxy is missing"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "load from URL"
+          ],
+          "duration": 11,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService load from URL should load config from HTTP URL",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271006116,
+          "status": "passed",
+          "title": "should load config from HTTP URL"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "load from URL"
+          ],
+          "duration": 5,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService load from URL should load config from HTTPS URL",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271006128,
+          "status": "passed",
+          "title": "should load config from HTTPS URL"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "load from URL"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService load from URL should handle insecure flag for HTTPS",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 4,
+          "retryReasons": [],
+          "startAt": 1762271006134,
+          "status": "passed",
+          "title": "should handle insecure flag for HTTPS"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "environment variable expansion"
+          ],
+          "duration": 8,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService environment variable expansion should expand environment variables in headers",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271006138,
+          "status": "passed",
+          "title": "should expand environment variables in headers"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "environment variable expansion"
+          ],
+          "duration": 7,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService environment variable expansion should throw error if referenced environment variable is not set",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271006146,
+          "status": "passed",
+          "title": "should throw error if referenced environment variable is not set"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "environment variable expansion"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService environment variable expansion should handle multiple environment variables in same header",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271006153,
+          "status": "passed",
+          "title": "should handle multiple environment variables in same header"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "environment variable expansion"
+          ],
+          "duration": 5,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService environment variable expansion should not expand if no environment variables referenced",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271006157,
+          "status": "passed",
+          "title": "should not expand if no environment variables referenced"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "options inheritance"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService options inheritance should inherit authTokens from mcpProxy to mcpServers",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271006163,
+          "status": "passed",
+          "title": "should inherit authTokens from mcpProxy to mcpServers"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "options inheritance"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService options inheritance should inherit panicIfInvalid from mcpProxy to mcpServers",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271006165,
+          "status": "passed",
+          "title": "should inherit panicIfInvalid from mcpProxy to mcpServers"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "options inheritance"
+          ],
+          "duration": 5,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService options inheritance should inherit logEnabled from mcpProxy to mcpServers",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271006167,
+          "status": "passed",
+          "title": "should inherit logEnabled from mcpProxy to mcpServers"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "options inheritance"
+          ],
+          "duration": 5,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService options inheritance should not override existing options in mcpServers",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271006172,
+          "status": "passed",
+          "title": "should not override existing options in mcpServers"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "options inheritance"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService options inheritance should not inherit redaction options from mcpProxy to mcpServers",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271006178,
+          "status": "passed",
+          "title": "should not inherit redaction options from mcpProxy to mcpServers"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "options inheritance"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService options inheritance should handle multiple mcpServers with inheritance",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 4,
+          "retryReasons": [],
+          "startAt": 1762271006180,
+          "status": "passed",
+          "title": "should handle multiple mcpServers with inheritance"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "getConfig"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService getConfig should return loaded config",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271006182,
+          "status": "passed",
+          "title": "should return loaded config"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "getConfig"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService getConfig should throw error if config not loaded",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271006184,
+          "status": "passed",
+          "title": "should throw error if config not loaded"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "edge cases"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService edge cases should handle empty mcpServers object",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271006188,
+          "status": "passed",
+          "title": "should handle empty mcpServers object"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "edge cases"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService edge cases should initialize options if not provided in mcpProxy",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271006190,
+          "status": "passed",
+          "title": "should initialize options if not provided in mcpProxy"
+        },
+        {
+          "ancestorTitles": [
+            "ConfigService",
+            "edge cases"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "ConfigService edge cases should initialize options if not provided in mcpServer",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271006192,
+          "status": "passed",
+          "title": "should initialize options if not provided in mcpServer"
+        }
+      ],
+      "failureMessage": null
+    },
+    {
+      "leaks": false,
+      "numFailingTests": 0,
+      "numPassingTests": 27,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1762271008299,
+        "loadTestEnvironmentEnd": 1762271006257,
+        "loadTestEnvironmentStart": 1762271006248,
+        "runtime": 2042,
+        "setupAfterEnvEnd": 1762271006302,
+        "setupAfterEnvStart": 1762271006302,
+        "setupFilesEnd": 1762271006257,
+        "setupFilesStart": 1762271006257,
+        "slow": false,
+        "start": 1762271006257
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 0,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/home/runner/work/gs-mcp-proxy-pii-redactor/gs-mcp-proxy-pii-redactor/src/redaction/redaction.service.spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "initialize"
+          ],
+          "duration": 8,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService initialize should initialize successfully with valid dictionary",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271008169,
+          "status": "passed",
+          "title": "should initialize successfully with valid dictionary"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "initialize"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService initialize should only initialize once",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271008178,
+          "status": "passed",
+          "title": "should only initialize once"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "initialize"
+          ],
+          "duration": 7,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService initialize should throw error if MCP_PROXY_GCS_BUCKET is not set",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271008181,
+          "status": "passed",
+          "title": "should throw error if MCP_PROXY_GCS_BUCKET is not set"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "initialize"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService initialize should throw error if service account is not set",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271008188,
+          "status": "passed",
+          "title": "should throw error if service account is not set"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "getService"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService getService should auto-initialize if not initialized",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271008192,
+          "status": "passed",
+          "title": "should auto-initialize if not initialized"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "getService"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService getService should return error if initialization failed",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271008195,
+          "status": "passed",
+          "title": "should return error if initialization failed"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should return original data if config is null",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271008199,
+          "status": "passed",
+          "title": "should return original data if config is null"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 10,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should return original data if config is undefined",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271008203,
+          "status": "passed",
+          "title": "should return original data if config is undefined"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 7,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should return original data if redaction is disabled",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271008216,
+          "status": "passed",
+          "title": "should return original data if redaction is disabled"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 6,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should return original data if matcher is not initialized",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271008223,
+          "status": "passed",
+          "title": "should return original data if matcher is not initialized"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 7,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should redact all strings when no keys specified",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271008229,
+          "status": "passed",
+          "title": "should redact all strings when no keys specified"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should redact all strings when keys is empty array",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271008236,
+          "status": "passed",
+          "title": "should redact all strings when keys is empty array"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should redact only specified keys",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271008243,
+          "status": "passed",
+          "title": "should redact only specified keys"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should handle nested objects when redacting all strings",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271008251,
+          "status": "passed",
+          "title": "should handle nested objects when redacting all strings"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should handle nested objects when redacting by keys",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271008256,
+          "status": "passed",
+          "title": "should handle nested objects when redacting by keys"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should handle arrays when redacting all strings",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271008258,
+          "status": "passed",
+          "title": "should handle arrays when redacting all strings"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 8,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should handle arrays when redacting by keys",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271008261,
+          "status": "passed",
+          "title": "should handle arrays when redacting by keys"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should handle arrays of objects when redacting all strings",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271008269,
+          "status": "passed",
+          "title": "should handle arrays of objects when redacting all strings"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should handle arrays of objects when redacting by keys",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271008272,
+          "status": "passed",
+          "title": "should handle arrays of objects when redacting by keys"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should redact generic PII (emails, phones) before dictionary terms",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271008275,
+          "status": "passed",
+          "title": "should redact generic PII (emails, phones) before dictionary terms"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should handle non-string values correctly",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 5,
+          "retryReasons": [],
+          "startAt": 1762271008278,
+          "status": "passed",
+          "title": "should handle non-string values correctly"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should handle deeply nested structures",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271008281,
+          "status": "passed",
+          "title": "should handle deeply nested structures"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should handle mixed arrays and objects",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271008283,
+          "status": "passed",
+          "title": "should handle mixed arrays and objects"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should handle keys at different nesting levels",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271008287,
+          "status": "passed",
+          "title": "should handle keys at different nesting levels"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "redactResponse"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService redactResponse should redact nested values when key matches",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271008290,
+          "status": "passed",
+          "title": "should redact nested values when key matches"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "getServiceAccountJSON with base64"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService getServiceAccountJSON with base64 should decode base64 service account",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271008293,
+          "status": "passed",
+          "title": "should decode base64 service account"
+        },
+        {
+          "ancestorTitles": [
+            "RedactionService",
+            "getServiceAccountJSON with base64"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "RedactionService getServiceAccountJSON with base64 should handle private key with escaped newlines",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271008295,
+          "status": "passed",
+          "title": "should handle private key with escaped newlines"
+        }
+      ],
+      "failureMessage": null
+    },
+    {
+      "leaks": false,
+      "numFailingTests": 0,
+      "numPassingTests": 18,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1762271009771,
+        "loadTestEnvironmentEnd": 1762271008391,
+        "loadTestEnvironmentStart": 1762271008374,
+        "runtime": 1380,
+        "setupAfterEnvEnd": 1762271008511,
+        "setupAfterEnvStart": 1762271008511,
+        "setupFilesEnd": 1762271008391,
+        "setupFilesStart": 1762271008391,
+        "slow": false,
+        "start": 1762271008391
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 0,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/home/runner/work/gs-mcp-proxy-pii-redactor/gs-mcp-proxy-pii-redactor/src/redaction/audit-logger.spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "constructor"
+          ],
+          "duration": 5,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger constructor should create audit directory on initialization",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271009713,
+          "status": "passed",
+          "title": "should create audit directory on initialization"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "constructor"
+          ],
+          "duration": 27,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger constructor should throw error if directory creation fails",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271009718,
+          "status": "passed",
+          "title": "should throw error if directory creation fails"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "logOperation"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger logOperation should return empty string if config is null",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271009745,
+          "status": "passed",
+          "title": "should return empty string if config is null"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "logOperation"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger logOperation should return empty string if config is undefined",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271009747,
+          "status": "passed",
+          "title": "should return empty string if config is undefined"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "logOperation"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger logOperation should return empty string if verboseAudit is false",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271009748,
+          "status": "passed",
+          "title": "should return empty string if verboseAudit is false"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "logOperation"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger logOperation should write audit files when verboseAudit is enabled",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271009749,
+          "status": "passed",
+          "title": "should write audit files when verboseAudit is enabled"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "logOperation"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger logOperation should generate correct file names for pre and post files",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 5,
+          "retryReasons": [],
+          "startAt": 1762271009751,
+          "status": "passed",
+          "title": "should generate correct file names for pre and post files"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "logOperation"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger logOperation should write JSON data with proper formatting",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 4,
+          "retryReasons": [],
+          "startAt": 1762271009754,
+          "status": "passed",
+          "title": "should write JSON data with proper formatting"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "logOperation"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger logOperation should handle different operation types",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271009756,
+          "status": "passed",
+          "title": "should handle different operation types"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "logOperation"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger logOperation should handle resource_call operation type",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271009758,
+          "status": "passed",
+          "title": "should handle resource_call operation type"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "logOperation"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger logOperation should write files with correct mode",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271009759,
+          "status": "passed",
+          "title": "should write files with correct mode"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "enhanceDataForReadability"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger enhanceDataForReadability should parse JSON strings",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271009763,
+          "status": "passed",
+          "title": "should parse JSON strings"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "enhanceDataForReadability"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger enhanceDataForReadability should leave non-JSON strings as-is",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271009764,
+          "status": "passed",
+          "title": "should leave non-JSON strings as-is"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "enhanceDataForReadability"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger enhanceDataForReadability should recursively enhance arrays",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271009764,
+          "status": "passed",
+          "title": "should recursively enhance arrays"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "enhanceDataForReadability"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger enhanceDataForReadability should recursively enhance objects",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271009765,
+          "status": "passed",
+          "title": "should recursively enhance objects"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "enhanceDataForReadability"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger enhanceDataForReadability should handle primitive values",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271009766,
+          "status": "passed",
+          "title": "should handle primitive values"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "error handling"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger error handling should log error but not throw when writeFileSync fails",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271009767,
+          "status": "passed",
+          "title": "should log error but not throw when writeFileSync fails"
+        },
+        {
+          "ancestorTitles": [
+            "AuditLogger",
+            "error handling"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AuditLogger error handling should handle write errors gracefully for both files",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271009769,
+          "status": "passed",
+          "title": "should handle write errors gracefully for both files"
+        }
+      ],
+      "failureMessage": null
+    },
+    {
+      "leaks": false,
+      "numFailingTests": 0,
+      "numPassingTests": 29,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1762271010128,
+        "loadTestEnvironmentEnd": 1762270997413,
+        "loadTestEnvironmentStart": 1762270997098,
+        "runtime": 12714,
+        "setupAfterEnvEnd": 1762270997713,
+        "setupAfterEnvStart": 1762270997713,
+        "setupFilesEnd": 1762270997414,
+        "setupFilesStart": 1762270997414,
+        "slow": true,
+        "start": 1762270997414
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 0,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/home/runner/work/gs-mcp-proxy-pii-redactor/gs-mcp-proxy-pii-redactor/src/mcp/mcp-server.service.spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "onModuleInit"
+          ],
+          "duration": 25,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService onModuleInit should initialize all MCP clients",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271009925,
+          "status": "passed",
+          "title": "should initialize all MCP clients"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "onModuleInit"
+          ],
+          "duration": 8,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService onModuleInit should handle initialization errors gracefully when panicIfInvalid is false",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271009951,
+          "status": "passed",
+          "title": "should handle initialization errors gracefully when panicIfInvalid is false"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "onModuleInit"
+          ],
+          "duration": 40,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService onModuleInit should throw error when panicIfInvalid is true",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271009959,
+          "status": "passed",
+          "title": "should throw error when panicIfInvalid is true"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "onModuleInit"
+          ],
+          "duration": 5,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService onModuleInit should set server type from config",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010000,
+          "status": "passed",
+          "title": "should set server type from config"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "onModuleInit"
+          ],
+          "duration": 11,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService onModuleInit should default to sse when server type not specified",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010005,
+          "status": "passed",
+          "title": "should default to sse when server type not specified"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "onModuleDestroy"
+          ],
+          "duration": 6,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService onModuleDestroy should close all transports and client wrappers",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271010016,
+          "status": "passed",
+          "title": "should close all transports and client wrappers"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "onModuleDestroy"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService onModuleDestroy should handle shutdown errors gracefully",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010022,
+          "status": "passed",
+          "title": "should handle shutdown errors gracefully"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "onModuleDestroy"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService onModuleDestroy should handle transport close errors",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010026,
+          "status": "passed",
+          "title": "should handle transport close errors"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "getServer"
+          ],
+          "duration": 8,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService getServer should return server instance if exists",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010033,
+          "status": "passed",
+          "title": "should return server instance if exists"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "getServer"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService getServer should return undefined if server does not exist",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010041,
+          "status": "passed",
+          "title": "should return undefined if server does not exist"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "getAllServers"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService getAllServers should return all servers",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010045,
+          "status": "passed",
+          "title": "should return all servers"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handleSSERequest"
+          ],
+          "duration": 6,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handleSSERequest should handle SSE request successfully",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271010049,
+          "status": "passed",
+          "title": "should handle SSE request successfully"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handleSSERequest"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handleSSERequest should return 404 if server not found",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271010055,
+          "status": "passed",
+          "title": "should return 404 if server not found"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handleSSERequest"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handleSSERequest should register transport with session ID",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010059,
+          "status": "passed",
+          "title": "should register transport with session ID"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handleSSERequest"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handleSSERequest should cleanup transport on request close",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271010062,
+          "status": "passed",
+          "title": "should cleanup transport on request close"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handleStreamableHTTPRequest"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handleStreamableHTTPRequest should return 404 if server not found",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010065,
+          "status": "passed",
+          "title": "should return 404 if server not found"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handleStreamableHTTPRequest"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handleStreamableHTTPRequest should reuse existing transport when session ID provided",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010069,
+          "status": "passed",
+          "title": "should reuse existing transport when session ID provided"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handleStreamableHTTPRequest"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handleStreamableHTTPRequest should create new transport when no session ID",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271010072,
+          "status": "passed",
+          "title": "should create new transport when no session ID"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handleStreamableHTTPRequest"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handleStreamableHTTPRequest should handle session ID from query parameter",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010075,
+          "status": "passed",
+          "title": "should handle session ID from query parameter"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handleStreamableHTTPRequest"
+          ],
+          "duration": 10,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handleStreamableHTTPRequest should handle session ID from lowercase header",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010077,
+          "status": "passed",
+          "title": "should handle session ID from lowercase header"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handleStreamableHTTPRequest"
+          ],
+          "duration": 7,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handleStreamableHTTPRequest should handle errors and return 500",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010087,
+          "status": "passed",
+          "title": "should handle errors and return 500"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handleStreamableHTTPRequest"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handleStreamableHTTPRequest should not send error if headers already sent",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010096,
+          "status": "passed",
+          "title": "should not send error if headers already sent"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handleStreamableHTTPRequest"
+          ],
+          "duration": 6,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handleStreamableHTTPRequest should register new transport on session initialized",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010099,
+          "status": "passed",
+          "title": "should register new transport on session initialized"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handleStreamableHTTPRequest"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handleStreamableHTTPRequest should remove transport on session closed",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010107,
+          "status": "passed",
+          "title": "should remove transport on session closed"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handlePostMessage"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handlePostMessage should return 404 if server not found",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010110,
+          "status": "passed",
+          "title": "should return 404 if server not found"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handlePostMessage"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handlePostMessage should handle POST message with existing SSE transport",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010112,
+          "status": "passed",
+          "title": "should handle POST message with existing SSE transport"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handlePostMessage"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handlePostMessage should handle POST message with session ID from query",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010114,
+          "status": "passed",
+          "title": "should handle POST message with session ID from query"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handlePostMessage"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handlePostMessage should fall back to streamable HTTP if no session ID",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010118,
+          "status": "passed",
+          "title": "should fall back to streamable HTTP if no session ID"
+        },
+        {
+          "ancestorTitles": [
+            "MCPServerService",
+            "handlePostMessage"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPServerService handlePostMessage should fall back to streamable HTTP if transport does not support handlePostMessage",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010121,
+          "status": "passed",
+          "title": "should fall back to streamable HTTP if transport does not support handlePostMessage"
+        }
+      ],
+      "failureMessage": null
+    },
+    {
+      "leaks": false,
+      "numFailingTests": 0,
+      "numPassingTests": 29,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1762271010194,
+        "loadTestEnvironmentEnd": 1762270997408,
+        "loadTestEnvironmentStart": 1762270997092,
+        "runtime": 12785,
+        "setupAfterEnvEnd": 1762270997700,
+        "setupAfterEnvStart": 1762270997700,
+        "setupFilesEnd": 1762270997409,
+        "setupFilesStart": 1762270997409,
+        "slow": true,
+        "start": 1762270997409
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 0,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/home/runner/work/gs-mcp-proxy-pii-redactor/gs-mcp-proxy-pii-redactor/src/app.controller.spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "AppController",
+            "healthCheck"
+          ],
+          "duration": 19,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController healthCheck should return ok status",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010059,
+          "status": "passed",
+          "title": "should return ok status"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleSSE"
+          ],
+          "duration": 6,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleSSE should handle SSE request successfully",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010079,
+          "status": "passed",
+          "title": "should handle SSE request successfully"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleSSE"
+          ],
+          "duration": 6,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleSSE should return 404 if client not found",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271010085,
+          "status": "passed",
+          "title": "should return 404 if client not found"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleSSE"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleSSE should return 401 if no auth header when authTokens configured",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271010091,
+          "status": "passed",
+          "title": "should return 401 if no auth header when authTokens configured"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleSSE"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleSSE should return 401 if invalid token",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271010096,
+          "status": "passed",
+          "title": "should return 401 if invalid token"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleSSE"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleSSE should allow valid token",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010101,
+          "status": "passed",
+          "title": "should allow valid token"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleSSE"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleSSE should handle token with Bearer prefix correctly",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010104,
+          "status": "passed",
+          "title": "should handle token with Bearer prefix correctly"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleSSE"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleSSE should handle token without Bearer prefix",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010107,
+          "status": "passed",
+          "title": "should handle token without Bearer prefix"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleSSE"
+          ],
+          "duration": 12,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleSSE should handle error and return 500 if headers not sent",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010110,
+          "status": "passed",
+          "title": "should handle error and return 500 if headers not sent"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleSSE"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleSSE should not send error response if headers already sent",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010122,
+          "status": "passed",
+          "title": "should not send error response if headers already sent"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleSSE"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleSSE should handle empty authTokens array",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010126,
+          "status": "passed",
+          "title": "should handle empty authTokens array"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handlePostMessage"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handlePostMessage should handle POST message successfully",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010129,
+          "status": "passed",
+          "title": "should handle POST message successfully"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handlePostMessage"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handlePostMessage should return 404 if client not found",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271010132,
+          "status": "passed",
+          "title": "should return 404 if client not found"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handlePostMessage"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handlePostMessage should return 401 if no auth header when authTokens configured",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271010134,
+          "status": "passed",
+          "title": "should return 401 if no auth header when authTokens configured"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handlePostMessage"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handlePostMessage should return 401 if invalid token",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271010137,
+          "status": "passed",
+          "title": "should return 401 if invalid token"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handlePostMessage"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handlePostMessage should allow valid token",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010139,
+          "status": "passed",
+          "title": "should allow valid token"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handlePostMessage"
+          ],
+          "duration": 21,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handlePostMessage should handle error and return 500 if headers not sent",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010141,
+          "status": "passed",
+          "title": "should handle error and return 500 if headers not sent"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handlePostMessage"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handlePostMessage should not send error response if headers already sent",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010162,
+          "status": "passed",
+          "title": "should not send error response if headers already sent"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleStreamableHTTP"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleStreamableHTTP should return 404 if client not found",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010165,
+          "status": "passed",
+          "title": "should return 404 if client not found"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleStreamableHTTP"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleStreamableHTTP should return 401 if no auth header when authTokens configured",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010168,
+          "status": "passed",
+          "title": "should return 401 if no auth header when authTokens configured"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleStreamableHTTP"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleStreamableHTTP should return 401 if invalid token",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010170,
+          "status": "passed",
+          "title": "should return 401 if invalid token"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleStreamableHTTP"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleStreamableHTTP should redirect to SSE endpoint when server type is SSE and method is GET",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010173,
+          "status": "passed",
+          "title": "should redirect to SSE endpoint when server type is SSE and method is GET"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleStreamableHTTP"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleStreamableHTTP should redirect to POST message endpoint when server type is SSE and method is POST",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010176,
+          "status": "passed",
+          "title": "should redirect to POST message endpoint when server type is SSE and method is POST"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleStreamableHTTP"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleStreamableHTTP should return 404 for unsupported method when server type is SSE",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010178,
+          "status": "passed",
+          "title": "should return 404 for unsupported method when server type is SSE"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleStreamableHTTP"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleStreamableHTTP should handle streamable-http request when server type is streamable-http",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010180,
+          "status": "passed",
+          "title": "should handle streamable-http request when server type is streamable-http"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleStreamableHTTP"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleStreamableHTTP should use default server type sse when not specified",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010183,
+          "status": "passed",
+          "title": "should use default server type sse when not specified"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleStreamableHTTP"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleStreamableHTTP should handle error and return 500 if headers not sent",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010185,
+          "status": "passed",
+          "title": "should handle error and return 500 if headers not sent"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleStreamableHTTP"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleStreamableHTTP should not send error response if headers already sent",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010187,
+          "status": "passed",
+          "title": "should not send error response if headers already sent"
+        },
+        {
+          "ancestorTitles": [
+            "AppController",
+            "handleStreamableHTTP"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "AppController handleStreamableHTTP should allow valid token for streamable-http",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010189,
+          "status": "passed",
+          "title": "should allow valid token for streamable-http"
+        }
+      ],
+      "failureMessage": null
+    },
+    {
+      "leaks": false,
+      "numFailingTests": 0,
+      "numPassingTests": 23,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1762271010781,
+        "loadTestEnvironmentEnd": 1762271010251,
+        "loadTestEnvironmentStart": 1762271010233,
+        "runtime": 530,
+        "setupAfterEnvEnd": 1762271010301,
+        "setupAfterEnvStart": 1762271010301,
+        "setupFilesEnd": 1762271010251,
+        "setupFilesStart": 1762271010251,
+        "slow": false,
+        "start": 1762271010251
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 0,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/home/runner/work/gs-mcp-proxy-pii-redactor/gs-mcp-proxy-pii-redactor/src/redaction/matcher.spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "build"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher build should create a matcher with valid dictionary",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010697,
+          "status": "passed",
+          "title": "should create a matcher with valid dictionary"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "build"
+          ],
+          "duration": 40,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher build should throw error with empty dictionary",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010699,
+          "status": "passed",
+          "title": "should throw error with empty dictionary"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should redact a single matching term",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010740,
+          "status": "passed",
+          "title": "should redact a single matching term"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should redact multiple matching terms",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010741,
+          "status": "passed",
+          "title": "should redact multiple matching terms"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should perform case-insensitive matching",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 4,
+          "retryReasons": [],
+          "startAt": 1762271010742,
+          "status": "passed",
+          "title": "should perform case-insensitive matching"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should match whole words only",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 4,
+          "retryReasons": [],
+          "startAt": 1762271010747,
+          "status": "passed",
+          "title": "should match whole words only"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should handle word boundaries correctly with punctuation",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 6,
+          "retryReasons": [],
+          "startAt": 1762271010748,
+          "status": "passed",
+          "title": "should handle word boundaries correctly with punctuation"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should handle word boundaries with hyphens and spaces",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271010749,
+          "status": "passed",
+          "title": "should handle word boundaries with hyphens and spaces"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should redact multiple occurrences of same term",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010749,
+          "status": "passed",
+          "title": "should redact multiple occurrences of same term"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should handle overlapping matches by merging intervals",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010750,
+          "status": "passed",
+          "title": "should handle overlapping matches by merging intervals"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should return original text if no matches found",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010751,
+          "status": "passed",
+          "title": "should return original text if no matches found"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should handle empty string",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010752,
+          "status": "passed",
+          "title": "should handle empty string"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should handle text with only the matching term",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010752,
+          "status": "passed",
+          "title": "should handle text with only the matching term"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should handle text starting with matching term",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010753,
+          "status": "passed",
+          "title": "should handle text starting with matching term"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should handle text ending with matching term",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010754,
+          "status": "passed",
+          "title": "should handle text ending with matching term"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should handle multi-word terms",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010755,
+          "status": "passed",
+          "title": "should handle multi-word terms"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should handle terms with special characters",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010755,
+          "status": "passed",
+          "title": "should handle terms with special characters"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 3,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should merge adjacent matches",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010767,
+          "status": "passed",
+          "title": "should merge adjacent matches"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should handle large dictionary efficiently",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010770,
+          "status": "passed",
+          "title": "should handle large dictionary efficiently"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should handle long text efficiently",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271010775,
+          "status": "passed",
+          "title": "should handle long text efficiently"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should handle text with numbers and underscores as word boundaries",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271010776,
+          "status": "passed",
+          "title": "should handle text with numbers and underscores as word boundaries"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should handle consecutive terms with different cases",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010776,
+          "status": "passed",
+          "title": "should handle consecutive terms with different cases"
+        },
+        {
+          "ancestorTitles": [
+            "Matcher",
+            "redact"
+          ],
+          "duration": 4,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "Matcher redact should not match partial words in compound words",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 3,
+          "retryReasons": [],
+          "startAt": 1762271010777,
+          "status": "passed",
+          "title": "should not match partial words in compound words"
+        }
+      ],
+      "failureMessage": null
+    },
+    {
+      "leaks": false,
+      "numFailingTests": 0,
+      "numPassingTests": 13,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1762271010899,
+        "loadTestEnvironmentEnd": 1762271010334,
+        "loadTestEnvironmentStart": 1762271010326,
+        "runtime": 565,
+        "setupAfterEnvEnd": 1762271010366,
+        "setupAfterEnvStart": 1762271010366,
+        "setupFilesEnd": 1762271010334,
+        "setupFilesStart": 1762271010334,
+        "slow": false,
+        "start": 1762271010334
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 0,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/home/runner/work/gs-mcp-proxy-pii-redactor/gs-mcp-proxy-pii-redactor/src/mcp/mcp-client-wrapper.spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "MCPClientWrapper",
+            "shouldFilterTool"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPClientWrapper shouldFilterTool should return false when no tool filter configured",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010862,
+          "status": "passed",
+          "title": "should return false when no tool filter configured"
+        },
+        {
+          "ancestorTitles": [
+            "MCPClientWrapper",
+            "shouldFilterTool"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPClientWrapper shouldFilterTool should return false when tool filter list is empty",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010863,
+          "status": "passed",
+          "title": "should return false when tool filter list is empty"
+        },
+        {
+          "ancestorTitles": [
+            "MCPClientWrapper",
+            "shouldFilterTool"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPClientWrapper shouldFilterTool should block tool when in block mode and tool is in list",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010863,
+          "status": "passed",
+          "title": "should block tool when in block mode and tool is in list"
+        },
+        {
+          "ancestorTitles": [
+            "MCPClientWrapper",
+            "shouldFilterTool"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPClientWrapper shouldFilterTool should allow tool when in block mode and tool is not in list",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010864,
+          "status": "passed",
+          "title": "should allow tool when in block mode and tool is not in list"
+        },
+        {
+          "ancestorTitles": [
+            "MCPClientWrapper",
+            "shouldFilterTool"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPClientWrapper shouldFilterTool should allow tool when in allow mode and tool is in list",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010865,
+          "status": "passed",
+          "title": "should allow tool when in allow mode and tool is in list"
+        },
+        {
+          "ancestorTitles": [
+            "MCPClientWrapper",
+            "shouldFilterTool"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPClientWrapper shouldFilterTool should block tool when in allow mode and tool is not in list",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010866,
+          "status": "passed",
+          "title": "should block tool when in allow mode and tool is not in list"
+        },
+        {
+          "ancestorTitles": [
+            "MCPClientWrapper",
+            "shouldFilterTool"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPClientWrapper shouldFilterTool should default to block mode when mode is not specified",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010867,
+          "status": "passed",
+          "title": "should default to block mode when mode is not specified"
+        },
+        {
+          "ancestorTitles": [
+            "MCPClientWrapper",
+            "shouldFilterTool"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPClientWrapper shouldFilterTool should handle unknown filter mode gracefully",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010868,
+          "status": "passed",
+          "title": "should handle unknown filter mode gracefully"
+        },
+        {
+          "ancestorTitles": [
+            "MCPClientWrapper",
+            "shouldFilterTool"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPClientWrapper shouldFilterTool should handle case-insensitive mode",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010868,
+          "status": "passed",
+          "title": "should handle case-insensitive mode"
+        },
+        {
+          "ancestorTitles": [
+            "MCPClientWrapper",
+            "shouldFilterTool"
+          ],
+          "duration": 2,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPClientWrapper shouldFilterTool should handle multiple tools in filter list",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 4,
+          "retryReasons": [],
+          "startAt": 1762271010869,
+          "status": "passed",
+          "title": "should handle multiple tools in filter list"
+        },
+        {
+          "ancestorTitles": [
+            "MCPClientWrapper",
+            "inferTransportType"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPClientWrapper inferTransportType should infer stdio when command is present",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010871,
+          "status": "passed",
+          "title": "should infer stdio when command is present"
+        },
+        {
+          "ancestorTitles": [
+            "MCPClientWrapper",
+            "inferTransportType"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPClientWrapper inferTransportType should infer sse when url is present",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010872,
+          "status": "passed",
+          "title": "should infer sse when url is present"
+        },
+        {
+          "ancestorTitles": [
+            "MCPClientWrapper",
+            "inferTransportType"
+          ],
+          "duration": 26,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "MCPClientWrapper inferTransportType should throw error when neither command nor url is present",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271010872,
+          "status": "passed",
+          "title": "should throw error when neither command nor url is present"
+        }
+      ],
+      "failureMessage": null
+    },
+    {
+      "leaks": false,
+      "numFailingTests": 0,
+      "numPassingTests": 32,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "openHandles": [],
+      "perfStats": {
+        "end": 1762271011065,
+        "loadTestEnvironmentEnd": 1762271009804,
+        "loadTestEnvironmentStart": 1762271009799,
+        "runtime": 1261,
+        "setupAfterEnvEnd": 1762271009831,
+        "setupAfterEnvStart": 1762271009831,
+        "setupFilesEnd": 1762271009804,
+        "setupFilesStart": 1762271009804,
+        "slow": false,
+        "start": 1762271009804
+      },
+      "skipped": false,
+      "snapshot": {
+        "added": 0,
+        "fileDeleted": false,
+        "matched": 0,
+        "unchecked": 0,
+        "uncheckedKeys": [],
+        "unmatched": 0,
+        "updated": 0
+      },
+      "testFilePath": "/home/runner/work/gs-mcp-proxy-pii-redactor/gs-mcp-proxy-pii-redactor/src/redaction/scanner-generic.spec.ts",
+      "testResults": [
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "email redaction"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric email redaction should redact a simple email address",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011048,
+          "status": "passed",
+          "title": "should redact a simple email address"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "email redaction"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric email redaction should redact multiple email addresses",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011050,
+          "status": "passed",
+          "title": "should redact multiple email addresses"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "email redaction"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric email redaction should redact email with plus sign in local part",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011050,
+          "status": "passed",
+          "title": "should redact email with plus sign in local part"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "email redaction"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric email redaction should redact email with hyphen in local part",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011051,
+          "status": "passed",
+          "title": "should redact email with hyphen in local part"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "email redaction"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric email redaction should redact email with numbers",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011051,
+          "status": "passed",
+          "title": "should redact email with numbers"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "email redaction"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric email redaction should not redact invalid emails without dot in domain",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011052,
+          "status": "passed",
+          "title": "should not redact invalid emails without dot in domain"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "email redaction"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric email redaction should not redact email with leading dot in local part",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011052,
+          "status": "passed",
+          "title": "should not redact email with leading dot in local part"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "email redaction"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric email redaction should not redact email with trailing dot in local part",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011053,
+          "status": "passed",
+          "title": "should not redact email with trailing dot in local part"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "email redaction"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric email redaction should not redact email with consecutive dots in local part",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011053,
+          "status": "passed",
+          "title": "should not redact email with consecutive dots in local part"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "email redaction"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric email redaction should handle empty string",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011053,
+          "status": "passed",
+          "title": "should handle empty string"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "email redaction"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric email redaction should return original string if no PII found",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011054,
+          "status": "passed",
+          "title": "should return original string if no PII found"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "phone number redaction"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric phone number redaction should redact US phone number with separators",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011054,
+          "status": "passed",
+          "title": "should redact US phone number with separators"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "phone number redaction"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric phone number redaction should redact phone number with spaces",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011055,
+          "status": "passed",
+          "title": "should redact phone number with spaces"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "phone number redaction"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric phone number redaction should redact phone number with dots",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011055,
+          "status": "passed",
+          "title": "should redact phone number with dots"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "phone number redaction"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric phone number redaction should redact formatted phone numbers",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011056,
+          "status": "passed",
+          "title": "should redact formatted phone numbers"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "phone number redaction"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric phone number redaction should redact international phone with plus",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011056,
+          "status": "passed",
+          "title": "should redact international phone with plus"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "phone number redaction"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric phone number redaction should redact phone number with country code",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011057,
+          "status": "passed",
+          "title": "should redact phone number with country code"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "phone number redaction"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric phone number redaction should redact 10-digit phone number (minimum digits)",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011057,
+          "status": "passed",
+          "title": "should redact 10-digit phone number (minimum digits)"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "phone number redaction"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric phone number redaction should not redact numbers with too few digits",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011057,
+          "status": "passed",
+          "title": "should not redact numbers with too few digits"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "phone number redaction"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric phone number redaction should redact 15-digit phone number with separator",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011058,
+          "status": "passed",
+          "title": "should redact 15-digit phone number with separator"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "phone number redaction"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric phone number redaction should handle international phone numbers",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011058,
+          "status": "passed",
+          "title": "should handle international phone numbers"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "phone number redaction"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric phone number redaction should handle phone with parentheses properly",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011058,
+          "status": "passed",
+          "title": "should handle phone with parentheses properly"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "phone number redaction"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric phone number redaction should not redact phone starting with letter",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011059,
+          "status": "passed",
+          "title": "should not redact phone starting with letter"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "mixed PII redaction"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric mixed PII redaction should redact both email and phone in same text",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011059,
+          "status": "passed",
+          "title": "should redact both email and phone in same text"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "mixed PII redaction"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric mixed PII redaction should redact multiple emails and phones",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271011060,
+          "status": "passed",
+          "title": "should redact multiple emails and phones"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "mixed PII redaction"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric mixed PII redaction should handle complex text with multiple PII types",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 2,
+          "retryReasons": [],
+          "startAt": 1762271011060,
+          "status": "passed",
+          "title": "should handle complex text with multiple PII types"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "edge cases"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric edge cases should handle text with @ symbol but not email",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011061,
+          "status": "passed",
+          "title": "should handle text with @ symbol but not email"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "edge cases"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric edge cases should handle text with + symbol but not phone",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011061,
+          "status": "passed",
+          "title": "should handle text with + symbol but not phone"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "edge cases"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric edge cases should preserve surrounding whitespace",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011061,
+          "status": "passed",
+          "title": "should preserve surrounding whitespace"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "edge cases"
+          ],
+          "duration": 0,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric edge cases should handle PII at start of string",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011062,
+          "status": "passed",
+          "title": "should handle PII at start of string"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "edge cases"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric edge cases should handle PII at end of string",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011062,
+          "status": "passed",
+          "title": "should handle PII at end of string"
+        },
+        {
+          "ancestorTitles": [
+            "scanner-generic",
+            "redactGeneric",
+            "edge cases"
+          ],
+          "duration": 1,
+          "failing": false,
+          "failureDetails": [],
+          "failureMessages": [],
+          "fullName": "scanner-generic redactGeneric edge cases should handle very long strings efficiently",
+          "invocations": 1,
+          "location": null,
+          "numPassingAsserts": 1,
+          "retryReasons": [],
+          "startAt": 1762271011063,
+          "status": "passed",
+          "title": "should handle very long strings efficiently"
+        }
+      ],
+      "failureMessage": null
+    }
+  ],
+  "wasInterrupted": false
+}

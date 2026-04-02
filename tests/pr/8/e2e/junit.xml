@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="10" failures="0" errors="0" time="13.953">
+  <testsuite name="PII Redaction (e2e-like service tests)" errors="0" failures="0" skipped="0" timestamp="2025-11-02T02:23:06" time="6.374" tests="5">
+    <testcase classname="PII Redaction (e2e-like service tests) redacts emails and phone numbers generically in plain strings" name="PII Redaction (e2e-like service tests) redacts emails and phone numbers generically in plain strings" time="0.012">
+    </testcase>
+    <testcase classname="PII Redaction (e2e-like service tests) redacts by configured keys (and recursively traversed strings) using keys [description, text, href]" name="PII Redaction (e2e-like service tests) redacts by configured keys (and recursively traversed strings) using keys [description, text, href]" time="0.005">
+    </testcase>
+    <testcase classname="PII Redaction (e2e-like service tests) when no keys are configured, redacts all strings" name="PII Redaction (e2e-like service tests) when no keys are configured, redacts all strings" time="0.002">
+    </testcase>
+    <testcase classname="PII Redaction (e2e-like service tests) returns original data when redaction disabled" name="PII Redaction (e2e-like service tests) returns original data when redaction disabled" time="0.002">
+    </testcase>
+    <testcase classname="PII Redaction (e2e-like service tests) returns original data when matcher not initialized" name="PII Redaction (e2e-like service tests) returns original data when matcher not initialized" time="0.001">
+    </testcase>
+  </testsuite>
+  <testsuite name="MCP Proxy search_repositories (e2e)" errors="0" failures="0" skipped="0" timestamp="2025-11-02T02:23:06" time="9.266" tests="1">
+    <testcase classname="MCP Proxy search_repositories (e2e) exposes search_repositories on github-allow and executes it" name="MCP Proxy search_repositories (e2e) exposes search_repositories on github-allow and executes it" time="0.33">
+    </testcase>
+  </testsuite>
+  <testsuite name="MCP Proxy (e2e)" errors="0" failures="0" skipped="0" timestamp="2025-11-02T02:23:06" time="13.184" tests="4">
+    <testcase classname="MCP Proxy (e2e) health check returns ok" name="MCP Proxy (e2e) health check returns ok" time="0.023">
+    </testcase>
+    <testcase classname="MCP Proxy (e2e) github client blocks specified tools" name="MCP Proxy (e2e) github client blocks specified tools" time="0.042">
+    </testcase>
+    <testcase classname="MCP Proxy (e2e) github-allow client only exposes allow-listed tools" name="MCP Proxy (e2e) github-allow client only exposes allow-listed tools" time="0.017">
+    </testcase>
+    <testcase classname="MCP Proxy (e2e) unknown client returns 404" name="MCP Proxy (e2e) unknown client returns 404" time="0.005">
+    </testcase>
+  </testsuite>
+</testsuites>
